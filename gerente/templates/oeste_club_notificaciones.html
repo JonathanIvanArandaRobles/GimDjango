@@ -1,0 +1,786 @@
+{% extends 'base_gerente.html' %}
+{% load static %}
+
+{% block title %}Oeste Club - Notificaciones{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-background w-full">
+
+  <main class="w-full flex-1 overflow-y-auto bg-background p-4 md:p-8">
+    <div class="flex flex-col w-full gap-6 relative" id="notificaciones-module">
+      
+      <!-- Interfaz de Popover Flotante de Campana -->
+      <div class="hidden fixed top-16 right-8 w-96 max-w-[92vw] bg-surface-container-lowest rounded-xl shadow-xl z-50 overflow-hidden transition-all transform origin-top-right" id="popover-campana">
+        <div class="p-4 bg-surface-container-low flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+            <span class="font-headline-sm text-headline-sm text-on-surface">Notificaciones</span>
+            <span class="px-2 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold" id="popover-badge-count">3</span>
+          </div>
+          <button class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors font-bold" onclick="marcarTodasLeidas()">
+            Marcar todas leídas
+          </button>
+        </div>
+        <!-- Quick filter chips inside popover -->
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest">
+          <button class="pop-tab px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-primary" onclick="filtrarPopover('todas')">Todas</button>
+          <button class="pop-tab px-2.5 py-1 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low" onclick="filtrarPopover('unread')">No leídas (3)</button>
+          <button class="pop-tab px-2.5 py-1 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low" onclick="filtrarPopover('finanzas')">Finanzas</button>
+          <button class="pop-tab px-2.5 py-1 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low" onclick="filtrarPopover('socios')">Socios</button>
+        </div>
+        <div class="max-h-80 overflow-y-auto divide-none flex flex-col p-2 gap-1.5" id="popover-items-container">
+          <!-- Popover item 1 -->
+          <div class="p-3 rounded-lg bg-surface-container-low/70 hover:bg-surface-container-high transition-all flex items-start gap-3 relative cursor-pointer" onclick="seleccionarNotificacion('card-noti-1')">
+            <div class="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px]">payments</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-1">
+                <span class="font-headline-sm text-body-sm text-on-surface font-bold truncate">56 cuotas vencidas en mayo</span>
+                <span class="w-2 h-2 rounded-full bg-error shrink-0"></span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">$ 1.350.000 ARS pendientes de cobro.</p>
+              <span class="font-label-sm text-label-sm text-on-surface-variant opacity-75 mt-1 block">Hace 25 min</span>
+            </div>
+          </div>
+          <!-- Popover item 2 -->
+          <div class="p-3 rounded-lg bg-surface-container-low/70 hover:bg-surface-container-high transition-all flex items-start gap-3 relative cursor-pointer" onclick="seleccionarNotificacion('card-noti-2')">
+            <div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px]">person_add</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-1">
+                <span class="font-headline-sm text-body-sm text-on-surface font-bold truncate">12 nuevos socios esta semana</span>
+                <span class="w-2 h-2 rounded-full bg-primary-container shrink-0"></span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">El plan Pase Libre Full sumó 8 nuevas altas.</p>
+              <span class="font-label-sm text-label-sm text-on-surface-variant opacity-75 mt-1 block">Hace 2 horas</span>
+            </div>
+          </div>
+          <!-- Popover item 3 -->
+          <div class="p-3 rounded-lg bg-surface-container-low/70 hover:bg-surface-container-high transition-all flex items-start gap-3 relative cursor-pointer" onclick="seleccionarNotificacion('card-noti-3')">
+            <div class="w-8 h-8 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px]">groups</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-1">
+                <span class="font-headline-sm text-body-sm text-on-surface font-bold truncate">Funcional HIIT 19:00 hs al 90%</span>
+                <span class="w-2 h-2 rounded-full bg-error shrink-0"></span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">18 de 20 lugares tomados y 3 en lista de espera.</p>
+              <span class="font-label-sm text-label-sm text-on-surface-variant opacity-75 mt-1 block">Hace 4 horas</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-3 bg-surface-container text-center">
+          <button class="w-full py-2 rounded-lg bg-surface-container-lowest hover:bg-surface text-primary font-label-md text-label-md font-bold shadow-sm transition-all flex items-center justify-center gap-1.5" onclick="cerrarPopover()">
+            <span>Ver todas las notificaciones en pantalla</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. Encabezado de Página Principal con Botón Hamburguesa Fijo -->
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-2">
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-2.5">
+            <h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Notificaciones</h1>
+            <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold tracking-wide uppercase">
+              SEDE CENTRAL SAN JUSTO
+            </span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Centro de alertas operativas, avisos de socios, finanzas, clases y sistema de OESTE CLUB.
+          </p>
+        </div>
+
+        <!-- Acciones Superiores con Hamburguesa Fija -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-all" onclick="marcarTodasLeidas()" type="button">
+            <span class="material-symbols-outlined text-[18px] text-primary">done_all</span>
+            <span>Marcar todas como leídas</span>
+          </button>
+          <button class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-all" onclick="toggleModalConfig()" type="button">
+            <span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+            <span>Configurar alertas</span>
+          </button>
+          <button class="w-10 h-10 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant hover:text-error flex items-center justify-center shadow-sm transition-all" onclick="limpiarHistorial()" title="Limpiar leídas / Exportar" type="button">
+            <span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+          </button>
+
+          <!-- BOTÓN HAMBURGUESA FIJO -->
+          <button id="hamburger-btn" class="flex items-center justify-center w-10 h-10 bg-surface-container-lowest hover:bg-surface-container border border-surface-container-high/60 rounded-xl text-on-surface hover:text-primary shadow-sm transition active:scale-95 cursor-pointer shrink-0 ml-1" type="button" title="Abrir menú lateral">
+            <svg id="hamburger-icon" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Métricas y KPIs de Notificaciones -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <!-- Card 1: Total Alertas -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Total Alertas Mes</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="font-display-lg text-headline-lg text-on-surface font-extrabold" id="kpi-total-alertas">18</span>
+              <span class="font-label-sm text-label-sm text-primary font-bold">Activas</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sede San Justo &amp; Rendimiento</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-[26px]">notifications</span>
+          </div>
+        </div>
+        <!-- Card 2: No leídas -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+          <div class="flex flex-col pl-1.5">
+            <div class="flex items-center gap-2">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">No leídas</span>
+              <span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="font-display-lg text-headline-lg text-error font-extrabold" id="kpi-no-leidas">3</span>
+              <span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">Requieren atención</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant mt-1">1 finanzas • 1 cupos • 1 socios</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-[26px]">priority_high</span>
+          </div>
+        </div>
+        <!-- Card 3: Críticas / Finanzas -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Críticas / Finanzas</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="font-display-lg text-headline-lg text-on-surface font-extrabold">5</span>
+              <span class="font-label-sm text-label-sm text-error font-bold">$ 1.35 M ARS</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cuotas &amp; débitos pendientes</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-high text-secondary flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-[26px]">account_balance_wallet</span>
+          </div>
+        </div>
+        <!-- Card 4: Operativas -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Operativas / Staff</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="font-display-lg text-headline-lg text-on-surface font-extrabold">10</span>
+              <span class="font-label-sm text-label-sm text-primary font-bold">100% resueltas</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Clases, suertes y suplencias</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-high text-tertiary flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-[26px]">sports_gymnastics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Barra de Control, Búsqueda y Filtros Dinámicos -->
+      <div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm flex flex-col gap-4">
+        <!-- Fila 1: Búsqueda y Tabs Principales de Estado -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest placeholder:text-on-surface-variant/70 shadow-sm transition-all" id="filtro-busqueda" onkeyup="aplicarFiltros()" placeholder="Buscar por socio, cuota, clase, profesor o palabra clave..." type="text" />
+          </div>
+          <!-- Segmented Status Tabs -->
+          <div class="flex items-center bg-surface-container-low p-1 rounded-lg gap-1 shrink-0 self-start md:self-auto">
+            <button class="estado-tab px-3.5 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md font-bold shadow-sm transition-all" id="tab-estado-todos" onclick="setEstadoFiltro('todos')">
+              Todas <span class="ml-1 text-xs opacity-80">(18)</span>
+            </button>
+            <button class="estado-tab px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" id="tab-estado-unread" onclick="setEstadoFiltro('unread')">
+              No leídas <span class="ml-1 px-1.5 py-0.2 rounded-full bg-error text-on-error text-xs font-bold" id="badge-tab-unread">3</span>
+            </button>
+            <button class="estado-tab px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" id="tab-estado-read" onclick="setEstadoFiltro('read')">
+              Leídas <span class="ml-1 text-xs opacity-80">(15)</span>
+            </button>
+          </div>
+        </div>
+        <!-- Fila 2: Categorías, Período y Severidad -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <!-- Filtros por Categoría Chips -->
+          <div class="flex flex-wrap items-center gap-1.5" id="categoria-chips">
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-bold shadow-sm transition-all" data-cat="todas" onclick="setCategoriaFiltro('todas')">Todas</button>
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center gap-1.5" data-cat="finanzas" onclick="setCategoriaFiltro('finanzas')">
+              <span class="w-2 h-2 rounded-full bg-error"></span><span>Finanzas</span>
+            </button>
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center gap-1.5" data-cat="socios" onclick="setCategoriaFiltro('socios')">
+              <span class="w-2 h-2 rounded-full bg-secondary"></span><span>Socios</span>
+            </button>
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center gap-1.5" data-cat="clases" onclick="setCategoriaFiltro('clases')">
+              <span class="w-2 h-2 rounded-full bg-primary-container"></span><span>Clases</span>
+            </button>
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center gap-1.5" data-cat="personal" onclick="setCategoriaFiltro('personal')">
+              <span class="w-2 h-2 rounded-full bg-tertiary"></span><span>Personal / Staff</span>
+            </button>
+            <button class="cat-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center gap-1.5" data-cat="sistema" onclick="setCategoriaFiltro('sistema')">
+              <span class="w-2 h-2 rounded-full bg-surface-dim"></span><span>Sistema</span>
+            </button>
+          </div>
+          <!-- Selectores de período y severidad -->
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg text-on-surface-variant font-label-sm text-label-sm">
+              <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+              <select class="bg-transparent text-on-surface font-semibold focus:outline-none cursor-pointer" id="filtro-periodo" onchange="aplicarFiltros()">
+                <option value="todos">Cualquier fecha</option>
+                <option selected="" value="hoy">Hoy</option>
+                <option value="ayer">Ayer</option>
+                <option value="semana">Esta semana</option>
+                <option value="mes">Este mes</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg text-on-surface-variant font-label-sm text-label-sm">
+              <span class="material-symbols-outlined text-[16px]">tune</span>
+              <select class="bg-transparent text-on-surface font-semibold focus:outline-none cursor-pointer" id="filtro-severidad" onchange="aplicarFiltros()">
+                <option value="todas">Todas las prioridades</option>
+                <option value="urgente">Urgentes / Advertencia</option>
+                <option value="informativa">Informativas / Éxito</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Contenedor de Notificaciones Agrupadas Cronológicamente -->
+        <div class="flex flex-col gap-6" id="lista-notificaciones">
+          <!-- SECCIÓN: HOY -->
+          <div class="flex flex-col gap-3 seccion-cronologica" data-seccion="hoy">
+            <div class="flex items-center justify-between px-1">
+              <div class="flex items-center gap-2">
+                <span class="font-headline-sm text-headline-sm text-on-surface">Hoy</span>
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold count-seccion">4</span>
+              </div>
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">24 de Mayo 2025</span>
+            </div>
+
+            <!-- NOTIFICACIÓN DE EGRESO/REPARACIÓN PENDIENTE DE TRANSFERENCIA -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="finanzas" data-periodo="hoy" data-severidad="urgente" data-unread="true" id="card-egreso-caminadora">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">build_circle</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                      Reparación Validada • Pendiente Transferencia
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Turno Tarde (Recepcionista Camila)
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-error" title="Pendiente de pago"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Reparación Cinta #4 lista para abonar</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    El técnico finalizó el arreglo. Recepción adjuntó foto de la máquina funcionando. Monto: <strong class="text-on-surface font-semibold">$85.000 ARS</strong>.
+                  </p>
+                  <div class="mt-2 p-2 rounded-lg bg-surface-container-low text-xs flex items-center gap-4 flex-wrap">
+                    <span><strong>Técnico:</strong> Servicio Técnico Gym Pro</span>
+                    <span><strong>Alias/CVU:</strong> gympro.servicios.mp</span>
+                    <button class="text-primary font-bold hover:underline flex items-center gap-1" onclick="alert('Mostrando comprobante fotográfico subido por recepción...')">
+                      <span class="material-symbols-outlined text-[15px]">photo_camera</span> Ver foto del arreglo
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm hover:bg-primary-container transition-all" href="{% url 'finanzas' %}">
+                  <span>Asentar en Finanzas</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-egreso-caminadora')" title="Marcar como atendida">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-egreso-caminadora')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ALERTA 1: CAPEX / MANTENIMIENTO (ROJO) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="sistema" data-periodo="hoy" data-severidad="urgente" data-unread="true" id="card-alerta-caminadora">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">build</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                      Mantenimiento / CapEx
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Fuera de servicio hace 5 días
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-error" title="No leída"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Reparación Urgente Necesaria</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Cinta caminadora #4 fuera de servicio. Requiere aprobación de presupuesto de <strong class="text-on-surface font-semibold">$85.000 ARS</strong>.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-error text-on-error font-label-md text-label-md font-bold shadow-sm hover:opacity-90 transition-all" href="{% url 'finanzas' %}">
+                  <span>Revisar Presupuesto</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-alerta-caminadora')" title="Marcar como leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-alerta-caminadora')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ALERTA 2: COSTO ENERGÉTICO (AMARILLO / ÁMBAR) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="finanzas" data-periodo="hoy" data-severidad="urgente" data-unread="true" id="card-alerta-energia">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-amber-500"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">electric_bolt</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                      Costos Fijos / Energía
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Impacto mensual
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-amber-500" title="No leída"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Aumento de Costo Energético (+18%)</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    El consumo de luz aumentó un 18% este mes. Considerar ajustes en domingos por la tarde debido a la baja ocupación de salas.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" href="{% url 'finanzas' %}">
+                  <span>Ver Facturas Edenor</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-alerta-energia')" title="Marcar como leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-alerta-energia')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 1: Finanzas Urgente (No leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="finanzas" data-periodo="hoy" data-severidad="urgente" data-unread="true" id="card-noti-1">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold uppercase tracking-wider">Urgente / Finanzas</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hace 25 min
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-error" title="No leída"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">56 cuotas vencidas en mayo</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Totalizando <strong class="text-on-surface font-semibold">$ 1.350.000 ARS</strong> pendientes de cobro con vencimiento superado al corte de hoy.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-error text-on-error font-label-md text-label-md font-bold shadow-sm hover:opacity-90 transition-all" href="{% url 'finanzas' %}">
+                  <span>Gestionar en Finanzas</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-1')" title="Marcar como leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-1')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 2: Socios Info (No leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="socios" data-periodo="hoy" data-severidad="informativa" data-unread="true" id="card-noti-2">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">group_add</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-bold uppercase tracking-wider">Socios / Altas</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hace 2 horas
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-secondary" title="No leída"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">12 nuevos socios registrados esta semana</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    El plan <strong class="text-on-surface font-semibold">Pase Libre Full</strong> sumó 8 nuevas altas netas en la sede San Justo durante el turno de la mañana.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md font-bold shadow-sm hover:bg-secondary-container transition-all" href="{% url 'clientes' %}">
+                  <span>Ver padrón en Clientes</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-2')" title="Marcar como leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-2')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 3: Clases Advertencia Aforo (No leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="clases" data-periodo="hoy" data-severidad="urgente" data-unread="true" id="card-noti-3">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">Clases / Aforo</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hace 4 horas
+                    </span>
+                    <span class="unread-dot w-2 h-2 rounded-full bg-error" title="No leída"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Funcional HIIT 19:00 hs alcanzó alta ocupación</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    18 de 20 lugares confirmados (<strong class="text-on-surface font-semibold">90% aforo</strong>) y 3 socios esperando cupo disponible en lista de espera.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm hover:bg-primary-container hover:text-on-primary-container transition-all" href="{% url 'clases' %}">
+                  <span>Abrir cupos en Clases</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-3')" title="Marcar como leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-3')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 4: Personal / Staff Operativo (Leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest/80 opacity-90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="personal" data-periodo="hoy" data-severidad="informativa" data-unread="false" id="card-noti-4">
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">badge</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase tracking-wider">Personal / Guardia</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hoy 10:15 hs
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">Leída</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Nuevo horario asignado a Prof. Lucas Benítez</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Se programó suplencia en Sala Musculación para el turno noche de hoy 20:30 a 23:00 hs sin superposiciones.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" href="{% url 'personal' %}">
+                  <span>Revisar en Personal</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-4')" title="Marcar como no leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-4')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN: AYER -->
+          <div class="flex flex-col gap-3 seccion-cronologica" data-seccion="ayer">
+            <div class="flex items-center justify-between px-1 pt-2">
+              <div class="flex items-center gap-2">
+                <span class="font-headline-sm text-headline-sm text-on-surface">Ayer</span>
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold count-seccion">2</span>
+              </div>
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">23 de Mayo 2025</span>
+            </div>
+            
+            <!-- Item 5: Sistema Actualización (Leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest/80 opacity-90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="sistema" data-periodo="ayer" data-severidad="informativa" data-unread="false" id="card-noti-5">
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">tune</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase tracking-wider">Sistema / Tarifas</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Ayer 18:30 hs
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">Leída</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Actualización programada de Planes y Precios</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Ajuste trimestral por IPC aplicado con éxito a los planes activos de Junio sin inconsistencias en el padrón.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" href="{% url 'planes' %}">
+                  <span>Ver tarifas en Planes y Precios</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-5')" title="Marcar como no leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-5')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 6: Finanzas Cobranza Exitosa (Leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest/80 opacity-90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="finanzas" data-periodo="ayer" data-severidad="informativa" data-unread="false" id="card-noti-6">
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">verified</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold uppercase tracking-wider">Finanzas / Débito</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Ayer 14:00 hs
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">Leída</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Cobro recurrente por Débito Automático exitoso</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Se acreditaron 142 cuotas por un total de <strong class="text-on-surface font-semibold">$ 4.899.000 ARS</strong> vía Banco Macro / Débito CBU.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" href="{% url 'finanzas' %}">
+                  <span>Ver conciliación en Finanzas</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-6')" title="Marcar como no leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-6')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN: ESTA SEMANA -->
+          <div class="flex flex-col gap-3 seccion-cronologica" data-seccion="semana">
+            <div class="flex items-center justify-between px-1 pt-2">
+              <div class="flex items-center gap-2">
+                <span class="font-headline-sm text-headline-sm text-on-surface">Esta semana</span>
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold count-seccion">2</span>
+              </div>
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">19 al 22 de Mayo 2025</span>
+            </div>
+
+            <!-- Item 7: Socios Baja Preventiva (Leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest/80 opacity-90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="socios" data-periodo="semana" data-severidad="urgente" data-unread="false" id="card-noti-7">
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">person_off</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-error font-label-sm text-label-sm font-bold uppercase tracking-wider">Socios / Fidelización</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hace 3 días
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">Leída</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Alerta de inactividad de socio</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    El socio <strong class="text-on-surface font-semibold">Martín Álvarez (Leg. #342)</strong> no registra accesos biométricos hace 21 días. Recomendado reactivar por WhatsApp.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" type="button">
+                  <span class="material-symbols-outlined text-[18px]">chat</span>
+                  <span>Contactar por WhatsApp</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-7')" title="Marcar como no leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-7')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Item 8: Clases Turno Cubierto (Leída) -->
+            <div class="noti-card p-space-lg rounded-lg bg-surface-container-lowest/80 opacity-90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all relative overflow-hidden" data-cat="clases" data-periodo="semana" data-severidad="informativa" data-unread="false" id="card-noti-8">
+              <div class="flex items-start gap-4 flex-1 pl-2">
+                <div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">event_repeat</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase tracking-wider">Clases / Suplencias</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/40"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">schedule</span> Hace 4 días
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">Leída</span>
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Prof. Micaela V. confirmó suplencia por licencia médica</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    Clase de CrossFit WOD 19:30 hs cubierta exitosamente por el Prof. Facundo Ramos sin reclamos de socios.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                <a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container-high transition-all" href="{% url 'clases' %}">
+                  <span>Ver grilla en Clases</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="toggleLeido('card-noti-8')" title="Marcar como no leída">
+                  <span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+                </button>
+                <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors" onclick="eliminarNoti('card-noti-8')" title="Descartar">
+                  <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State dinámico -->
+        <div class="hidden p-12 bg-surface-container-lowest rounded-lg shadow-sm text-center flex-col items-center justify-center" id="empty-state-alertas">
+          <div class="w-16 h-16 rounded-full bg-surface-container text-primary flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-[32px]">task_alt</span>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface">No se encontraron notificaciones</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-md">
+            No existen alertas con los filtros seleccionados. Probá modificando los criterios de búsqueda o fecha.
+          </p>
+          <button class="mt-4 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm hover:bg-primary-container" onclick="resetearFiltros()">
+            Restablecer filtros
+          </button>
+        </div>
+
+        <!-- Modal Interactivo: Configurar Alertas y Notificaciones -->
+        <div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="modal-config-alertas">
+          <div class="w-full max-w-lg bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden">
+            <div class="p-5 bg-surface-container-low flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[22px]">tune</span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Configuración de Alertas</h2>
+              </div>
+              <button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container" onclick="toggleModalConfig()">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <div class="p-6 flex flex-col gap-4">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Canales y Umbrales de Aviso (Rol Dueño)</span>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-body-md text-on-surface font-semibold">Cuotas vencidas críticas</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Avisar cuando se superen 30 cuotas impagas en el mes</span>
+                </div>
+                <input checked="" class="w-5 h-5 accent-primary cursor-pointer rounded" type="checkbox" />
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-body-md text-on-surface font-semibold">Capacidad límite de clases (90%)</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Generar alerta inmediata con cupos casi agotados</span>
+                </div>
+                <input checked="" class="w-5 h-5 accent-primary cursor-pointer rounded" type="checkbox" />
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-body-md text-on-surface font-semibold">Inasistencias prolongadas de socios</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Disparar alerta cuando un socio supere 20 días sin ingreso</span>
+                </div>
+                <input checked="" class="w-5 h-5 accent-primary cursor-pointer rounded" type="checkbox" />
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-body-md text-on-surface font-semibold">Notificaciones push &amp; WhatsApp del Staff</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Copias operativas directas al teléfono de guardia</span>
+                </div>
+                <input class="w-5 h-5 accent-primary cursor-pointer rounded" type="checkbox" />
+              </div>
+            </div>
+            <div class="p-4 bg-surface-container-low flex justify-end gap-2.5">
+              <button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" onclick="toggleModalConfig()">
+                Cancelar
+              </button>
+              <button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container transition-colors shadow-sm" onclick="toggleModalConfig()">
+                Guardar preferencias
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast Flotante de Notificación / Acción Exitosa -->
+        <div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl bg-inverse-surface text-inverse-on-surface shadow-xl" id="toast-feedback">
+          <span class="material-symbols-outlined text-primary-fixed-dim text-[20px]" id="toast-icon">check_circle</span>
+          <span class="font-body-sm text-body-sm font-medium" id="toast-msg">Acción realizada correctamente</span>
+        </div>
+
+      </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/oeste_club_notificaciones.js' %}"></script>
+<script>
+    // SCRIPT PARA ILUMINAR LA PESTAÑA "NOTIFICACIONES" EN EL MENÚ LATERAL
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeMenu = document.querySelector('aside nav a[data-menu="notificaciones"]');
+        if (activeMenu) {
+            activeMenu.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            activeMenu.classList.add('bg-emerald-50', 'text-emerald-700', 'font-bold');
+            
+            const iconContainer = activeMenu.querySelector('svg') || activeMenu.querySelector('.material-symbols-outlined');
+            if(iconContainer) {
+                iconContainer.classList.remove('text-slate-700');
+                iconContainer.classList.add('text-emerald-600');
+            }
+        }
+    });
+</script>
+{% endblock %}

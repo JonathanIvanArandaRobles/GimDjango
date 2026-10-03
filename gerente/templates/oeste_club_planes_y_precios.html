@@ -1,0 +1,840 @@
+{% extends 'base_gerente.html' %}
+{% load static %}
+
+{% block title %}Oeste Club - Planes y Precios{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-background w-full">
+
+  <main class="w-full flex-1 overflow-y-auto bg-background p-4 md:p-8">
+    <div class="flex flex-col w-full gap-6">
+
+      <!-- ENCABEZADO DE SECCIÓN CON BOTÓN HAMBURGUESA FIJO -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2">
+        <div class="space-y-1">
+          <div class="flex items-center gap-3 flex-wrap">
+            <h1 class="font-display-lg text-display-lg text-on-surface tracking-tight font-extrabold">Planes y Precios
+            </h1>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-primary-container"></span>
+              SEDE CENTRAL SAN JUSTO
+            </span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+            Configuración arancelaria, planes de membresía, actividades habilitadas y promociones del club.
+          </p>
+        </div>
+
+        <!-- ACCIONES PRINCIPALES CON HAMBURGUESA FIJA -->
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" type="button">
+            <span class="material-symbols-outlined text-[18px] text-tertiary">history</span>
+            <span>Historial de Precios</span>
+          </button>
+          <button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" type="button">
+            <span class="material-symbols-outlined text-[18px] text-secondary">local_fire_department</span>
+            <span>Promociones &amp; Descuentos</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">3 activas</span>
+          </button>
+          <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-bold shadow-md hover:bg-primary transition-all active:scale-95" type="button">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            <span>Crear Nuevo Plan</span>
+          </button>
+
+          <!-- BOTÓN HAMBURGUESA FIJO -->
+          <button id="hamburger-btn" class="flex items-center justify-center w-10 h-10 bg-surface-container-lowest hover:bg-surface-container border border-surface-container-high/60 rounded-xl text-on-surface hover:text-primary shadow-sm transition active:scale-95 cursor-pointer shrink-0 ml-1" type="button" title="Abrir menú lateral">
+            <svg id="hamburger-icon" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- TARJETAS KPIS / RESUMEN -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <!-- Card 1 -->
+        <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Planes</span>
+            <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-[20px]">loyalty</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="flex items-baseline gap-2">
+              <span class="font-display-lg text-display-lg text-on-surface">8</span>
+              <span class="font-headline-sm text-headline-sm text-primary font-bold">activos</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              2 pausados / de temporada
+            </p>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Ticket Promedio</span>
+            <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-[20px]">trending_up</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="flex items-baseline gap-2">
+              <span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">$ 31.500</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">/mes</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-primary mt-1 font-label-sm text-label-sm font-bold">
+              <span class="material-symbols-outlined text-[16px]">arrow_drop_up</span>
+              <span>+14% vs trimestre anterior</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Plan Más Popular</span>
+            <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-[20px]">military_tech</span>
+            </div>
+          </div>
+          <div class="mt-2">
+            <p class="font-headline-sm text-headline-sm text-on-surface truncate">Pase Libre Full</p>
+            <div class="flex items-center justify-between mt-1">
+              <span class="font-body-sm text-body-sm text-on-surface-variant">742 socios activos</span>
+              <span class="font-label-sm text-label-sm font-bold text-primary">41% padrón</span>
+            </div>
+            <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden mt-2">
+              <div class="h-full bg-primary-container rounded-full" style="width: 41%"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Ajuste Tarifario</span>
+            <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-error">
+              <span class="material-symbols-outlined text-[20px]">calendar_clock</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="flex items-baseline gap-2">
+              <span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">15 de Junio</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-tertiary mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px] text-tertiary">info</span>
+              Revisión trimestral estimada IPC
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTROS Y CONTROL -->
+      <div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <!-- Buscador e inputs -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
+          <div class="relative flex-1 max-w-md">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input class="w-full pl-10 pr-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-on-surface-variant/70 transition-all" id="search-plans" placeholder="Buscar plan, actividad, frecuencia..." type="text" />
+          </div>
+          <!-- Segmented Status Buttons -->
+          <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg overflow-x-auto">
+            <button class="px-3 py-1.5 rounded bg-surface-container-lowest text-primary font-label-md text-label-md font-bold shadow-sm whitespace-nowrap" type="button">Todos (10)</button>
+            <button class="px-3 py-1.5 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md whitespace-nowrap transition-all" type="button">Activos (8)</button>
+            <button class="px-3 py-1.5 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md whitespace-nowrap transition-all" type="button">Desactivados (2)</button>
+            <button class="px-3 py-1.5 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md whitespace-nowrap transition-all" type="button">Con Promoción (3)</button>
+          </div>
+        </div>
+        <!-- Filtros de frecuencia y switch vista -->
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="relative">
+            <select class="appearance-none pl-3 pr-8 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+              <option>Frecuencia: Todas</option>
+              <option>Pase Libre Diario</option>
+              <option>3 veces por semana</option>
+              <option>2 veces por semana</option>
+              <option>Cuatrimestral / Anual</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[18px] text-on-surface-variant">expand_more</span>
+          </div>
+          <!-- Toggle Layout -->
+          <div class="flex items-center bg-surface-container-low p-1 rounded-lg">
+            <button class="p-1.5 rounded bg-surface-container-lowest text-primary shadow-sm" id="btn-grid-view" title="Vista Cuadrícula" type="button">
+              <span class="material-symbols-outlined text-[18px]">grid_view</span>
+            </button>
+            <button class="p-1.5 rounded text-on-surface-variant hover:text-on-surface" id="btn-table-view" title="Vista Lista" type="button">
+              <span class="material-symbols-outlined text-[18px]">table_rows</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENIDO PRINCIPAL: GRID + DRAWER BESPOKE -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- COLUMNA PRINCIPAL: CARDS DE PLANES (8 cols) -->
+        <div class="lg:col-span-8 space-y-4">
+          <!-- Card 1: Destacado Pase Libre Full -->
+          <div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col justify-between group">
+            <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold uppercase">Más Elegido</span>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">Multisede</span>
+                  <span class="font-body-sm text-body-sm text-tertiary">Código: PL-FULL-01</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 group-hover:text-primary transition-colors">
+                  Pase Libre Full (Musculación + Clases)
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  Acceso Ilimitado Lunes a Domingo (Sin restricción horaria)
+                </p>
+              </div>
+              <div class="text-left sm:text-right shrink-0">
+                <div class="font-display-lg text-display-lg text-on-surface font-extrabold tracking-tight">
+                  $ 34.500
+                  <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/mes</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-primary font-bold">Cobro Mensual / Débito</span>
+              </div>
+            </div>
+            <!-- Tags de Actividades -->
+            <div class="flex flex-wrap gap-1.5 my-4">
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Musculación</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Spinning / Cycle</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Funcional HIIT</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">CrossFit</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Yoga &amp; Pilates</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">+ Acceso a Pileta</span>
+            </div>
+            <!-- Barra de socios e info de actualización -->
+            <div class="pt-4 border-t border-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 flex-1 max-w-sm">
+                <div class="w-full">
+                  <div class="flex justify-between font-label-sm text-label-sm mb-1">
+                    <span class="text-on-surface font-semibold">742 socios activos</span>
+                    <span class="text-tertiary">Capacidad estimada: 1000</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 74%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end sm:self-auto">
+                <span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Actualizado: 15/04/2025</span>
+                <!-- Toggle Estado -->
+                <label class="inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container relative"></div>
+                  <span class="ml-2 font-label-sm text-label-sm font-bold text-primary">Activo</span>
+                </label>
+                <!-- Acciones -->
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" title="Editar Plan" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit</span>
+                </button>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" title="Duplicar" type="button">
+                  <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2: Musculación Libre -->
+          <div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">Tradicional</span>
+                  <span class="font-body-sm text-body-sm text-tertiary">Código: MUSC-LIB-02</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 group-hover:text-primary transition-colors">
+                  Musculación Libre
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  Lunes a Sábados sin límite de horario (Área de pesas y cardio)
+                </p>
+              </div>
+              <div class="text-left sm:text-right shrink-0">
+                <div class="font-display-lg text-display-lg text-on-surface font-extrabold tracking-tight">
+                  $ 28.000
+                  <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/mes</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Precio Base Vigente</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 my-4">
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Musculación Completa</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Sector Cardio y Cintas</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Vestuarios &amp; Duchas</span>
+            </div>
+            <div class="pt-4 border-t border-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 flex-1 max-w-sm">
+                <div class="w-full">
+                  <div class="flex justify-between font-label-sm text-label-sm mb-1">
+                    <span class="text-on-surface font-semibold">380 socios activos</span>
+                    <span class="text-tertiary">21% del total</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 38%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end sm:self-auto">
+                <span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Actualizado: 15/04/2025</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container relative"></div>
+                  <span class="ml-2 font-label-sm text-label-sm font-bold text-primary">Activo</span>
+                </label>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit</span>
+                </button>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3: CrossFit Elite + Box -->
+          <div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold uppercase">Cross Performance</span>
+                  <span class="font-body-sm text-body-sm text-tertiary">Código: CF-BOX-03</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 group-hover:text-primary transition-colors">
+                  CrossFit Elite + Box
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  Acceso a Box Oficial + WODs planificados + Open Box libre
+                </p>
+              </div>
+              <div class="text-left sm:text-right shrink-0">
+                <div class="font-display-lg text-display-lg text-on-surface font-extrabold tracking-tight">
+                  $ 42.000
+                  <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/mes</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-primary font-bold">Cupos Limitados</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 my-4">
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">CrossFit WOD</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Open Box</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Levantamiento Olímpico</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Seguimiento Wodify</span>
+            </div>
+            <div class="pt-4 border-t border-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 flex-1 max-w-sm">
+                <div class="w-full">
+                  <div class="flex justify-between font-label-sm text-label-sm mb-1">
+                    <span class="text-on-surface font-semibold">295 socios activos</span>
+                    <span class="text-tertiary">Capacidad: 320 (92%)</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-secondary-container rounded-full" style="width: 92%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end sm:self-auto">
+                <span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Actualizado: 01/05/2025</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container relative"></div>
+                  <span class="ml-2 font-label-sm text-label-sm font-bold text-primary">Activo</span>
+                </label>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit</span>
+                </button>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 4: Musculación 3x por semana -->
+          <div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">Frecuencia Reducida</span>
+                  <span class="font-body-sm text-body-sm text-tertiary">Código: MUSC-3X-04</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 group-hover:text-primary transition-colors">
+                  Musculación 3x por semana
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  3 días a la semana a elección libre (Lunes a Sábado)
+                </p>
+              </div>
+              <div class="text-left sm:text-right shrink-0">
+                <div class="font-display-lg text-display-lg text-on-surface font-extrabold tracking-tight">
+                  $ 21.500
+                  <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/mes</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Arancel Social</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 my-4">
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Musculación</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Cardio</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Control biométrico mensual</span>
+            </div>
+            <div class="pt-4 border-t border-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 flex-1 max-w-sm">
+                <div class="w-full">
+                  <div class="flex justify-between font-label-sm text-label-sm mb-1">
+                    <span class="text-on-surface font-semibold">165 socios activos</span>
+                    <span class="text-tertiary">9% padrón</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 18%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end sm:self-auto">
+                <span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Actualizado: 15/04/2025</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container relative"></div>
+                  <span class="ml-2 font-label-sm text-label-sm font-bold text-primary">Activo</span>
+                </label>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit</span>
+                </button>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 5: Pase Matutino Off-Peak (Promocional) -->
+          <div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm font-semibold">Horario Reducido</span>
+                  <span class="font-body-sm text-body-sm text-tertiary">Código: OFF-PEAK-05</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 group-hover:text-primary transition-colors">
+                  Pase Matutino Off-Peak
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  Lunes a Viernes 07:00 a 14:00 hs únicamente
+                </p>
+              </div>
+              <div class="text-left sm:text-right shrink-0">
+                <div class="font-display-lg text-display-lg text-on-surface font-extrabold tracking-tight">
+                  $ 24.000
+                  <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/mes</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-tertiary">Ahorro 30%</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 my-4">
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Musculación matutina</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Clases 08:00 a 13:00</span>
+              <span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Pileta Libre Turno Mañana</span>
+            </div>
+            <div class="pt-4 border-t border-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 flex-1 max-w-sm">
+                <div class="w-full">
+                  <div class="flex justify-between font-label-sm text-label-sm mb-1">
+                    <span class="text-on-surface font-semibold">110 socios activos</span>
+                    <span class="text-tertiary">6% padrón</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 14%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 self-end sm:self-auto">
+                <span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Actualizado: 15/04/2025</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container relative"></div>
+                  <span class="ml-2 font-label-sm text-label-sm font-bold text-primary">Activo</span>
+                </label>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit</span>
+                </button>
+                <button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" type="button">
+                  <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- COLUMNA LATERAL: DRAWER / DETALLE ANALÍTICO DE PLAN (4 cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          <!-- Panel de Detalle del Plan Activo Seleccionado -->
+          <div class="rounded-xl bg-surface-container-lowest shadow-md overflow-hidden flex flex-col">
+            <!-- Header Drawer -->
+            <div class="p-5 bg-surface-container-low flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[18px]">tune</span>
+                </div>
+                <div>
+                  <span class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider">Plan Seleccionado</span>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Pase Libre Full</h3>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-bold">Activo</span>
+            </div>
+            <!-- Body Drawer -->
+            <div class="p-5 space-y-5">
+              <!-- Desglose de Aranceles y Descuentos -->
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Estructura de Tarifas</span>
+                  <span class="font-label-sm text-label-sm text-tertiary">Moneda: ARS</span>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+                    <div>
+                      <span class="font-body-sm text-body-sm font-semibold text-on-surface block">Mensual Regular</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">Mes individual</span>
+                    </div>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">$ 34.500</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-body-sm text-body-sm font-semibold text-on-surface">Pase Trimestral</span>
+                        <span class="px-1.5 py-0.2 rounded bg-primary/10 text-primary font-label-sm text-label-sm font-bold">-15%</span>
+                      </div>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">3 meses por adelantado</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="font-headline-sm text-headline-sm text-on-surface font-bold">$ 87.975</span>
+                      <span class="font-label-sm text-label-sm text-tertiary block">($29.325/mes)</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-body-sm text-body-sm font-semibold text-on-surface">Pase Anual VIP</span>
+                        <span class="px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">-25%</span>
+                      </div>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">12 cuotas fijas c/tarjeta</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="font-headline-sm text-headline-sm text-on-surface font-bold">$ 310.500</span>
+                      <span class="font-label-sm text-label-sm text-tertiary block">($25.875/mes)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Matriz de Sedes y Accesos -->
+              <div>
+                <span class="font-label-md text-label-md text-on-surface font-bold block mb-2">Sedes Habilitadas</span>
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-2 text-on-surface font-body-sm text-body-sm">
+                    <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                    <span>Sede Central San Justo (Pase irrestricto)</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-on-surface font-body-sm text-body-sm">
+                    <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                    <span>Sede Ramos Mejía (Hasta 8 ingresos/mes)</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-tertiary font-body-sm text-body-sm">
+                    <span class="material-symbols-outlined text-[18px]">cancel</span>
+                    <span>Sede Castelar (Requiere Up-grade VIP)</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Métricas de Rendimiento Financiero -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low space-y-3">
+                <span class="font-label-md text-label-md text-on-surface font-bold block">Impacto en Facturación</span>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant block">Facturación Mensual</span>
+                    <span class="font-headline-sm text-headline-sm text-primary font-extrabold">$ 25.599.000</span>
+                  </div>
+                  <div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant block">Retención Socios</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">88%</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-2 border-t border-surface-container">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Índice de Morosidad:</span>
+                  <span class="font-label-sm text-label-sm font-bold text-secondary">4.2% (Excelente)</span>
+                </div>
+              </div>
+              <!-- Línea de tiempo de precios recientes -->
+              <div>
+                <span class="font-label-md text-label-md text-on-surface font-bold block mb-3">Historial de Ajustes</span>
+                <div class="relative pl-6 space-y-3 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container">
+                  <div class="relative">
+                    <div class="w-2.5 h-2.5 rounded-full bg-primary absolute -left-[21px] top-1"></div>
+                    <div class="flex items-center justify-between">
+                      <span class="font-body-sm text-body-sm font-semibold text-on-surface">Abr 2025: $ 34.500</span>
+                      <span class="font-label-sm text-label-sm text-primary font-bold">+18.9%</span>
+                    </div>
+                    <span class="font-label-sm text-label-sm text-tertiary">Ajuste trimestral por inflación</span>
+                  </div>
+                  <div class="relative">
+                    <div class="w-2.5 h-2.5 rounded-full bg-tertiary absolute -left-[21px] top-1"></div>
+                    <div class="flex items-center justify-between">
+                      <span class="font-body-sm text-body-sm font-semibold text-on-surface">Ene 2025: $ 29.000</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">+20.8%</span>
+                    </div>
+                    <span class="font-label-sm text-label-sm text-tertiary">Ajuste inicio de temporada</span>
+                  </div>
+                  <div class="relative">
+                    <div class="w-2.5 h-2.5 rounded-full bg-tertiary absolute -left-[21px] top-1"></div>
+                    <div class="flex items-center justify-between">
+                      <span class="font-body-sm text-body-sm font-semibold text-on-surface">Oct 2024: $ 24.000</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">Lanzamiento</span>
+                    </div>
+                    <span class="font-label-sm text-label-sm text-tertiary">Tarifa fijada en reestructuración</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Botones de Acción Drawer -->
+              <div class="pt-2 flex flex-col gap-2">
+                <button class="w-full py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-bold shadow-sm hover:bg-primary transition-all" type="button">
+                  Modificar Tarifas de Este Plan
+                </button>
+                <button class="w-full py-2.5 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container transition-all" type="button">
+                  Ver Padrón de Socios (742)
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Widget Rápido: Cláusula de Ajuste Automático -->
+          <div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">verified_user</span>
+            <div class="space-y-1">
+              <h4 class="font-headline-sm text-headline-sm text-on-surface">Cláusula de Actualización</h4>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Las cuotas con débito en tarjeta cuentan con aviso previo de 15 días corridos a los clientes antes de la aplicación del nuevo valor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN INFERIOR: PROMOCIONES Y DESCUENTOS ACTIVOS -->
+      <div class="space-y-4 pt-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Promociones &amp; Descuentos Especiales</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Reglas comerciales automáticas aplicadas en la facturación y cobranza online.
+            </p>
+          </div>
+          <button id="btn-nueva-promo" onclick="toggleModalPromo()" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container transition-all self-start sm:self-auto" type="button">
+            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>+ Nueva Promoción</span>
+          </button>
+        </div>
+        <!-- Cards de Promociones -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Promo 1 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[22px]">group_add</span>
+                </div>
+                <div>
+                  <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold">Vigente</span>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Promo Familiar / Amigos</h3>
+                </div>
+              </div>
+            </div>
+            <div class="my-3">
+              <div class="flex items-baseline gap-2">
+                <span class="font-display-lg text-display-lg text-primary font-extrabold">-20%</span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">en la 2da membresía</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Aplica para miembros con el mismo domicilio o vínculo registrado. Descuento persistente mientras ambos continúen activos.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-surface-container-low flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-tertiary">142 socios adheridos</span>
+              <button class="font-label-sm text-label-sm text-primary font-bold hover:underline" type="button">Configurar</button>
+            </div>
+          </div>
+          <!-- Promo 2 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                  <span class="material-symbols-outlined text-[22px]">credit_card</span>
+                </div>
+                <div>
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">Recomendado</span>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Débito Automático</h3>
+                </div>
+              </div>
+            </div>
+            <div class="my-3">
+              <div class="flex items-baseline gap-2">
+                <span class="font-display-lg text-display-lg text-secondary font-extrabold">-10%</span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">bonificación mensual</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Reducción de arancel vinculando tarjeta Visa o Mastercard al cobro recurrente del día 1 al 5 de cada mes.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-surface-container-low flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-tertiary">918 socios adheridos (51%)</span>
+              <button class="font-label-sm text-label-sm text-secondary font-bold hover:underline" type="button">Configurar</button>
+            </div>
+          </div>
+          <!-- Promo 3 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+                  <span class="material-symbols-outlined text-[22px]">school</span>
+                </div>
+                <div>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm font-bold">Convenio</span>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Estudiantes / UNLaM</h3>
+                </div>
+              </div>
+            </div>
+            <div class="my-3">
+              <div class="flex items-baseline gap-2">
+                <span class="font-display-lg text-display-lg text-on-surface font-extrabold">-15%</span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">turno mañana y tarde</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Convenio oficial para alumnos y docentes presentando certificado de alumno regular vigente. Ingreso de 07:00 a 16:00 hs.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-surface-container-low flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-tertiary">84 socios adheridos</span>
+              <button class="font-label-sm text-label-sm text-tertiary font-bold hover:underline" type="button">Configurar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: CREAR Y LANZAR NUEVA PROMOCIÓN COMERCIAL -->
+<div id="modal-nueva-promo" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-sm">
+  <div class="w-full max-w-xl bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden border border-outline-variant/30 animate-in fade-in zoom-in duration-150">
+
+    <!-- Modal Header -->
+    <div class="p-5 bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">local_activity</span>
+        </div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Crear Nueva Regla Promocional</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Configuración comercial con opción de difusión masiva</p>
+        </div>
+      </div>
+      <button type="button" onclick="toggleModalPromo()" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Form -->
+    <form id="form-nueva-promo" onsubmit="guardarYLanzarPromo(event)" class="p-6 space-y-4">
+
+      <!-- Nombre de la Promo y Descuento -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="sm:col-span-2">
+          <label class="block font-label-md text-label-md text-on-surface font-semibold mb-1">Nombre de la Promoción *</label>
+          <input type="text" id="promo-titulo" required placeholder="Ej: Invierno Fitness 2026" class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary border-none" />
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface font-semibold mb-1">Descuento (%) *</label>
+          <input type="number" id="promo-descuento" min="1" max="100" required placeholder="Ej: 20" class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm font-bold text-primary focus:outline-none focus:ring-2 focus:ring-primary border-none" />
+        </div>
+      </div>
+
+      <!-- Planes aplicables -->
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface font-semibold mb-1">Planes a los que aplica</label>
+        <select id="promo-plan-target" class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary border-none">
+          <option value="todos">Todos los Planes Activos</option>
+          <option value="pase_full">Pase Libre Full (Musculación + Clases)</option>
+          <option value="crossfit">CrossFit Elite + Box</option>
+          <option value="musculacion">Musculación Libre</option>
+          <option value="off_peak">Pase Matutino Off-Peak</option>
+        </select>
+      </div>
+
+      <!-- Condiciones y Descripción -->
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface font-semibold mb-1">Condiciones Comerciales *</label>
+        <textarea id="promo-condiciones" rows="2" required placeholder="Ej: Válido para socios nuevos o reactivaciones abonando con débito automático." class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary border-none resize-none"></textarea>
+      </div>
+
+      <!-- Switch Difusión por Email -->
+      <div class="p-3.5 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[20px]">campaign</span>
+            <span class="font-label-md text-label-md font-bold text-on-surface">¿Lanzar por Email Marketing ahora?</span>
+          </div>
+          <input type="checkbox" id="check-difundir-email" onchange="toggleEmailOptions()" class="w-4 h-4 accent-primary cursor-pointer rounded" />
+        </div>
+
+        <!-- Opciones de email -->
+        <div id="bloque-email-options" class="hidden pt-2 border-t border-surface-container space-y-2">
+          <div>
+            <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Audiencia Objetivo</label>
+            <select id="promo-audiencia" class="w-full px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm border-none">
+              <option value="inactivos">Ex-socios e Inactivos (Campaña de Reactivación - 186 contactos)</option>
+              <option value="morosos">Socios en mora (Recupero de cuota - 564 contactos)</option>
+              <option value="activos">Todos los Socios Activos (1.807 contactos)</option>
+            </select>
+          </div>
+          <p class="text-[11px] text-on-surface-variant flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+            El servidor despachará el correo transaccional en segundo plano.
+          </p>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="toggleModalPromo()" class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" id="btn-guardar-promo" class="px-5 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[18px]">check_circle</span>
+          <span>Guardar Promoción</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/oeste_club_planes_y_precios.js' %}"></script>
+<script>
+    // SCRIPT PARA ILUMINAR LA PESTAÑA "PLANES" EN EL MENÚ LATERAL
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeMenu = document.querySelector('aside nav a[data-menu="planes"]');
+        if (activeMenu) {
+            activeMenu.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            activeMenu.classList.add('bg-emerald-50', 'text-emerald-700', 'font-bold');
+            
+            const iconContainer = activeMenu.querySelector('svg') || activeMenu.querySelector('.material-symbols-outlined');
+            if(iconContainer) {
+                iconContainer.classList.remove('text-slate-700');
+                iconContainer.classList.add('text-emerald-600');
+            }
+        }
+    });
+</script>
+{% endblock %}

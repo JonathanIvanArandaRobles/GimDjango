@@ -1,0 +1,752 @@
+{% extends 'base_gerente.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50 w-full">
+  <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+
+    <!-- 1. HEADER DE SECCIÓN FINANZAS CON HAMBURGUESA FIJA -->
+    <div
+      class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+      <div class="space-y-1">
+        <div class="flex items-center gap-3">
+          <h1 class="font-extrabold font-display text-2xl text-slate-900 tracking-tight">Finanzas</h1>
+          <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold tracking-wider uppercase border border-emerald-100">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Sede San Justo
+          </span>
+        </div>
+        <p class="text-xs text-slate-500 font-medium">Control de ingresos, egresos, flujo de caja y balances del club
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Selector de periodicidad en píldora -->
+        <div class="inline-flex p-1 bg-slate-100 rounded-xl" id="period-selector">
+          <button
+            class="period-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all"
+            data-period="diaria" type="button">Diaria</button>
+          <button
+            class="period-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all"
+            data-period="semanal" type="button">Semanal</button>
+          <button
+            class="period-btn px-3 py-1.5 rounded-lg text-xs bg-white text-emerald-700 font-bold shadow-sm transition-all"
+            data-period="mensual" type="button">Mensual</button>
+          <button
+            class="period-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all"
+            data-period="anual" type="button">Anual</button>
+        </div>
+
+        <!-- Selector de rango de fechas -->
+        <div class="relative flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-slate-400 text-[18px]">calendar_today</span>
+          <input
+            class="pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm w-52 text-center"
+            readonly type="text" value="01/05/2025 - 31/05/2025" />
+        </div>
+
+        <!-- Botón Exportar -->
+        <div class="relative">
+          <button
+            class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold transition-all shadow-sm"
+            id="exportBtn" type="button">
+            <span class="material-symbols-outlined text-[18px] text-blue-600">file_download</span>
+            <span>Exportar</span>
+            <span class="material-symbols-outlined text-[16px] text-slate-400">arrow_drop_down</span>
+          </button>
+          <div
+            class="hidden absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg p-1.5 z-20 space-y-0.5"
+            id="exportDropdown">
+            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-700 hover:bg-slate-50 font-medium"
+              href="#">
+              <span class="material-symbols-outlined text-[18px] text-emerald-600">table_view</span> Planilla Excel
+              (.xlsx)
+            </a>
+            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-700 hover:bg-slate-50 font-medium"
+              href="#">
+              <span class="material-symbols-outlined text-[18px] text-rose-600">picture_as_pdf</span> Reporte PDF
+              (.pdf)
+            </a>
+            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-700 hover:bg-slate-50 font-medium"
+              href="#">
+              <span class="material-symbols-outlined text-[18px] text-blue-600">data_object</span> Archivo CSV (.csv)
+            </a>
+          </div>
+        </div>
+
+        <!-- CTA Registrar Gasto -->
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all active:scale-95"
+          id="openExpenseModal" type="button">
+          <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+          <span>+ Registrar Gasto</span>
+        </button>
+
+        <!-- BOTÓN MENÚ HAMBURGUESA FIJO (NUNCA CAMBIA A CRUZ) -->
+        <button id="hamburger-btn"
+          class="flex items-center justify-center w-10 h-10 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 hover:text-slate-900 shadow-sm transition active:scale-95 cursor-pointer shrink-0"
+          type="button" title="Abrir menú lateral">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. CARDS SUPERIORES DE KPIS FINANCIEROS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+      <!-- Card 1: Ingresos -->
+      <div
+        class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ingresos del período</span>
+            <div class="text-2xl font-extrabold font-display text-slate-900 mt-1 tracking-tight">$ 18.450.000</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">payments</span>
+          </div>
+        </div>
+        <div class="space-y-1.5 pt-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100">
+              <span class="material-symbols-outlined text-[14px]">arrow_upward</span> +12.5%
+            </span>
+            <span class="text-xs text-slate-400">vs mes anterior</span>
+          </div>
+          <p class="text-xs text-slate-500 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Cobros recaudados: <strong class="text-slate-800 font-semibold">1.428 transacciones</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2: Egresos -->
+      <div
+        class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Egresos del período</span>
+            <div class="text-2xl font-extrabold font-display text-slate-900 mt-1 tracking-tight">$ 9.230.000</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">trending_down</span>
+          </div>
+        </div>
+        <div class="space-y-1.5 pt-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
+              <span class="material-symbols-outlined text-[14px]">arrow_downward</span> -3.2%
+            </span>
+            <span class="text-xs text-slate-400">optimización de costos</span>
+          </div>
+          <p class="text-xs text-slate-500 flex items-center gap-1.5 truncate">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+            Sueldos, servicios, alquiler y mant.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3: Ganancia Neta -->
+      <div
+        class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ganancia Neta (Margen)</span>
+            <div class="text-2xl font-extrabold font-display text-emerald-600 mt-1 tracking-tight">$ 9.220.000</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+          </div>
+        </div>
+        <div class="space-y-1.5 pt-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100">
+              <span class="material-symbols-outlined text-[14px]">arrow_upward</span> +31.8%
+            </span>
+            <span class="text-xs text-slate-400">margen neto: <strong>49.9%</strong></span>
+          </div>
+          <p class="text-xs text-slate-500 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Balance operativo <span class="text-emerald-600 font-bold">altamente positivo</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 4: Pendiente de Cobro -->
+      <div
+        class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pendiente de Cobro</span>
+            <div class="text-2xl font-extrabold font-display text-slate-900 mt-1 tracking-tight">$ 4.780.000</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">pending_actions</span>
+          </div>
+        </div>
+        <div class="space-y-1.5 pt-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold border border-rose-100">
+              <span class="material-symbols-outlined text-[14px]">priority_high</span> 564 cuotas
+            </span>
+            <span class="text-xs text-slate-400">impagas / vencidas</span>
+          </div>
+          <p class="text-xs text-rose-600 flex items-center gap-1.5 font-medium">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+            Acción requerida: 102 vencen esta semana
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. GESTIÓN DE COBRANZAS Y CUOTAS CRÍTICAS -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[22px] text-rose-600">notification_important</span>
+            <h2 class="font-bold text-base text-slate-900">Gestión de Cobranzas y Cuotas Vencidas</h2>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Progreso de recaudación frente al volumen proyectado y socios con
+            mora prioritaria</p>
+        </div>
+        <div class="w-full md:w-80 bg-slate-50 border border-slate-200/80 p-3 rounded-xl space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-500">Recaudado: <strong class="text-emerald-600">$18.45M</strong></span>
+            <span class="font-bold text-slate-800">79.4% (Meta: $23.23M)</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full" style="width: 79.4%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de cuotas críticas -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr
+              class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200/70">
+              <th class="py-3 px-4 rounded-l-lg">Socio en Mora</th>
+              <th class="py-3 px-4">Plan / Membresía</th>
+              <th class="py-3 px-4">Monto Adeudado</th>
+              <th class="py-3 px-4">Antigüedad Vencimiento</th>
+              <th class="py-3 px-4">Último Aviso</th>
+              <th class="py-3 px-4 text-right rounded-r-lg">Acción Rápida</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-3 px-4">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs border border-emerald-100">
+                    JP</div>
+                  <div class="flex flex-col">
+                    <span class="font-bold text-slate-900">Juan Carlos Pérez</span>
+                    <span class="text-[11px] text-slate-400">Socio #1842 - Sede Central</span>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3 px-4">Pase Libre Musculación</td>
+              <td class="py-3 px-4 font-bold text-rose-600">$ 28.000</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-rose-50 text-rose-700 font-bold border border-rose-100">Hace
+                  14 días</span>
+              </td>
+              <td class="py-3 px-4 text-slate-400">SMS automático (20/05)</td>
+              <td class="py-3 px-4 text-right">
+                <button
+                  class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 inline-flex items-center gap-1 shadow-sm"
+                  type="button">
+                  <span class="material-symbols-outlined text-[15px]">chat</span> WhatsApp
+                </button>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-3 px-4">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs border border-blue-100">
+                    MP</div>
+                  <div class="flex flex-col">
+                    <span class="font-bold text-slate-900">Martín Palermo</span>
+                    <span class="text-[11px] text-slate-400">Socio #0921 - Sede San Justo</span>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3 px-4">CrossFit Elite + Spa</td>
+              <td class="py-3 px-4 font-bold text-rose-600">$ 34.000</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-rose-50 text-rose-700 font-bold border border-rose-100">Hace
+                  22 días</span>
+              </td>
+              <td class="py-3 px-4 text-slate-400">Email recordatorio (14/05)</td>
+              <td class="py-3 px-4 text-right">
+                <button
+                  class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 inline-flex items-center gap-1 shadow-sm"
+                  type="button">
+                  <span class="material-symbols-outlined text-[15px]">chat</span> WhatsApp
+                </button>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-3 px-4">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-xs border border-purple-100">
+                    LA</div>
+                  <div class="flex flex-col">
+                    <span class="font-bold text-slate-900">Luciana Aymar</span>
+                    <span class="text-[11px] text-slate-400">Socio #2104 - Sede San Justo</span>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3 px-4">Plan Integral Natación &amp; Gym</td>
+              <td class="py-3 px-4 font-bold text-rose-600">$ 38.500</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-amber-50 text-amber-700 font-bold border border-amber-100">Hace
+                  8 días</span>
+              </td>
+              <td class="py-3 px-4 text-slate-400">Notificación Push App (24/05)</td>
+              <td class="py-3 px-4 text-right">
+                <button
+                  class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 inline-flex items-center gap-1 shadow-sm"
+                  type="button">
+                  <span class="material-symbols-outlined text-[15px]">chat</span> WhatsApp
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. BLOQUE TRANSACCIONAL: UNO DEBAJO DEL OTRO (EGRESOS PRIMERO, INGRESOS DESPUÉS) -->
+    <div class="flex flex-col gap-6">
+
+      <!-- ========================================== -->
+      <!-- PANEL 1 (ARRIBA): REGISTRO DE GASTOS (EGRESOS) -->
+      <!-- ========================================== -->
+      <div
+        class="w-full bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+
+        <!-- Fila Única: Título a la izquierda, Filtros al medio y Botón a la derecha -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-1">
+
+          <!-- Título y subtítulo -->
+          <div class="flex items-center gap-3 shrink-0">
+            <div
+              class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100 shadow-sm">
+              <span class="material-symbols-outlined text-[22px]">north_east</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-base text-slate-900 leading-tight">Registro de Gastos (Egresos)</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Sueldos, alquileres, servicios y otros</p>
+            </div>
+          </div>
+
+          <!-- Chips de Filtrado y Botón Nuevo Gasto alineados -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Chips de Filtrado por Categoría -->
+            <div class="flex items-center gap-1.5 overflow-x-auto py-1" id="expense-category-filter">
+              <button
+                class="expense-filter-btn px-3 py-1 rounded-lg bg-rose-50 text-rose-700 text-xs font-bold border border-rose-100 transition-all shrink-0"
+                data-cat="all" type="button">Todos</button>
+              <button
+                class="expense-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+                data-cat="sueldos" type="button">Sueldos Staff</button>
+              <button
+                class="expense-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+                data-cat="servicios" type="button">Servicios</button>
+              <button
+                class="expense-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+                data-cat="alquiler" type="button">Alquiler</button>
+              <button
+                class="expense-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+                data-cat="mantenimiento" type="button">Mantenimiento</button>
+            </div>
+
+            <!-- Botón Nuevo Gasto -->
+            <button
+              class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all border border-slate-200 shadow-sm shrink-0 active:scale-95"
+              id="openExpenseModal2" type="button">
+              <span class="material-symbols-outlined text-[16px] text-rose-600">add</span>
+              <span>Nuevo Gasto</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Tabla de Gastos Recientes -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse" id="table-expenses">
+            <thead>
+              <tr
+                class="bg-blue-50/40 text-slate-500 font-bold uppercase tracking-wider text-[10px] border-y border-slate-100">
+                <th class="py-3 px-3.5 rounded-l-lg">Categoría</th>
+                <th class="py-3 px-3">Descripción</th>
+                <th class="py-3 px-3">Fecha</th>
+                <th class="py-3 px-3">Destinatario</th>
+                <th class="py-3 px-3 text-right">Monto</th>
+                <th class="py-3 px-3 text-center rounded-r-lg">Comp.</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tr class="hover:bg-slate-50/70 transition-colors" data-cat-item="sueldos">
+                <td class="py-3 px-3.5">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-100">
+                    Sueldos Staff
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-semibold text-slate-800 truncate max-w-[240px]"
+                  title="Honorarios Profesores Turno Tarde">Honorarios Profes...</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">30/05/2025</td>
+                <td class="py-3 px-3 text-slate-600 truncate max-w-[140px]">Staff Profesores</td>
+                <td class="py-3 px-3 font-black font-mono text-right text-rose-600">-$ 3.450.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-slate-700 transition-colors" title="Ver comprobante"
+                    type="button">
+                    <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-cat-item="alquiler">
+                <td class="py-3 px-3.5">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-cyan-50 text-cyan-700 font-bold text-[11px] border border-cyan-100">
+                    Alquiler Sede
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-semibold text-slate-800 truncate max-w-[240px]"
+                  title="Alquiler Predio Av. de Mayo San Justo">Alquiler Predio Av. ...</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">28/05/2025</td>
+                <td class="py-3 px-3 text-slate-600 truncate max-w-[140px]">Inmobiliaria Oe...</td>
+                <td class="py-3 px-3 font-black font-mono text-right text-rose-600">-$ 2.800.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-slate-700 transition-colors" title="Ver comprobante"
+                    type="button">
+                    <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-cat-item="servicios">
+                <td class="py-3 px-3.5">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 font-bold text-[11px] border border-rose-100">
+                    Servicios Luz
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-semibold text-slate-800 truncate max-w-[240px]"
+                  title="Factura Edenor Mayo Sede San Justo">Factura Edenor Ma...</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">25/05/2025</td>
+                <td class="py-3 px-3 text-slate-600 truncate max-w-[140px]">Edenor S.A.</td>
+                <td class="py-3 px-3 font-black font-mono text-right text-rose-600">-$ 480.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-slate-700 transition-colors" title="Ver factura"
+                    type="button">
+                    <span class="material-symbols-outlined text-[18px]">description</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-cat-item="mantenimiento">
+                <td class="py-3 px-3.5">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-100">
+                    Mantenimiento
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-semibold text-slate-800 truncate max-w-[240px]"
+                  title="Service Poleas y Cintas Musculación">Service Cintas &amp; Po...</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">22/05/2025</td>
+                <td class="py-3 px-3 text-slate-600 truncate max-w-[140px]">Fitness Tech SRL</td>
+                <td class="py-3 px-3 font-black font-mono text-right text-rose-600">-$ 320.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-slate-700 transition-colors" title="Ver factura"
+                    type="button">
+                    <span class="material-symbols-outlined text-[18px]">description</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>Mostrando 4 egresos principales</span>
+          <a href="#table-expenses" class="text-blue-600 font-bold hover:underline">Libro de gastos diario &rarr;</a>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- PANEL 2 (ABAJO): PAGOS RECIENTES (INGRESOS) -->
+      <!-- ========================================== -->
+      <div
+        class="w-full bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-sm">
+              <span class="material-symbols-outlined text-[22px]">south_west</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-base text-slate-900 leading-tight">Pagos Recientes (Ingresos)</h3>
+              <p class="text-xs text-slate-400 mt-0.5">1.428 transacciones conciliadas</p>
+            </div>
+          </div>
+
+          <!-- Filtros de método de pago -->
+          <div class="flex items-center gap-1.5 overflow-x-auto py-1" id="income-method-filter">
+            <button
+              class="income-filter-btn px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100 transition-all shrink-0"
+              data-method="all" type="button">Todos</button>
+            <button
+              class="income-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+              data-method="efectivo" type="button">Efectivo</button>
+            <button
+              class="income-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+              data-method="mp" type="button">Mercado Pago</button>
+            <button
+              class="income-filter-btn px-3 py-1 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 text-xs font-medium border border-slate-200/70 transition-all shrink-0"
+              data-method="debito" type="button">Débito</button>
+          </div>
+        </div>
+
+        <!-- Tabla de Ingresos Recientes -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse" id="table-incomes">
+            <thead>
+              <tr
+                class="bg-blue-50/40 text-slate-500 font-bold uppercase tracking-wider text-[10px] border-y border-slate-100">
+                <th class="py-3 px-3.5 rounded-l-lg">Socio</th>
+                <th class="py-3 px-3">Concepto</th>
+                <th class="py-3 px-3">Fecha &amp; Hora</th>
+                <th class="py-3 px-3">Método</th>
+                <th class="py-3 px-3 text-right">Monto</th>
+                <th class="py-3 px-3 text-center rounded-r-lg">Recibo</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tr class="hover:bg-slate-50/70 transition-colors" data-method-item="debito">
+                <td class="py-3 px-3.5">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">
+                      FG</div>
+                    <span class="font-bold text-slate-900">Facundo Gómez</span>
+                  </div>
+                </td>
+                <td class="py-3 px-3 truncate max-w-[220px]">Pase Libre Full - Mayo</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">31/05 11:42 hs</td>
+                <td class="py-3 px-3">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px]">
+                    <span class="material-symbols-outlined text-[13px]">credit_card</span> Visa Déb.
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-black font-mono text-right text-emerald-600">+$ 28.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-emerald-600 transition-colors"
+                    title="Descargar comprobante" type="button">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-method-item="mp">
+                <td class="py-3 px-3.5">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">
+                      CR</div>
+                    <span class="font-bold text-slate-900">Camila Romero</span>
+                  </div>
+                </td>
+                <td class="py-3 px-3 truncate max-w-[220px]">CrossFit Elite</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">31/05 10:15 hs</td>
+                <td class="py-3 px-3">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-700 font-bold text-[11px]">
+                    <span class="material-symbols-outlined text-[13px]">qr_code_2</span> MP QR
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-black font-mono text-right text-emerald-600">+$ 35.500</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-emerald-600 transition-colors"
+                    title="Descargar comprobante" type="button">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-method-item="efectivo">
+                <td class="py-3 px-3.5">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">
+                      MA</div>
+                    <span class="font-bold text-slate-900">Mariano Álvarez</span>
+                  </div>
+                </td>
+                <td class="py-3 px-3 truncate max-w-[220px]">Matrícula Anual 2025</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">31/05 09:30 hs</td>
+                <td class="py-3 px-3">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[11px]">
+                    <span class="material-symbols-outlined text-[13px]">payments</span> Efectivo
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-black font-mono text-right text-emerald-600">+$ 15.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-emerald-600 transition-colors"
+                    title="Descargar comprobante" type="button">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                  </button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/70 transition-colors" data-method-item="debito">
+                <td class="py-3 px-3.5">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">
+                      VT</div>
+                    <span class="font-bold text-slate-900">Valeria Torres</span>
+                  </div>
+                </td>
+                <td class="py-3 px-3 truncate max-w-[220px]">Plan Natación Clásica</td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-[11px]">30/05 19:40 hs</td>
+                <td class="py-3 px-3">
+                  <span
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px]">
+                    <span class="material-symbols-outlined text-[13px]">credit_card</span> Débito Aut.
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-black font-mono text-right text-emerald-600">+$ 31.000</td>
+                <td class="py-3 px-3 text-center">
+                  <button class="text-slate-400 hover:text-emerald-600 transition-colors"
+                    title="Descargar comprobante" type="button">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>Mostrando 4 de 1.428 transacciones</span>
+          <a href="#table-incomes" class="text-emerald-700 font-bold hover:underline">Ver libro de ingresos completo
+            &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 5. MODAL INTERACTIVO: REGISTRAR GASTO -->
+    <div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
+      id="expenseModal">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
+        <div class="p-5 bg-slate-50 flex items-center justify-between border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-slate-900">Registrar Nuevo Gasto</h3>
+              <p class="text-xs text-slate-400">Ingresa los datos del egreso operativo</p>
+            </div>
+          </div>
+          <button
+            class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 hover:text-slate-700 transition"
+            id="closeExpenseModal" type="button">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <form class="p-6 space-y-4 text-xs" id="expenseForm">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1.5">Categoría de Gasto *</label>
+            <select
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              required>
+              <option value="">Seleccione una categoría...</option>
+              <option value="sueldos">Sueldos y Honorarios Staff</option>
+              <option value="servicios">Servicios (Luz, Gas, Agua, Internet)</option>
+              <option value="alquiler">Alquiler de Instalaciones</option>
+              <option value="mantenimiento">Mantenimiento de Máquinas / Edificio</option>
+              <option value="equipamiento">Compra de Equipamiento</option>
+              <option value="otros">Otros Gastos Operativos</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1.5">Concepto o Detalle *</label>
+            <input
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              placeholder="Ej: Factura Edenor Mayo Sede San Justo" required type="text" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1.5">Monto en ARS ($) *</label>
+              <input
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                placeholder="0.00" required type="number" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1.5">Fecha de Pago *</label>
+              <input
+                class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                required type="date" value="2025-05-31" />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+            <button class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold transition"
+              id="cancelExpenseModal" type="button">
+              Cancelar
+            </button>
+            <button
+              class="px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-sm transition active:scale-95 flex items-center gap-1.5"
+              type="submit">
+              <span class="material-symbols-outlined text-[18px]">check</span>
+              <span>Guardar Gasto</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- JS Específico de esta vista (Filtros, Modal, Exportar) -->
+<script src="{% static 'js/oeste_club_finanzas.js' %}"></script>
+
+<script>
+    // SCRIPT PARA ILUMINAR LA PESTAÑA "FINANZAS" EN EL MENÚ LATERAL
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeMenu = document.querySelector('aside nav a[data-menu="finanzas"]');
+        if (activeMenu) {
+            activeMenu.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            activeMenu.classList.add('bg-emerald-50', 'text-emerald-700', 'font-bold');
+            
+            const iconContainer = activeMenu.querySelector('svg');
+            if(iconContainer) {
+                iconContainer.classList.remove('text-slate-700');
+                iconContainer.classList.add('text-emerald-600');
+            }
+        }
+    });
+</script>
+{% endblock %}

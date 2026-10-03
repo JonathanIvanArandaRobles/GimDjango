@@ -1,0 +1,1133 @@
+ /* ─────────── 1. HERO DE CONTACTO  ─────────── */
+ .hero-clean.hero-layout-bottom-cards {
+     height: 100vh;
+     min-height: 650px;
+     max-height: 100vh;
+     background-color: #06080B;
+     background-image:
+         radial-gradient(circle 520px at 75% 45%, rgba(0, 210, 255, 0.16) 0%, transparent 65%),
+         radial-gradient(circle 440px at 72% 52%, rgba(139, 195, 74, 0.14) 0%, transparent 60%),
+         radial-gradient(circle 480px at 22% 38%, rgba(0, 210, 255, 0.14) 0%, transparent 70%),
+         radial-gradient(ellipse 550px 400px at 15% 65%, rgba(139, 195, 74, 0.12) 0%, transparent 65%);
+     position: relative;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     padding-top: 80px;
+     padding-bottom: 20px;
+ }
+
+ .hero-main-container {
+     width: 100%;
+     max-width: 1380px;
+     height: 100%;
+     margin: 0 auto;
+     padding: 0 32px;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     position: relative;
+     z-index: 2;
+ }
+
+ .hero-top-row {
+     display: grid;
+     grid-template-columns: 1.15fr 0.85fr;
+     align-items: center;
+     gap: 20px;
+     flex: 1;
+ }
+
+ .hero-text-block {
+     max-width: 580px;
+     margin-top: -35px;
+     position: relative;
+     z-index: 3;
+ }
+
+ .hero-tag {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-weight: 700;
+     font-size: 15px;
+     letter-spacing: 0.16em;
+     text-transform: uppercase;
+     color: var(--green-primary, #8bc34a);
+     display: block;
+     margin-bottom: 12px;
+ }
+
+ .hero-heading {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(3.2rem, 5vw, 5.2rem);
+     line-height: 0.88;
+     letter-spacing: 1.5px;
+     color: #FFFFFF;
+     text-transform: uppercase;
+     margin-bottom: 12px;
+ }
+
+ .hero-heading .green-accent {
+     color: var(--green-primary, #8bc34a);
+ }
+
+ .hero-divider {
+     width: 50px;
+     height: 3px;
+     background: var(--green-primary, #8bc34a);
+     border-radius: 4px;
+     margin-bottom: 18px;
+ }
+
+ .hero-paragraph {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 20px;
+     font-weight: 400;
+     color: rgba(255, 255, 255, 0.75);
+     line-height: 1.5;
+     margin-bottom: 56px;
+     text-align: left;
+ }
+
+ .hero-actions {
+     display: flex;
+     align-items: center;
+     gap: 36px;
+     flex-wrap: nowrap;
+ }
+
+ .hero-actions .btn-primary,
+ .hero-actions .btn-outline {
+     white-space: nowrap;
+     padding: 11px 24px;
+     font-size: 18px;
+ }
+
+ .hero-visual-block {
+     position: relative;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100%;
+     margin-right: 160px;
+     margin-bottom: 15px;
+ }
+
+ .hero-visual-block:hover .hero-model-glow {
+     opacity: 1;
+     transform: translate(-50%, -50%) scale(1.05);
+ }
+
+ .hero-athlete-portrait {
+     position: relative;
+     z-index: 2;
+     height: clamp(430px, 52vh, 520px);
+     width: auto;
+     max-width: 100%;
+
+     /* Agregá esta línea para empujar la imagen a la izquierda */
+     left: -50px;
+     /* Podés aumentar a -80px o -100px si querés moverla más */
+
+     object-fit: contain;
+     display: block;
+     filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
+     -webkit-mask-image:
+         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+         linear-gradient(to bottom, black 80%, transparent 100%);
+     mask-image:
+         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+         linear-gradient(to bottom, black 80%, transparent 100%);
+     -webkit-mask-composite: source-in;
+     mask-composite: intersect;
+     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+     top: 20px; /* Ajustá este valor (ej: 30px, 60px) para bajar más o menos la imagen */
+ }
+
+ .hero-model-glow {
+     display: block;
+     position: absolute;
+     width: 420px;
+     height: 480px;
+     top: calc(50% + 20px); /* Reemplazá "top: 50%;" por este cálculo */
+
+     /* Reemplazá el left: 50% por este cálculo exacto (restando lo mismo que moviste la imagen) */
+     left: calc(50% - 50px);
+
+     transform: translate(-50%, -50%);
+     background: radial-gradient(circle at 50% 45%, rgba(0, 210, 255, 0.28) 0%, rgba(139, 195, 74, 0.22) 45%, transparent 75%);
+     filter: blur(70px);
+     opacity: 0.85;
+     border-radius: 50%;
+     z-index: 1;
+     pointer-events: none;
+     transition: opacity 0.4s ease, transform 0.4s ease;
+ }
+
+ .hero-visual-block:hover .hero-athlete-portrait {
+     transform: scale(1.015);
+ }
+
+ .hero-vlexora-row {
+     display: grid;
+     grid-template-columns: repeat(3, auto);
+     justify-content: space-between;
+     gap: 80px;
+     width: 100%;
+     border-top: none;
+     align-items: flex-start;
+     padding-top: 10px;
+     padding-bottom: 12px;
+ }
+
+ .vlexora-item {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     text-align: left;
+     cursor: default;
+     position: relative;
+ }
+
+ .vlexora-title {
+     font-family: 'Anton', sans-serif;
+     font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+     color: #FFFFFF;
+     line-height: 1;
+     letter-spacing: 0.03em;
+     text-transform: uppercase;
+     text-shadow: 2px 2px 0px var(--green-primary, #8bc34a);
+     margin-bottom: 6px;
+     text-align: left;
+     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+     will-change: transform;
+ }
+
+ .vlexora-accent-line {
+     width: 100%;
+     height: 1.5px;
+     background: rgba(255, 255, 255, 0.08);
+     position: relative;
+     margin-bottom: 8px;
+     overflow: hidden;
+ }
+
+ .vlexora-accent-line::after {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     height: 100%;
+     width: 50%;
+     background: var(--green-primary, #8bc34a);
+     box-shadow: 0 0 10px rgba(139, 195, 74, 0.5);
+     transform: scaleX(0);
+     transform-origin: left;
+     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .vlexora-desc {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 13px;
+     font-weight: 500;
+     color: rgba(255, 255, 255, 0.82);
+     line-height: 1.35;
+     text-align: left;
+     transition: color 0.3s ease;
+ }
+
+ .vlexora-item:hover .vlexora-title {
+     transform: translateX(3px);
+ }
+
+ .vlexora-item:hover .vlexora-accent-line::after {
+     transform: scaleX(1);
+ }
+
+ .vlexora-item:hover .vlexora-desc {
+     color: #FFFFFF;
+ }
+
+ @media (max-width: 991px) {
+     .hero-clean.hero-layout-bottom-cards {
+         height: auto;
+         max-height: none;
+         padding-top: 100px;
+         padding-bottom: 40px;
+     }
+
+     .hero-top-row {
+         grid-template-columns: 1fr;
+         text-align: center;
+     }
+
+     .hero-text-block {
+         margin: 0 auto;
+     }
+
+     .hero-divider {
+         margin: 0 auto 14px;
+     }
+
+     .hero-paragraph {
+         text-align: center;
+     }
+
+     .hero-actions {
+         justify-content: center;
+         flex-wrap: wrap;
+     }
+
+     .hero-visual-block {
+         margin-right: 0;
+         justify-content: center;
+     }
+
+     .hero-athlete-portrait {
+         height: 320px;
+     }
+
+     .hero-vlexora-row {
+         grid-template-columns: 1fr;
+         gap: 20px;
+         text-align: center;
+     }
+
+     .vlexora-item {
+         align-items: center;
+     }
+
+     .vlexora-desc {
+         text-align: center;
+     }
+
+     .vlexora-accent-line {
+         display: none;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─── NUESTRA MISIÓN ─── */
+ .about-home {
+     background: #0D1117;
+     height: calc(100vh - 80px);
+     min-height: 640px;
+     max-height: 100vh;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 0;
+     position: relative;
+     box-sizing: border-box;
+     overflow: hidden;
+ }
+
+ .about-home .container {
+     width: 100%;
+     max-width: 1240px;
+     margin: 0 auto;
+     padding: 0 24px;
+ }
+
+ /* Grid equilibrado: 0.8fr a la imagen vertical y 1.2fr al texto */
+ .about-grid {
+     display: grid;
+     grid-template-columns: 0.80fr 1.2fr;
+     gap: 60px;
+     align-items: start;
+     /* Inicia el texto arriba a la par de la imagen */
+     margin-top: -30px;
+     /* Sube todo el contenido de la sección hacia arriba */
+ }
+
+ /* ─── CONTENEDOR DE LA IMAGEN (SIN BORDE DE VIDRIO) ─── */
+ .about-gallery-wrapper {
+     position: relative;
+     border-radius: 22px;
+     overflow: hidden;
+
+     /* Quitamos el borde cyan y dejamos una sombra oscura clásica */
+     border: none;
+     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+     background-color: #06080B;
+
+     width: fit-content;
+     height: fit-content;
+     max-width: 100%;
+     margin: 0 auto;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     line-height: 0;
+     cursor: pointer;
+     will-change: transform;
+     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+         box-shadow 0.35s ease !important;
+ }
+
+ /* Efecto hover limpio, solo se agranda y acentúa la sombra negra */
+ .about-gallery-wrapper:hover {
+     transform: scale(1.04) !important;
+     /* Agregamos el brillo Cyan y mantenemos una sombra oscura de fondo para darle profundidad */
+     box-shadow: 0 0 45px var(--cyan-glow), 0 15px 35px rgba(0, 0, 0, 0.8) !important;
+     z-index: 20;
+ }
+
+ /* ─── IMAGEN PRINCIPAL ─── */
+ .about-slider-img {
+     display: block;
+     height: clamp(480px, 80vh, 750px);
+     width: auto;
+     max-width: 100%;
+     object-fit: contain;
+ }
+
+ /* ─── CONTENEDOR DE PUNTITOS ─── */
+ .about-slider-dots {
+     position: absolute;
+     bottom: 14px;
+     left: 50%;
+     transform: translateX(-50%);
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     z-index: 15;
+     /* Prioridad alta para que el Javascript no lo tape al hacer crossfade */
+     background: rgba(10, 10, 10, 0.7);
+     padding: 6px 14px;
+     border-radius: 20px;
+     backdrop-filter: blur(8px);
+ }
+
+ /* ─── FORMA Y COLOR DE LOS PUNTITOS (Esto es lo que faltaba) ─── */
+ .about-dot {
+     width: 8px;
+     height: 8px;
+     border-radius: 50%;
+     background: rgba(255, 255, 255, 0.4);
+     cursor: pointer;
+     transition: all 0.3s ease;
+     display: inline-block;
+ }
+
+ .about-dot.active {
+     width: 22px;
+     border-radius: 6px;
+     background: var(--green-hover);
+     box-shadow: 0 0 12px var(--green-hover);
+ }
+
+ /* Textos de la derecha */
+ /* Entre el título blanco y el primer párrafo */
+ .about-text-header {
+     text-align: left;
+     margin-bottom: 28px;
+     /* Aumenta el espacio hacia los párrafos */
+ }
+
+ /* Entre el tag verde y el título blanco */
+ .about-text-header .label-green {
+     display: block;
+     margin-bottom: 12px;
+     /* Aumenta la separación hacia el título blanco */
+ }
+
+ .about-text-header .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+     color: #FFFFFF;
+     line-height: 1.05;
+ }
+
+ /* Interlineado del texto y separación entre párrafos */
+ .about-text-block p {
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.85);
+     line-height: 1.75;
+     /* Interlineado de lectura más amplio (antes: 1.65) */
+     margin-bottom: 20px;
+     /* Separación entre cada párrafo (antes: 16px) */
+     text-align: justify;
+ }
+
+ /* Separación entre los párrafos y el botón */
+ .about-cta {
+     margin-top: 32px;
+     /* Espacio hacia el botón (antes: 24px) */
+ }
+
+ /* Efecto exclusivo: se eleva 4px verticalmente sin agrandarse */
+ .about-cta .btn-lift:hover,
+ .btn-lift:hover {
+     transform: translateY(-12px) scale(1) !important;
+     box-shadow: 0 0 25px rgba(156, 204, 101, 0.8) !important;
+ }
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── 5. DÓNDE ESTAMOS / MAPA (COMPACTO & ALINEADO) ─────────── */
+ .find-us-section {
+     background: #0A0A0A;
+     padding: 40px 0;
+     /* Padding reducido para ganar espacio vertical */
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+     min-height: 100vh;
+ }
+
+ .find-us-grid {
+     display: grid;
+     grid-template-columns: 1.1fr 1fr;
+     gap: 32px;
+     align-items: stretch;
+ }
+
+ .find-us-info {
+     display: flex;
+     flex-direction: column;
+     gap: 24px;
+ }
+
+ .find-us-title {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(2rem, 3.5vw, 3rem);
+     color: #FFFFFF;
+     line-height: 0.95;
+     margin-bottom: 4px;
+ }
+
+ .location-details {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+     display: flex;
+     flex-direction: column;
+     gap: 18px;
+ }
+
+ .location-details li {
+     display: flex;
+     align-items: center;
+     /* Centrado vertical entre ícono y texto */
+     gap: 12px;
+ }
+
+ .loc-icon {
+     width: 38px;
+     height: 38px;
+     background: rgba(139, 195, 74, 0.1);
+     border: 1px solid rgba(139, 195, 74, 0.3);
+     border-radius: 8px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: var(--green-primary);
+     font-size: 18px;
+     flex-shrink: 0;
+ }
+
+ .location-details strong {
+     display: block;
+     font-size: 14px;
+     color: #FFFFFF;
+     margin-bottom: 0px;
+ }
+
+ .location-details p a {
+     font-size: 13px;
+     color: rgba(255, 255, 255, 0.7);
+     transition: color 0.3s ease;
+ }
+
+ .location-details p a:hover {
+     color: var(--green-hover);
+ }
+
+ /* Tarjeta de Horarios Compacta */
+ .hours-card {
+     background: #0D1117;
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     border-radius: 12px;
+     padding: 14px 20px;
+     margin: 6px 0 0 0;
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+
+ .hours-card:hover {
+     transform: translateY(-2px);
+     border-color: var(--cyan-glow);
+     /* Cambiado de green a cyan */
+     box-shadow: 0 0 20px rgba(0, 210, 255, 0.35);
+     /* Sombra cyan */
+ }
+
+ .hours-label {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 11px;
+     font-weight: 700;
+     letter-spacing: 0.1em;
+     color: var(--green-primary);
+ }
+
+ .hours-row {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     font-size: 13px;
+     border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+     padding-bottom: 10px;
+ }
+
+ .hours-row:last-child {
+     border-bottom: none;
+     padding-bottom: 0;
+ }
+
+ .hours-row span {
+     font-family: 'Hanken Grotesk', sans-serif;
+     color: rgba(255, 255, 255, 0.65);
+     font-size: 13px;
+ }
+
+ .hours-row strong {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 13.5px;
+     font-weight: 700;
+     color: #FFFFFF;
+     letter-spacing: 0.05em;
+ }
+
+ /* Mapa Ajustado en Altura */
+ .find-us-map-wrapper {
+     width: 100%;
+     height: 100%;
+     position: relative;
+ }
+
+ .map-frame {
+     width: 100%;
+     height: 100%;
+     min-height: 350px;
+     border-radius: 20px;
+     overflow: hidden;
+     border: 2px solid var(--cyan-primary);
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+ }
+
+ .map-frame:hover {
+     transform: scale(1.01);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 0 25px var(--cyan-glow);
+ }
+
+ .map-frame iframe {
+     width: 100%;
+     height: 100%;
+     min-height: 350px;
+     border: 0;
+     display: block;
+     /* Agregamos grayscale(100%) al final de los filtros actuales */
+     filter: invert(90%) hue-rotate(180deg) contrast(110%) grayscale(100%);
+     transition: filter 0.4s ease;
+ }
+
+ /* Nueva regla: Quita la escala de grises al poner el mouse encima */
+ .map-frame:hover iframe {
+     filter: invert(90%) hue-rotate(180deg) contrast(110%) grayscale(0%);
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── 6. FORMULARIO REDISEÑADO EN 2 COLUMNAS ─────────── */
+ .contact-section {
+     background: #0D1117;
+     min-height: 100vh;
+     /* Fuerza a ocupar toda la pantalla */
+     display: flex;
+     align-items: flex-start;
+     /* Centra la tarjeta en el medio vertical */
+     padding-top: 40px;
+     /* Compensación para que la navbar fija no lo tape */
+     padding-bottom: 20px;
+     box-sizing: border-box;
+ }
+
+ .contact-section .container {
+     width: 100%;
+     /* ¡Esta es la línea clave que obliga a la caja a expandirse! */
+     max-width: 1500px;
+     /* Sube este número a 1600px o pon 100% si lo quieres de punta a punta */
+ }
+
+ /* Tarjeta Principal Dividida */
+ .contact-split-card {
+     background: rgba(255, 255, 255, 0.03);
+     backdrop-filter: blur(12px);
+     -webkit-backdrop-filter: blur(12px);
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     border-radius: 24px;
+     padding: 36px 40px;
+     display: grid;
+     grid-template-columns: 0.85fr 1.15fr;
+     /* 42% Izquierda / 58% Derecha */
+     gap: 48px;
+     align-items: stretch;
+     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+ }
+
+ /* --- COLUMNA IZQUIERDA --- */
+ .contact-info-col {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .contact-main-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2.2rem, 3.5vw, 3rem);
+     color: #FFFFFF;
+     line-height: 1;
+     margin: 6px 0 10px;
+ }
+
+ .contact-subtitle-transform {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(1.4rem, 2vw, 1.8rem);
+     color: var(--green-primary, #8bc34a);
+     letter-spacing: 1px;
+     margin-bottom: 14px;
+ }
+
+ .contact-desc-text {
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.8);
+     line-height: 1.5;
+     margin-bottom: 24px;
+     text-align: left;
+ }
+
+ /* Lista de Beneficios */
+ .contact-benefits-list {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+ }
+
+ .contact-benefits-list li {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     font-size: 14.5px;
+     color: rgba(255, 255, 255, 0.9);
+ }
+
+ .contact-benefits-list i {
+     color: var(--green-hover, #8bc34a);
+     font-size: 22px;
+     flex-shrink: 0;
+ }
+
+ /* --- COLUMNA DERECHA (FORMULARIO) --- */
+ .form-split-layout {
+     display: flex;
+     flex-direction: column;
+     gap: 16px;
+ }
+
+ /* Grid de 3 columnas (Nombre, Apellido, Celular) */
+ .form-row-3 {
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr;
+     gap: 14px;
+ }
+
+ /* Grid de 2 columnas (Email, Consulta) */
+ .form-row-2 {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 14px;
+ }
+
+ .form-group {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .form-group label {
+     display: block;
+     font-size: 11px;
+     font-weight: 700;
+     text-transform: uppercase;
+     letter-spacing: 0.06em;
+     color: rgba(255, 255, 255, 0.6);
+     margin-bottom: 4px;
+ }
+
+ .form-group label .req {
+     color: var(--green-primary, #8bc34a);
+ }
+
+ .form-group label .opt {
+     color: rgba(255, 255, 255, 0.35);
+     font-weight: 400;
+ }
+
+ .form-group input,
+ .form-group select,
+ .form-group textarea {
+     width: 100%;
+     padding: 10px 14px;
+     background: rgba(255, 255, 255, 0.05);
+     border: 1px solid rgba(255, 255, 255, 0.12);
+     border-radius: 8px;
+     color: #FFFFFF;
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 14px;
+     outline: none;
+     transition: all 0.3s ease;
+ }
+
+ .form-group input:focus,
+ .form-group select:focus,
+ .form-group textarea:focus {
+     border-color: var(--green-primary, #8bc34a);
+     box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.15);
+ }
+
+ .form-group select option {
+     background: #0D1117;
+     color: #FFFFFF;
+ }
+
+ .form-group textarea {
+     resize: none;
+     height: 90px;
+ }
+
+ /* Fila Unificada Turnstile + Checkbox */
+ .captcha-privacy-row {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     gap: 16px;
+     flex-wrap: wrap;
+     margin-top: 2px;
+ }
+
+ .form-checkbox {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+ }
+
+ .form-checkbox input[type="checkbox"] {
+     accent-color: var(--green-primary, #8bc34a);
+     width: 16px;
+     height: 16px;
+     cursor: pointer;
+ }
+
+ .form-checkbox label {
+     font-size: 12.5px;
+     color: rgba(255, 255, 255, 0.6);
+     cursor: pointer;
+ }
+
+ .form-checkbox label a {
+     color: var(--green-primary, #8bc34a);
+ }
+
+ .btn-submit-mail {
+     width: 100%;
+     background: var(--green-primary, #8bc34a);
+     color: #0A0A0A;
+     font-family: 'Anton', sans-serif;
+     font-size: 19px;
+     text-transform: uppercase;
+     letter-spacing: 0.05em;
+     padding: 14px 24px;
+     border: none;
+     border-radius: 8px;
+     cursor: pointer;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     gap: 10px;
+     transition: all 0.3s ease;
+     box-shadow: 0 4px 15px rgba(139, 195, 74, 0.25);
+ }
+
+ .btn-submit-mail:hover {
+     background: var(--green-hover, #A0F03C);
+     transform: translateY(-2px);
+     box-shadow: 0 0 20px rgba(156, 204, 101, 0.5);
+ }
+
+ /* Adapta la distribución para Tablets y Mobile */
+ @media (max-width: 1024px) {
+     .contact-split-card {
+         grid-template-columns: 1fr;
+         gap: 36px;
+         padding: 32px 24px;
+     }
+ }
+
+ @media (max-width: 640px) {
+
+     .form-row-3,
+     .form-row-2 {
+         grid-template-columns: 1fr;
+         gap: 14px;
+     }
+
+     .captcha-privacy-row {
+         flex-direction: column;
+         align-items: flex-start;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── 7. PREGUNTAS FRECUENTES (ACORDEÓN MODO DARK) ─────────── */
+ .faq-section {
+     background: #0A0A0A;
+     /* 1. Generamos espacio arriba (antes estaba en 10px) para separarlo de la sección anterior */
+     padding-top: 30px;
+     padding-bottom: 60px;
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+ }
+
+ .center-label {
+     display: block;
+     text-align: center;
+     /* 2. Reducimos el espacio entre la etiqueta verde y el título blanco al mínimo */
+     margin-bottom: -10px;
+ }
+
+ .faq-section .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2rem, 3.5vw, 3rem);
+     color: #FFFFFF;
+     text-align: center;
+     margin-top: 0px;
+     /* 3. Reducimos el espacio entre el título blanco y la grilla de preguntas (antes 40px) */
+     margin-bottom: 0px;
+ }
+
+ /* Grilla de 2 Columnas */
+ .faq-accordion-grid {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 20px 32px;
+     align-items: start;
+ }
+
+ .faq-column {
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+ }
+
+ /* Ítem Acordeón */
+ .faq-item {
+     background: #0D1117;
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     border-radius: 10px;
+     overflow: hidden;
+     transition: all 0.3s ease;
+ }
+
+ /* Borde verde suave al pasar el mouse */
+ .faq-item:hover {
+     border-color: rgba(139, 195, 74, 0.4);
+ }
+
+ /* Borde y resplandor verde cuando la tarjeta está abierta */
+ .faq-item.active {
+     border-color: var(--green-primary, #8bc34a);
+     box-shadow: 0 4px 20px rgba(139, 195, 74, 0.12);
+ }
+
+ /* Botón Desplegable (Header del ítem) */
+ .faq-trigger {
+     width: 100%;
+     padding: 16px 20px;
+     background: transparent;
+     border: none;
+     color: #FFFFFF;
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-weight: 700;
+     font-size: 14.5px;
+     text-align: left;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     cursor: pointer;
+     gap: 12px;
+     transition: color 0.3s ease;
+ }
+
+ /* Texto azul al pasar el mouse sobre la pregunta */
+ .faq-trigger:hover {
+     color: var(--cyan-glow);
+ }
+
+ .faq-trigger span {
+     line-height: 1.3;
+ }
+
+ .faq-trigger:hover {
+     color: var(--green-hover, #8bc34a);
+ }
+
+ /* Ícono Flecha */
+ .faq-icon {
+     font-size: 22px;
+     color: var(--green-hover, #8bc34a);
+     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     flex-shrink: 0;
+ }
+
+ .faq-item.active .faq-icon {
+     transform: rotate(180deg);
+ }
+
+ /* Contenido de la Respuesta (Transición suave de alto) */
+ .faq-content {
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+     padding: 0 20px;
+     background: rgba(255, 255, 255, 0.02);
+ }
+
+ .faq-item.active .faq-content {
+     max-height: 300px;
+     /* Alto máximo suficiente para el texto */
+     transition: max-height 0.35s ease-in-out, padding 0.3s ease;
+     padding: 0 20px 16px 20px;
+     border-top: 1px dashed rgba(255, 255, 255, 0.08);
+ }
+
+ .faq-content p {
+     font-size: 13.5px;
+     color: rgba(255, 255, 255, 0.75);
+     line-height: 1.5;
+     margin-top: 12px;
+     text-align: left;
+ }
+
+ /* Responsive para Celulares */
+ @media (max-width: 991px) {
+     .faq-accordion-grid {
+         grid-template-columns: 1fr;
+         gap: 12px;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

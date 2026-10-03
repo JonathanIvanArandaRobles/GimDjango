@@ -1,0 +1,1085 @@
+ /* ═══════════════════════════════════════════════════════ */
+ /* COMMON.CSS - Estilos compartidos para las 11 clases     */
+ /* ═══════════════════════════════════════════════════════ */
+
+ /* ─────────── HERO REDISEÑADO ─────────── */
+ .hero {
+     min-height: 100vh;
+     display: flex;
+     align-items: center;
+     position: relative;
+     padding-top: 100px;
+     padding-bottom: 40px;
+
+     /* El gradiente oscuro queda centralizado, la imagen la define la variable */
+     background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.75) 50%, rgba(10, 10, 10, 0.40) 100%), var(--bg-clase);
+
+     background-size: cover;
+     background-repeat: no-repeat;
+ }
+
+ /* Body Combat */
+ .hero-bodycombat {
+     background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.75) 50%, rgba(10, 10, 10, 0.40) 100%),
+         url('../../img/clases/body_combat/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 27%;
+ }
+
+ /* Body Pump */
+ .hero-bodypump {
+     /* Gradiente más transparente para dejar pasar más luz de la foto original */
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/body_pump/hero.jfif');
+
+     background-position: top 0%;
+     /* 1. Cambia el encuadre vertical si corta las cabezas */
+
+     /* 2. Achica la imagen (El primer valor es el ancho, el segundo el alto) */
+     background-size: 100% auto;
+ }
+
+ /* Funcional */
+ .hero-funcional {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/funcional/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 35%;
+ }
+
+ /* Latin Style */
+ .hero-latinstyle {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/latin_style/hero.jfif');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 27%;
+ }
+
+ /* Localizada */
+ .hero-localizada {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/localizada/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 50%;
+ }
+
+ /* Pilates */
+ .hero-pilates {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/pilates/hero.jfif');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 50%;
+ }
+
+ /* Ringside */
+ .hero-ringside {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/ringside/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 10%;
+ }
+
+ /* Spinning */
+ .hero-spinning {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/spinning/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 0%;
+ }
+
+ /* Stretching */
+ .hero-stretching {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/stretching/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 100%;
+ }
+
+ /* Yoga */
+ .hero-yoga {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/yoga/hero.jfif');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: bottom 0%;
+ }
+
+ /* Zumba */
+ .hero-zumba {
+     background-image: linear-gradient(90deg,
+             rgba(10, 10, 10, 0.70) 0%,
+             /* Izquierda: Bajamos de 0.95 a 0.70 */
+             rgba(10, 10, 10, 0.40) 50%,
+             /* Centro: Bajamos de 0.75 a 0.40 */
+             rgba(10, 10, 10, 0.10) 100%
+             /* Derecha: Bajamos de 0.40 a 0.10 */
+         ), url('../../img/clases/zumba/hero.png');
+     /* Ajustá esta ruta según dónde guardes la foto realmente */
+     background-position: center 70%;
+ }
+
+ .hero-container {
+     width: 100%;
+     max-width: 1280px;
+     margin: 0 auto;
+     padding: 0 24px;
+     display: flex;
+     align-items: flex-end;
+     justify-content: space-between;
+     gap: 40px;
+     position: relative;
+     z-index: 1;
+ }
+
+ .hero-content {
+     max-width: 650px;
+ }
+
+ .hero-content .label-green {
+     margin-bottom: 12px;
+     display: block;
+     letter-spacing: 0.15em;
+ }
+
+ .hero-title {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(5rem, 12vw, 9rem);
+     line-height: 0.88;
+     letter-spacing: 2px;
+     color: #FFFFFF;
+     text-transform: uppercase;
+ }
+
+ .hero-line {
+     width: 100px;
+     height: 5px;
+     background: var(--green-primary);
+     margin: 20px 0 24px;
+     border-radius: 50px;
+ }
+
+ .hero-desc {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 16px;
+     font-weight: 300;
+     color: rgba(255, 255, 255, 0.85);
+     max-width: 520px;
+     margin-bottom: 32px;
+     line-height: 1.6;
+     text-align: left;
+ }
+
+ .hero-buttons {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 16px;
+ }
+
+ /* ─────────── MÉTRICAS EN COLUMNA ─────────── */
+ .hero-stats-vertical {
+     display: flex;
+     flex-direction: column;
+     gap: 30px;
+     text-align: right;
+     min-width: 200px;
+     align-self: flex-end;
+     margin-bottom: 8px;
+ }
+
+ .hero-stat-item {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-end;
+ }
+
+ .stat-number {
+     font-family: 'Anton', sans-serif;
+     font-size: clamp(2.8rem, 4vw, 3.8rem);
+     color: #FFFFFF;
+     line-height: 1;
+     letter-spacing: 0.02em;
+     text-transform: uppercase;
+     text-shadow: 2px 2px 0px var(--green-primary);
+ }
+
+ .stat-number .highlight-green,
+ .stat-number .stat-unit {
+     color: #FFFFFF;
+     text-shadow: 1.5px 1.5px 0px var(--green-primary);
+ }
+
+ .stat-text {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 13px;
+     font-weight: 700;
+     text-transform: uppercase;
+     color: #FFFFFF;
+     letter-spacing: 0.08em;
+     margin-top: 6px;
+     opacity: 0.9;
+ }
+
+ @media (max-width: 991px) {
+     .hero-stats-vertical {
+         flex-direction: row;
+         justify-content: space-between;
+         width: 100%;
+         text-align: left;
+         border-top: 1px solid rgba(255, 255, 255, 0.12);
+         padding-top: 28px;
+     }
+
+     .hero-stat-item {
+         align-items: flex-start;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── SECCIÓN DESCRIPCIÓN 2 COLUMNAS ─────────── */
+
+ .desc-section {
+     background: #0D1117;
+     padding: 50px 0;
+
+     min-height: 100vh;
+     display: flex;
+     align-items: start;
+ }
+
+ .desc-grid-v2 {
+     display: grid;
+     grid-template-columns: 0.9fr 1.1fr;
+     gap: 70px;
+     align-items: flex-start;
+ }
+
+ .desc-text-col {
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+ }
+
+ .desc-text-col .label-green {
+     margin-bottom: 6px;
+ }
+
+ .desc-text-col .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2.6rem, 3.7vw, 4.2rem);
+     color: #FFFFFF;
+     margin: 8px 0 18px;
+     line-height: 1.1;
+     letter-spacing: 0.02em;
+ }
+
+ .desc-text-col .desc-paragraph {
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.8);
+     line-height: 1.7;
+     margin-bottom: 14px;
+     text-align: justify;
+ }
+
+ .desc-text-col .desc-paragraph:last-of-type {
+     margin-bottom: 18px;
+ }
+
+ .desc-text-col .features-list {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+ }
+
+ .desc-text-col .features-list li {
+     display: flex;
+     align-items: flex-start;
+     gap: 12px;
+     font-size: 14px;
+     color: rgba(255, 255, 255, 0.85);
+     padding: 3px 0;
+     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+ }
+
+ .desc-text-col .features-list li:last-child {
+     border-bottom: none;
+ }
+
+ .desc-text-col .features-list i {
+     color: var(--green-hover);
+     font-size: 20px;
+     flex-shrink: 0;
+     margin-top: 1px;
+ }
+
+ .desc-text-col .features-list strong {
+     color: #FFFFFF;
+     font-weight: 600;
+ }
+
+
+
+
+
+
+ /* ─── SWIPER DESCRIPCIÓN ─── */
+ .desc-carousel-col {
+     display: flex;
+     flex-direction: column;
+     min-height: 0;
+     height: 100%;
+ }
+
+ .descSwiper {
+     width: 100%;
+     aspect-ratio: 1 / 1;
+     /* Fuerza un cuadrado perfecto siempre */
+     flex: 1;
+     min-height: 380px;
+     max-height: 500px;
+     border-radius: 20px;
+     overflow: hidden;
+     position: relative;
+     border: 2px solid var(--cyan-primary);
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+     background: #0D1117;
+     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+ }
+
+ .descSwiper:hover {
+     transform: scale(1.02);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 0 25px var(--cyan-glow), 0 15px 35px rgba(0, 0, 0, 0.8);
+ }
+
+ .descSwiper .swiper-wrapper {
+     height: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+ }
+
+ .descSwiper .swiper-slide {
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+     position: relative;
+ }
+
+ .card-slide-premium {
+     position: relative;
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+     background: #0D1117;
+ }
+
+ .card-slide-premium .kenburns-img {
+     width: 100% !important;
+     height: 100% !important;
+     object-fit: cover !important;
+     display: block;
+     transform: scale(1);
+     transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+     will-change: transform;
+ }
+
+ .descSwiper .swiper-slide-active .kenburns-img {
+     transform: scale(1.12);
+ }
+
+ .slide-number {
+     position: absolute;
+     top: 20px;
+     left: 20px;
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: 14px;
+     font-weight: 400;
+     letter-spacing: 0.04em;
+     color: rgba(255, 255, 255, 0.9);
+     background: rgba(0, 0, 0, 0.6);
+     backdrop-filter: blur(10px);
+     -webkit-backdrop-filter: blur(10px);
+     border: 1px solid rgba(255, 255, 255, 0.06);
+     padding: 6px 18px;
+     border-radius: 24px;
+     z-index: 10;
+     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+     pointer-events: none;
+ }
+
+ .slide-overlay-premium {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     height: 38%;
+     padding: 24px 28px 32px;
+     background: linear-gradient(0deg, rgba(13, 17, 23, 0.95) 0%, rgba(13, 17, 23, 0.6) 50%, transparent 100%);
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-end;
+     z-index: 5;
+     pointer-events: none;
+ }
+
+ .slide-overlay-premium h3 {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(20px, 2.5vw, 28px);
+     font-weight: 400;
+     color: #FFFFFF;
+     margin-bottom: 4px;
+     letter-spacing: 0.04em;
+     line-height: 1.1;
+ }
+
+ .slide-overlay-premium p {
+     font-size: clamp(13px, 1.2vw, 15px);
+     color: rgba(255, 255, 255, 0.7);
+     font-weight: 300;
+     line-height: 1.5;
+     letter-spacing: 0.02em;
+     max-width: 90%;
+ }
+
+ .descSwiper .swiper-pagination {
+     bottom: 16px !important;
+     z-index: 10;
+     display: flex;
+     justify-content: center;
+     gap: 8px;
+     padding: 0 16px;
+ }
+
+ .descSwiper .swiper-pagination-bullet {
+     width: 8px;
+     height: 8px;
+     background: rgba(255, 255, 255, 0.2);
+     opacity: 1;
+     border-radius: 20px;
+     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+     margin: 0 !important;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+     cursor: pointer;
+ }
+
+ .descSwiper .swiper-pagination-bullet-active {
+     background: var(--green-primary, #8bc34a);
+     width: 32px;
+     border-radius: 20px;
+     box-shadow: 0 0 24px rgba(139, 195, 74, 0.25);
+ }
+
+ @media (max-width: 991px) {
+     .desc-grid-v2 {
+         grid-template-columns: 1fr;
+         gap: 32px;
+     }
+
+     .descSwiper {
+         aspect-ratio: 4 / 3;
+         border-radius: 18px;
+     }
+
+     .slide-overlay-premium {
+         height: 40%;
+         padding: 20px 24px 28px;
+     }
+ }
+
+ @media (max-width: 768px) {
+     .descSwiper {
+         aspect-ratio: 4 / 3;
+         border-radius: 16px;
+     }
+
+     .slide-overlay-premium {
+         height: 42%;
+         padding: 16px 20px 24px;
+     }
+
+     .slide-overlay-premium h3 {
+         font-size: 20px;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── SECCIÓN VIDEO VERTICAL Y HORARIOS ─────────── */
+ .video-info-section {
+     background: #0A0A0A;
+     padding: 27px 0px;
+
+     min-height: 100vh;
+     display: flex;
+     align-items: start;
+ }
+
+ .video-info-grid {
+     display: grid;
+     grid-template-columns: 0.95fr 1.05fr;
+     gap: 30px;
+     align-items: center;
+ }
+
+ .video-card-container {
+     position: relative;
+     width: 100%;
+     max-width: 420px;
+     margin: 0 auto;
+     aspect-ratio: 16 / 21;
+     border-radius: 20px;
+     overflow: hidden;
+     background: #000;
+     border: 2px solid var(--cyan-primary);
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+ }
+
+ .video-card-container:hover {
+     transform: scale(1.02);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 0 25px var(--cyan-glow), 0 15px 35px rgba(0, 0, 0, 0.8);
+ }
+
+ #mainVideo {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center center;
+     display: block;
+ }
+
+ /* Ajuste de encuadre de video exclusivo para Body Combat */
+ .video-bodycombat #mainVideo,
+ .video-bodycombat .video-cover {
+     /* El primer valor es horizontal (center), el segundo es vertical */
+     object-position: center 100%;
+ }
+
+ /* Ajuste de encuadre exclusivo para Funcional */
+ .video-funcional #mainVideo,
+ .video-funcional .video-cover {
+     /* Centrado horizontalmente (center) y anclado al fondo (100%) */
+     object-position: center 70%;
+ }
+
+ /* Ajuste de encuadre exclusivo para Latin Style (Enfoca arriba) */
+ .video-latinstyle #mainVideo,
+ .video-latinstyle .video-cover {
+     /* Centrado horizontalmente (center) y anclado al tope superior (0%) */
+     object-position: center 0%;
+ }
+
+ /* Ajuste de encuadre exclusivo para Latin Style (Enfoca arriba) */
+ .video-pilates #mainVideo,
+ .video-pilates .video-cover {
+     /* Centrado horizontalmente (center) y anclado al tope superior (0%) */
+     object-position: center 80%;
+ }
+
+ /* Ajuste de encuadre exclusivo para Latin Style (Enfoca arriba) */
+ .video-pilates #mainVideo,
+ .video-pilates .video-cover {
+     /* Centrado horizontalmente (center) y anclado al tope superior (0%) */
+     object-position: center 100%;
+ }
+
+
+
+
+
+
+
+ /* Estado activo: Pasa a horizontal (16:9) solo cuando recibe esta clase */
+ /* Actualizamos la caja is-playing (Reemplaza el bloque anterior) */
+ .video-ringside.is-playing {
+     aspect-ratio: 16 / 9 !important;
+     max-width: 100% !important;
+     /* Ahora el video crecerá hasta llenar todo el nuevo espacio de la grilla */
+ }
+
+ /* Asegura que el video llene el nuevo espacio horizontal */
+ .video-ringside.is-playing #mainVideo {
+     object-fit: cover !important;
+ }
+
+ /* 1. Restablecemos el padding base sin forzar la alineación aquí */
+ .section-ringside {
+     padding: 27px 0px !important;
+ }
+
+ /* 2. Estado inicial: Ambas columnas se alinean arriba (start) */
+ .section-ringside .video-info-grid {
+     align-items: flex-start;
+     /* Fuerza al texto y al video a arrancar desde el tope */
+     transition: grid-template-columns 0.5s ease, gap 0.5s ease;
+ }
+
+ /* 3. Estado activo (Play): Se expande a lo ancho y ambas columnas se centran */
+ .section-ringside .video-info-grid.grid-expanded {
+     grid-template-columns: 1.35fr 0.85fr;
+     gap: 60px;
+     align-items: center;
+     /* Centra el texto respecto a la nueva altura del video */
+ }
+
+ /* Agregamos la animación de cambio de tamaño a la caja base */
+ .video-card-container {
+     transition: max-width 0.5s ease, aspect-ratio 0.5s ease, transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+ }
+
+ /* 1. Preparamos el margen para que se anime suavemente (sin tocar el transform de AOS) */
+ .section-ringside .info-col {
+     transition: margin-top 0.5s ease;
+ }
+
+ /* 2. Al hacer Play, empujamos el texto hacia abajo usando margen real */
+ .section-ringside .video-info-grid.grid-expanded .info-col {
+     margin-top: 30px;
+     /* Modificá este valor hasta que quede exactamente donde querés */
+ }
+
+
+
+
+
+
+
+
+
+ /* Ajuste de encuadre exclusivo para Latin Style (Enfoca arriba) */
+ .video-yoga #mainVideo,
+ .video-yoga .video-cover {
+     /* Centrado horizontalmente (center) y anclado al tope superior (0%) */
+     object-position: 39% 100%;
+ }
+
+ /* ─────────── EXPANSIÓN MODERADA PARA YOGA ─────────── */
+ .section-yoga {
+     padding: 27px 0px !important;
+ }
+
+ .section-yoga .video-info-grid {
+     align-items: center;
+     transition: grid-template-columns 0.5s ease, gap 0.5s ease;
+ }
+
+ /* Estado activo (Play): Se expande, pero menos que Ringside */
+ .section-yoga .video-info-grid.grid-expanded {
+     /* Ringside usaba 1.35fr. Aquí usamos 1.2fr para moderar el ancho */
+     grid-template-columns: 1.2fr 0.95fr;
+     gap: 50px;
+     align-items: center;
+ }
+
+ /* Cambia la caja del video a una proporción moderada */
+ .video-yoga.is-playing {
+     aspect-ratio: 4 / 3 !important;
+     /* Relación moderada. Podés probar 1/1 o 16/10 */
+     max-width: 100% !important;
+ }
+
+ .video-yoga.is-playing #mainVideo {
+     object-fit: cover !important;
+ }
+
+ /* Anima el texto hacia abajo para centrarlo visualmente */
+ .section-yoga .info-col {
+     transition: margin-top 0.5s ease;
+ }
+
+ .section-yoga .video-info-grid.grid-expanded .info-col {
+     margin-top: 20px;
+ }
+
+ /* 1. Preparamos la columna del video para que se anime suavemente */
+ .section-yoga .video-col {
+     transition: margin-top 0.5s ease;
+ }
+
+ /* 2. Al hacer Play, empujamos el video hacia abajo */
+ .section-yoga .video-info-grid.grid-expanded .video-col {
+     margin-top: 27.5px;
+     /* Modificá este valor hasta que quede perfectamente centrado con el texto */
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+ .video-poster {
+     position: absolute;
+     inset: 0;
+     z-index: 2;
+     transition: opacity 0.4s ease, visibility 0.4s ease;
+ }
+
+ .video-poster.hidden {
+     opacity: 0;
+     visibility: hidden;
+     pointer-events: none;
+ }
+
+ .video-cover {
+     width: 100%;
+     height: 100%;
+     object-fit: fill;
+     object-position: center;
+     display: block;
+ }
+
+ .play-btn-ripple {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     width: 68px;
+     height: 68px;
+     background: var(--green-primary);
+     color: #0A0A0A;
+     border: none;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 38px;
+     cursor: pointer;
+     z-index: 10;
+     transition: transform 0.3s ease, background-color 0.3s ease;
+ }
+
+ .play-btn-ripple i {
+     margin-left: 4px;
+ }
+
+ .play-btn-ripple::before,
+ .play-btn-ripple::after {
+     content: '';
+     position: absolute;
+     inset: 0;
+     border-radius: 50%;
+     background-color: var(--green-primary);
+     z-index: -1;
+     animation: playRipple 2.5s infinite ease-out;
+ }
+
+ .play-btn-ripple::before {
+     animation-delay: 0.3s;
+ }
+
+ .play-btn-ripple::after {
+     animation-delay: 0.9s;
+ }
+
+ .play-btn-ripple:hover {
+     transform: translate(-50%, -50%) scale(1.1);
+     background-color: var(--green-hover);
+ }
+
+ @keyframes playRipple {
+     0% {
+         transform: scale(1);
+         opacity: 0.75;
+     }
+
+     100% {
+         transform: scale(1.8);
+         opacity: 0;
+     }
+ }
+
+ @media (max-width: 991px) {
+     .video-info-grid {
+         grid-template-columns: 1fr;
+         gap: 32px;
+     }
+
+     .video-card-container {
+         max-width: 320px;
+     }
+ }
+
+ .info-title {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+     color: #FFFFFF;
+     line-height: 1;
+     margin: 10px 0 12px;
+ }
+
+ .info-desc {
+     font-size: 15px;
+     font-weight: 300;
+     color: rgba(255, 255, 255, 0.85);
+     line-height: 1.5;
+     margin-bottom: 12px;
+ }
+
+ .info-checks {
+     list-style: none;
+     display: flex;
+     flex-direction: column;
+     gap: 8px;
+     margin-bottom: 14px;
+ }
+
+ .info-checks li {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     font-size: 14px;
+     color: #FFFFFF;
+ }
+
+ .info-checks i {
+     color: var(--green-hover);
+     font-size: 18px;
+ }
+
+
+
+
+
+
+
+
+
+ /* ─────────── TABLA DE HORARIOS ─────────── */
+ .schedule-table-card {
+     padding: 0 !important;
+     overflow: hidden;
+     margin-bottom: 12px;
+     background: #0D1117;
+     /* Fondo oscuro sólido para que resalte el neón */
+     border-radius: 16px;
+
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+     /* Transición suave */
+     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+ }
+
+ /* Efecto al pasar el mouse (Glow + Scale) */
+ .schedule-table-card:hover {
+     transform: scale(1.02) !important;
+     border-color: var(--cyan-glow) !important;
+     box-shadow: 0 0 25px var(--cyan-glow), 0 15px 35px rgba(0, 0, 0, 0.8) !important;
+ }
+
+ .schedule-header {
+     display: grid;
+     grid-template-columns: 140px 1fr 120px;
+     background: rgba(255, 255, 255, 0.04);
+     font-size: 11.5px;
+     text-transform: uppercase;
+     letter-spacing: 0.08em;
+     color: rgba(255, 255, 255, 0.5);
+     font-weight: 700;
+     text-align: center;
+     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+ }
+
+ .schedule-header span {
+     padding: 8px 10px;
+ }
+
+ .schedule-header span:not(:last-child) {
+     border-right: 1px solid rgba(255, 255, 255, 0.08);
+ }
+
+ .schedule-body {
+     display: grid;
+     grid-template-columns: 1fr 120px;
+ }
+
+ .schedule-left-rows {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .schedule-row {
+     display: grid;
+     grid-template-columns: 140px 1fr;
+     align-items: center;
+     text-align: center;
+ }
+
+ .schedule-row:not(:last-child) {
+     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+ }
+
+ .schedule-row span {
+     padding: 8px 10px;
+ }
+
+ .schedule-row span:first-child {
+     border-right: 1px solid rgba(255, 255, 255, 0.08);
+ }
+
+ .days,
+ .hours {
+     color: var(--green-primary) !important;
+     font-weight: 700;
+     font-size: 13.5px;
+     letter-spacing: 0.02em;
+ }
+
+ .schedule-duration-col {
+     border-left: 1px solid rgba(255, 255, 255, 0.08);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 10px;
+ }
+
+ .schedule-duration-col span {
+     color: var(--green-primary);
+     font-weight: 700;
+     font-size: 13.5px;
+     text-align: center;
+ }
+
+ .schedule-note {
+     font-size: 14px;
+     color: rgba(255, 255, 255, 0.4);
+     text-align: center;
+     margin-top: 4px;
+ }
+
+ @media (max-width: 576px) {
+     .schedule-header {
+         display: none;
+     }
+
+     .schedule-body {
+         grid-template-columns: 1fr;
+     }
+
+     .schedule-duration-col {
+         border-left: none;
+         border-top: 1px solid rgba(255, 255, 255, 0.08);
+         padding: 12px;
+     }
+
+     .schedule-row {
+         grid-template-columns: 1fr;
+     }
+
+     .schedule-row span:first-child {
+         border-right: none;
+         border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+     }
+ }

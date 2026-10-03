@@ -1,0 +1,1203 @@
+{% extends 'base_gerente.html' %}
+{% load static %}
+
+{% block title %}Oeste Club - Configuración{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-background w-full">
+
+  <main class="w-full flex-1 overflow-y-auto bg-background p-4 md:p-8">
+    <div class="flex flex-col w-full">
+      <!-- Toast Feedback Alert (Hidden by default, triggered on Save) -->
+      <div class="fixed top-20 right-8 z-50 transform translate-y-[-100%] opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 px-5 py-3.5 rounded-xl bg-primary text-on-primary shadow-xl" id="saveToast">
+        <span class="material-symbols-outlined text-[22px]">check_circle</span>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm leading-tight text-on-primary">Configuración Guardada</span>
+          <span class="font-body-sm text-body-sm text-on-primary/90">Los cambios de la sede han sido sincronizados correctamente en la red.</span>
+        </div>
+      </div>
+
+      <!-- Page Header Summary con Botón Hamburguesa Fijo -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-3 flex-wrap">
+            <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-extrabold">Configuración del Sistema</h1>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+              SEDE CENTRAL SAN JUSTO
+            </span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-medium">
+              ID: SED-001-SJT
+            </span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">
+            Ajustes globales del club, gestión de sedes, usuarios, turnos operativos, pasarelas de pago y políticas de seguridad física y digital.
+          </p>
+        </div>
+
+        <!-- Action Buttons con Botón Hamburguesa Fijo -->
+        <div class="flex items-center gap-2.5 shrink-0 flex-wrap">
+          <button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all shadow-sm border border-surface-container-high/60" onclick="handleDiscard()" type="button">
+            <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+            <span>Descartar Cambios</span>
+          </button>
+          <button class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md active:scale-95" onclick="handleSave()" type="button">
+            <span class="material-symbols-outlined text-[18px]">save</span>
+            <span>Guardar Configuración</span>
+          </button>
+
+          <!-- BOTÓN HAMBURGUESA FIJO -->
+          <button id="hamburger-btn" class="flex items-center justify-center w-10 h-10 bg-surface-container-lowest hover:bg-surface-container border border-surface-container-high/60 rounded-xl text-on-surface hover:text-primary shadow-sm transition active:scale-95 cursor-pointer shrink-0 ml-1" type="button" title="Abrir menú lateral">
+            <svg id="hamburger-icon" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tab Bar -->
+      <div class="w-full overflow-x-auto pb-1 mb-6 scrollbar-none">
+        <div class="flex items-center gap-2 min-w-max p-1.5 bg-surface-container-low rounded-xl">
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-semibold transition-all bg-surface-container-lowest text-primary shadow-sm" onclick="switchTab('tab-gimnasio', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">apartment</span>
+            <span>Gimnasio &amp; Sede</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-usuarios', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">badge</span>
+            <span>Usuarios &amp; Permisos</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">4</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-turnos', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
+            <span>Turnos Operativos</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-clases', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">fitness_center</span>
+            <span>Clases &amp; Salas</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">4 Salas</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-pagos', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">payments</span>
+            <span>Pagos &amp; Facturación</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-notificaciones', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">notifications_active</span>
+            <span>Notificaciones</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">Live</span>
+          </button>
+          <button class="tab-btn flex items-center gap-2 px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all" onclick="switchTab('tab-seguridad', this)" type="button">
+            <span class="material-symbols-outlined text-[18px]">shield</span>
+            <span>Seguridad &amp; Accesos</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB PANELS CONTAINER -->
+      <div class="w-full flex flex-col gap-6">
+        <!-- TAB 1: GIMNASIO & SEDE -->
+        <div class="tab-content flex flex-col gap-6" id="tab-gimnasio">
+          <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            <!-- Brand & Institutional Card (5 cols) -->
+            <div class="xl:col-span-5 bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between">
+              <div class="flex flex-col gap-5">
+                <div class="flex items-center justify-between">
+                  <span class="font-headline-sm text-headline-sm text-on-surface">Identidad Institucional</span>
+                  <span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold uppercase">Activo</span>
+                </div>
+                <!-- Logo Preview Area -->
+                <div class="p-5 rounded-xl bg-surface-container-low flex flex-col items-center justify-center text-center gap-3">
+                  <div class="w-24 h-24 rounded-2xl bg-on-background flex items-center justify-center p-3 shadow-md">
+                    <div class="flex flex-col items-center justify-center">
+                      <span class="material-symbols-outlined text-primary-fixed text-[36px]">fitness_center</span>
+                      <span class="font-headline-sm text-headline-sm text-on-primary tracking-tighter leading-none mt-1">OESTE</span>
+                      <span class="font-label-sm text-[8px] text-primary-fixed tracking-widest leading-none font-bold">CLUB</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-label-lg text-label-lg text-on-surface font-bold">Logo Oficial Vectorizado</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">oeste-club-brandmark-main.svg • 480 KB</span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-2">
+                    <button class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-all shadow-sm flex items-center gap-1.5" type="button">
+                      <span class="material-symbols-outlined text-[16px]">upload</span>
+                      <span>Cambiar Logo</span>
+                    </button>
+                    <button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md hover:bg-error-container transition-all" type="button">
+                      <span class="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant/80">Recomendado: SVG o PNG transparente de alta fidelidad, máx 2MB.</span>
+                </div>
+                <div class="flex flex-col gap-3">
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Nombre Comercial</label>
+                    <input class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="Oeste Club - Fitness &amp; Performance" />
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Razón Social &amp; CUIT</label>
+                    <input class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="30-71829304-8 • Oeste Fitness Group S.A." />
+                  </div>
+                </div>
+              </div>
+              <div class="pt-4 mt-4 bg-surface-container-low/50 -mx-6 -mb-6 p-6 rounded-b-xl flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-semibold">Sede Matriz Auditada</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">AFIP Estado: Regular</span>
+              </div>
+            </div>
+
+            <!-- Contact & Physical Location (7 cols) -->
+            <div class="xl:col-span-7 bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between">
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex flex-col">
+                    <span class="font-headline-sm text-headline-sm text-on-surface">Ubicación y Contacto Directo</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Coordenadas y canales sincronizados con la aplicación de socios</span>
+                  </div>
+                  <span class="material-symbols-outlined text-primary text-[24px]">storefront</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Teléfono Fijo Central</label>
+                    <div class="relative flex items-center">
+                      <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">call</span>
+                      <input class="w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="+54 11 4651-8890" />
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">WhatsApp Comercial / Soporte</label>
+                    <div class="relative flex items-center">
+                      <span class="material-symbols-outlined absolute left-3 text-primary text-[18px]">chat</span>
+                      <input class="w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="+54 9 11 5920-4411" />
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Email Institucional</label>
+                    <div class="relative flex items-center">
+                      <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">mail</span>
+                      <input class="w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="email" value="administracion@oesteclub.com" />
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Portal Web</label>
+                    <div class="relative flex items-center">
+                      <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">language</span>
+                      <input class="w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="www.oesteclub.com.ar" />
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Dirección Postal y Sede</label>
+                  <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">pin_drop</span>
+                    <input class="w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" type="text" value="Av. Presidente Perón 2840, San Justo, Buenos Aires, CP 1754" />
+                  </div>
+                </div>
+                <!-- Static Location View Map Component -->
+                <div class="w-full h-44 rounded-xl bg-surface-container flex flex-col justify-end p-4 relative overflow-hidden" data-alt="High quality aerial architectural view of athletic sports gym complex in San Justo Buenos Aires with parking and modern glass facade under soft cinematic daylight, athletic modern architecture aesthetic." data-location="Av. Presidente Peron 2840, San Justo, Buenos Aires, Argentina" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMECFCinczXIwVbkiRwCw0gpLUzTivYNUxrGVxKTKAb7djqCAesBl95QM2Lj64-m9eUU3qoV7jfrw8F-UscvdmYwMvFMd_WlaEDlI4uJYZrmQfC_z_RY2_cb_QdLNmCm1le16wZ2ueVFpemkApc1Y6RaGzdxTOHJCjCLHol3zglhw9ClwE7jubrp-OJi25v4vpdiRMK8VuEYtXTxBc5WuIYUAPs8dw10EoH5D31gUsMfTQj-sJaBzz')">
+                  <div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/30 to-transparent"></div>
+                  <div class="relative z-10 flex items-center justify-between text-on-primary">
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-primary-fixed text-[20px]">my_location</span>
+                      <span class="font-label-md text-label-md font-bold">Lat: -34.6781 • Lng: -58.5583</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold">Geo-Fencing Molinete Activo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- General Opening Hours & Operational Mode -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div>
+                <span class="font-headline-sm text-headline-sm text-on-surface">Horarios Generales de Apertura</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Rige la habilitación de cerraduras electrónicas y acceso de profesores</p>
+              </div>
+              <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-xl">
+                <span class="material-symbols-outlined text-primary text-[22px]">fingerprint</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Habilitar acceso 24hs con pase biométrico especial</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Para socios categoría Black y atletas federados</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer ml-3">
+                  <input checked="" class="sr-only peer" type="checkbox" />
+                  <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                </label>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-lg text-label-lg font-bold text-on-surface">Lunes a Viernes</span>
+                  <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Días Hábiles</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Apertura</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="06:00" />
+                  </div>
+                  <span class="text-on-surface-variant font-bold mt-4">a</span>
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Cierre</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="23:00" />
+                  </div>
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">groups</span> Capacidad pico estimada: 180 personas
+                </span>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-lg text-label-lg font-bold text-on-surface">Sábados</span>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">Jornada Extendida</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Apertura</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="08:00" />
+                  </div>
+                  <span class="text-on-surface-variant font-bold mt-4">a</span>
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Cierre</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="20:00" />
+                  </div>
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-primary">fitness_center</span> Masterclasses &amp; Pileta libre
+                </span>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-lg text-label-lg font-bold text-on-surface">Domingos y Feriados</span>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">Horario Reducido</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Apertura</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="09:00" />
+                  </div>
+                  <span class="text-on-surface-variant font-bold mt-4">a</span>
+                  <div class="flex-1">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Cierre</span>
+                    <input class="w-full mt-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-on-surface text-center font-bold focus:outline-none" type="time" value="14:00" />
+                  </div>
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-secondary">pool</span> Guardavidas en servicio activo
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: USUARIOS & PERMISOS -->
+        <div class="tab-content hidden flex flex-col gap-6" id="tab-usuarios">
+          <!-- Top Action Bar -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span class="font-headline-sm text-headline-sm text-on-surface">Gestión de Personal con Acceso al Software</span>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Permisos granulares para administración, staff de recepción y entrenadores en jefe</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container transition-all" type="button">
+                <span class="material-symbols-outlined text-[18px]">security</span>
+                <span>Matriz de Roles</span>
+              </button>
+              <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm" type="button">
+                <span class="material-symbols-outlined text-[18px]">person_add</span>
+                <span>+ Invitar Usuario / Crear Rol</span>
+              </button>
+            </div>
+          </div>
+          <!-- Users Granular Table -->
+          <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+                  <tr>
+                    <th class="py-3.5 px-6">Usuario &amp; Email</th>
+                    <th class="py-3.5 px-4">Rol Asignado</th>
+                    <th class="py-3.5 px-4">Permisos Clave</th>
+                    <th class="py-3.5 px-4 text-center">Seguridad 2FA</th>
+                    <th class="py-3.5 px-4 text-center">Estado</th>
+                    <th class="py-3.5 px-6 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-surface-container-low">
+                  <!-- User 1: Dueño -->
+                  <tr class="hover:bg-surface-container-low/40 transition-colors">
+                    <td class="py-4 px-6">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-headline-sm text-headline-sm font-bold">JR</div>
+                        <div class="flex flex-col">
+                          <span class="font-label-lg text-label-lg text-on-surface font-bold">Juan Carlos Rossi</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">juan.rossi@oesteclub.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-primary-container/20 text-primary font-label-sm text-label-sm font-bold uppercase">Propietario / SuperAdmin</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="font-body-sm text-body-sm text-on-surface">Control Total (Finanzas, Personal, Configuración, Auditoría)</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+                        <span class="material-symbols-outlined text-[14px]">lock</span> Activado
+                      </span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Línea
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                      <button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-all" type="button">
+                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- User 2: Admin Sede -->
+                  <tr class="hover:bg-surface-container-low/40 transition-colors">
+                    <td class="py-4 px-6">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-headline-sm text-headline-sm font-bold">MG</div>
+                        <div class="flex flex-col">
+                          <span class="font-label-lg text-label-lg text-on-surface font-bold">Martín Gómez</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">mgomez@oesteclub.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-label-sm font-bold uppercase">Administrador</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="font-body-sm text-body-sm text-on-surface">Gestión Socios, Cobranzas, Liquidación Sueldos, Reportes</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+                        <span class="material-symbols-outlined text-[14px]">lock</span> Activado
+                      </span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Activo
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                      <button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-all" type="button">
+                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- User 3: Recepcionista -->
+                  <tr class="hover:bg-surface-container-low/40 transition-colors">
+                    <td class="py-4 px-6">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-headline-sm text-headline-sm font-bold">CR</div>
+                        <div class="flex flex-col">
+                          <span class="font-label-lg text-label-lg text-on-surface font-bold">Camila Rossi</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">crossi@oesteclub.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold uppercase">Recepcionista</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="font-body-sm text-body-sm text-on-surface">Altas/Bajas, Check-in, Cobro mostrador, Asistencia de Clases</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">SMS Pendiente</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Turno Mañana
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                      <button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-all" type="button">
+                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- User 4: Head Coach -->
+                  <tr class="hover:bg-surface-container-low/40 transition-colors">
+                    <td class="py-4 px-6">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary-fixed text-primary font-bold flex items-center justify-center font-headline-sm text-headline-sm">FR</div>
+                        <div class="flex flex-col">
+                          <span class="font-label-lg text-label-lg text-on-surface font-bold">Facundo Ramos</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">gramos@oesteclub.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold uppercase">Coordinador / Head Coach</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="font-body-sm text-body-sm text-on-surface">Control de Clases, Cupos, Asistencia y Cronograma de Instructores</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+                        <span class="material-symbols-outlined text-[14px]">lock</span> Activado
+                      </span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Activo
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                      <button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-all" type="button">
+                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Access Policy Switch Footer -->
+            <div class="p-4 bg-surface-container-low/60 flex flex-col md:flex-row items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-[22px]">desktop_access_disabled</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Forzar cierre de sesión diario automático en terminales de recepción</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Cierra sesiones al concluir cada turno a fin de auditar cobranzas en caja</span>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input checked="" class="sr-only peer" type="checkbox" />
+                <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: TURNOS OPERATIVOS -->
+        <div class="tab-content hidden flex flex-col gap-6" id="tab-turnos">
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span class="font-headline-sm text-headline-sm text-on-surface">Configuración de Guardias &amp; Turnos de Sede</span>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Define los intervalos horarios de operación, supervisores asignados y protocolos de traspaso</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-body-sm text-body-sm text-on-surface-variant font-semibold">Tolerancia de check-in staff:</span>
+              <select class="px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none">
+                <option>10 minutos</option>
+                <option selected="">15 minutos</option>
+                <option>20 minutos</option>
+              </select>
+            </div>
+          </div>
+          <!-- Turnos Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Turno 1: Mañana -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-2 h-full bg-primary-container"></div>
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between pl-2">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[24px]">wb_sunny</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">Turno Mañana</span>
+                  </div>
+                  <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">06:00 - 14:00</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Entrenadora Responsable</span>
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">FV</div>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md text-on-surface font-bold">Prof. Florencia Varela</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Guardia de Sala &amp; Piscina</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Salas Habilitadas</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Musculación</span>
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Cardio</span>
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Natatorio</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                  <span class="font-body-sm text-body-sm text-on-surface">Check-in Biométrico Staff</span>
+                  <span class="font-label-sm text-label-sm font-bold text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">fingerprint</span> Obligatorio
+                  </span>
+                </div>
+              </div>
+              <div class="mt-6 pt-3 flex items-center justify-between">
+                <button class="text-primary font-label-md text-label-md font-bold hover:underline flex items-center gap-1" type="button">
+                  <span class="material-symbols-outlined text-[16px]">edit</span> Modificar Horario
+                </button>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Staff: 6 Instructores</span>
+              </div>
+            </div>
+            <!-- Turno 2: Tarde -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-2 h-full bg-secondary"></div>
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between pl-2">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary text-[24px]">sunny</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">Turno Tarde</span>
+                  </div>
+                  <span class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-secondary font-label-sm text-label-sm font-bold">14:00 - 20:30</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Entrenador Responsable</span>
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs">LB</div>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md text-on-surface font-bold">Prof. Lucas Benítez</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Guardia Sala &amp; Box CrossFit</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Salas Habilitadas</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Musculación</span>
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Box CrossFit</span>
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Spinning</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                  <span class="font-body-sm text-body-sm text-on-surface">Demanda Proyectada</span>
+                  <span class="font-label-sm text-label-sm font-bold text-error flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">trending_up</span> Alta Afluencia
+                  </span>
+                </div>
+              </div>
+              <div class="mt-6 pt-3 flex items-center justify-between">
+                <button class="text-secondary font-label-md text-label-md font-bold hover:underline flex items-center gap-1" type="button">
+                  <span class="material-symbols-outlined text-[16px]">edit</span> Modificar Horario
+                </button>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Staff: 9 Instructores</span>
+              </div>
+            </div>
+            <!-- Turno 3: Noche -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-2 h-full bg-on-background"></div>
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between pl-2">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-on-surface text-[24px]">dark_mode</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">Turno Noche</span>
+                  </div>
+                  <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">20:30 - 23:00</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Entrenador Responsable</span>
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-inverse-surface text-inverse-on-surface flex items-center justify-center font-bold text-xs">MG</div>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md text-on-surface font-bold">Prof. Matías Gauna</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Cierre de Sala &amp; Guardián</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Salas Habilitadas</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Musculación</span>
+                    <span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">Funcional</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                  <span class="font-body-sm text-body-sm text-on-surface">Arqueo de Caja &amp; Llaves</span>
+                  <span class="font-label-sm text-label-sm font-bold text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">task_alt</span> Checkpoint Final
+                  </span>
+                </div>
+              </div>
+              <div class="mt-6 pt-3 flex items-center justify-between">
+                <button class="text-on-surface font-label-md text-label-md font-bold hover:underline flex items-center gap-1" type="button">
+                  <span class="material-symbols-outlined text-[16px]">edit</span> Modificar Horario
+                </button>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Staff: 4 Instructores</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: CLASES, SALAS Y AFORO -->
+        <div class="tab-content hidden flex flex-col gap-6" id="tab-clases">
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div>
+                <span class="font-headline-sm text-headline-sm text-on-surface">Distribución de Espacios Físicos &amp; Aforos</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Monitoreo dinámico para reservas por aplicación y control de ocupación máxima</p>
+              </div>
+              <button class="px-4 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-bold hover:bg-surface-container-high transition-all flex items-center gap-1.5 self-start md:self-auto" type="button">
+                <span class="material-symbols-outlined text-[18px]">add</span> Nueva Sala
+              </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <!-- Sala 1 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-lg text-label-lg font-bold text-on-surface">Sala 1 • Spinning</span>
+                    <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Activa</span>
+                  </div>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Bicicletas magnéticas de alto rendimiento y audio envolvente bluetooth.</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-center text-body-sm">
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">Capacidad Máxima</span>
+                    <span class="font-headline-sm text-headline-sm text-primary font-bold">30 bicis</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 85%;"></div>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Ocupación habitual: 85% de plazas</span>
+                </div>
+              </div>
+              <!-- Sala 2 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-lg text-label-lg font-bold text-on-surface">Sala 2 • Box Funcional</span>
+                    <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Activa</span>
+                  </div>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Jaulas de potencia, suelo de caucho de 25mm, trineos y kettlebells.</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-center text-body-sm">
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">Capacidad Máxima</span>
+                    <span class="font-headline-sm text-headline-sm text-primary font-bold">25 pers.</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 92%;"></div>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Ocupación habitual: 92% (alta)</span>
+                </div>
+              </div>
+              <!-- Sala 3 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-lg text-label-lg font-bold text-on-surface">Sala 3 • Yoga &amp; Pilates</span>
+                    <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Activa</span>
+                  </div>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Tatami amortiguado, reformers de madera y climatización silenciosa.</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-center text-body-sm">
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">Capacidad Máxima</span>
+                    <span class="font-headline-sm text-headline-sm text-primary font-bold">20 mats</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                    <div class="h-full bg-primary-container rounded-full" style="width: 70%;"></div>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Ocupación habitual: 70%</span>
+                </div>
+              </div>
+              <!-- Sala 4 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-lg text-label-lg font-bold text-on-surface">Natatorio Climatizado</span>
+                    <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Activa</span>
+                  </div>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Piscina semiolímpica de 25m, 6 andariveles y control automatizado de cloro/pH.</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-center text-body-sm">
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">Capacidad Máxima</span>
+                    <span class="font-headline-sm text-headline-sm text-primary font-bold">24 nadadores</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                    <div class="h-full bg-secondary rounded-full" style="width: 60%;"></div>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Máx 4 por carril simultaneously</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Booking Rules & Policies -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <span class="font-headline-sm text-headline-sm text-on-surface">Políticas de Reserva y Cancelación de Socios</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="flex flex-col gap-1.5 p-4 rounded-xl bg-surface-container-low">
+                <label class="font-label-lg text-label-lg text-on-surface font-bold">Tiempo de antelación para reservar</label>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Ventana permitida antes de la clase</span>
+                <div class="mt-2 flex items-center gap-2">
+                  <input class="w-20 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-primary font-bold text-center" type="number" value="48" />
+                  <span class="font-body-md text-body-md text-on-surface font-medium">horas previas</span>
+                </div>
+              </div>
+              <div class="flex flex-col gap-1.5 p-4 rounded-xl bg-surface-container-low">
+                <label class="font-label-lg text-label-lg text-on-surface font-bold">Cancelación sin penalización</label>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Tiempo límite para liberar el cupo</span>
+                <div class="mt-2 flex items-center gap-2">
+                  <input class="w-20 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-primary font-bold text-center" type="number" value="2" />
+                  <span class="font-body-md text-body-md text-on-surface font-medium">horas antes</span>
+                </div>
+              </div>
+              <div class="flex flex-col gap-1.5 p-4 rounded-xl bg-surface-container-low">
+                <label class="font-label-lg text-label-lg text-on-surface font-bold">Límite de Lista de Espera</label>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Cupos de reemplazo automático</span>
+                <div class="mt-2 flex items-center gap-2">
+                  <input class="w-20 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-primary font-bold text-center" type="number" value="5" />
+                  <span class="font-body-md text-body-md text-on-surface font-medium">personas máx</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: PAGOS & FACTURACIÓN -->
+        <div class="tab-content hidden flex flex-col gap-6" id="tab-pagos">
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+            <div>
+              <span class="font-headline-sm text-headline-sm text-on-surface">Pasarelas de Cobro &amp; Métodos Habilitados</span>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Conectores de cobro automatizado, débito recurrente e integraciones bancarias</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Gateway 1: Débito Automático -->
+              <div class="p-5 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <span class="material-symbols-outlined text-[28px]">credit_card</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Débito Automático con Tarjeta</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">First Data / Prisma Medios de Pago</span>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest">
+                  <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Comisión por Cobro</span>
+                    <span class="font-label-md text-label-md font-bold text-on-surface">1.8% + IVA</span>
+                  </div>
+                  <button class="px-3 py-1 rounded-md bg-surface-container text-primary font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all" type="button">
+                    Configurar Llaves API
+                  </button>
+                </div>
+              </div>
+              <!-- Gateway 2: Mercado Pago -->
+              <div class="p-5 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center text-secondary shadow-sm">
+                      <span class="material-symbols-outlined text-[28px]">qr_code_2</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Mercado Pago Checkout &amp; QR</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Webhook sincronizado y punto de venta</span>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest">
+                  <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Comisión por Cobro</span>
+                    <span class="font-label-md text-label-md font-bold text-on-surface">2.4% acreditación inmediata</span>
+                  </div>
+                  <button class="px-3 py-1 rounded-md bg-surface-container text-secondary font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all" type="button">
+                    Credenciales Webhook
+                  </button>
+                </div>
+              </div>
+              <!-- Gateway 3: Transferencia Bancaria Directa -->
+              <div class="p-5 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <span class="material-symbols-outlined text-[28px]">account_balance</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Transferencia Bancaria Directa</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Alias: OESTE.CLUB.FIT • Banco Santander</span>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest">
+                  <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Conciliación de Comprobantes</span>
+                    <span class="font-label-md text-label-md font-bold text-on-surface">OCR Automático + Manual</span>
+                  </div>
+                  <button class="px-3 py-1 rounded-md bg-surface-container text-primary font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all" type="button">
+                    Editar CBU/Alias
+                  </button>
+                </div>
+              </div>
+              <!-- Gateway 4: Efectivo Mostrador -->
+              <div class="p-5 rounded-xl bg-surface-container-low flex flex-col justify-between gap-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
+                      <span class="material-symbols-outlined text-[28px]">point_of_sale</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Efectivo en Recepción</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Caja chica y cobros físicos presenciales</span>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest">
+                  <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Auditoría Obligatoria</span>
+                    <span class="font-label-md text-label-md font-bold text-on-surface">Arqueo por turno activo</span>
+                  </div>
+                  <button class="px-3 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all" type="button">
+                    Límites de Caja
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Billing Cycle and Late Fee Rules -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-6">
+              <div>
+                <span class="font-headline-sm text-headline-sm text-on-surface">Configuración de Ciclos y Vencimientos</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Establece las reglas de mora, recargos progresivos y bloqueo en molinetes</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Día de Vencimiento Regular</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Fecha fija mensual para emisión de cuota</span>
+                  <div class="flex items-center gap-2 mt-2">
+                    <input class="w-16 px-3 py-1.5 rounded-lg bg-surface-container-lowest font-headline-sm text-headline-sm text-primary font-bold text-center" type="number" value="10" />
+                    <span class="font-body-md text-body-md text-on-surface font-semibold">de cada mes</span>
+                  </div>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Recargo por Mora Post-Vencimiento</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Aplicación escalonada según días de retraso</span>
+                  <div class="flex items-center gap-3 mt-2">
+                    <div class="flex items-center gap-1">
+                      <span class="font-body-sm text-body-sm text-on-surface-variant font-bold">+5%</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">día 11</span>
+                    </div>
+                    <span class="text-on-surface-variant">•</span>
+                    <div class="flex items-center gap-1">
+                      <span class="font-body-sm text-body-sm text-on-surface-variant font-bold">+10%</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">día 20</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+                  <div class="flex items-start justify-between">
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md text-on-surface font-bold">Bloqueo Automático de Molinete</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Rechaza acceso ante cuota vencida</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input checked="" class="sr-only peer" type="checkbox" />
+                      <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                    </label>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-error font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">lock_clock</span> A los 15 días posteriores al vencimiento
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: NOTIFICACIONES AUTOMÁTICAS -->
+          <div class="tab-content hidden flex flex-col gap-6" id="tab-notificaciones">
+            <!-- Notification Integrations -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+              <div>
+                <span class="font-headline-sm text-headline-sm text-on-surface">Canales de Notificación y Automatizaciones</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Disparadores automáticos vía WhatsApp Oficial Cloud API, Email transaccional y Push notifications</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-[28px]">chat</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">WhatsApp API Cloud</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Estado: Conectado</span>
+                    </div>
+                  </div>
+                  <span class="w-3 h-3 rounded-full bg-primary-container ring-4 ring-primary-fixed"></span>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary text-[28px]">mail</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">SendGrid Transaccional</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">99.8% Entregabilidad</span>
+                    </div>
+                  </div>
+                  <span class="w-3 h-3 rounded-full bg-primary-container ring-4 ring-primary-fixed"></span>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[28px]">notifications</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Firebase Push (App Móvil)</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">1.740 dispositivos listos</span>
+                    </div>
+                  </div>
+                  <span class="w-3 h-3 rounded-full bg-primary-container ring-4 ring-primary-fixed"></span>
+                </div>
+              </div>
+            </div>
+            <!-- Triggers List -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+              <span class="font-headline-sm text-headline-sm text-on-surface">Reglas de Envío Automatizado</span>
+              <div class="flex flex-col divide-y divide-surface-container-low">
+                <!-- Automation 1 -->
+                <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-[22px] mt-0.5">notification_important</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Aviso de cuota próxima a vencer</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Enviado con link de pago directo 3 días antes de la fecha límite</span>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">WhatsApp</span>
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Push App</span>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <!-- Automation 2 -->
+                <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-secondary text-[22px] mt-0.5">event</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Recordatorio de clase reservada</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Enviado 2 hours antes de la clase con opción rápida de liberar cupo</span>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">Push App</span>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <!-- Automation 3 -->
+                <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-[22px] mt-0.5">receipt_long</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Confirmación de Pago y Recibo Digital</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Envío inmediato con PDF oficial de factura AFIP al registrar la transacción</span>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">WhatsApp</span>
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Email</span>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <!-- Automation 4 -->
+                <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[22px] mt-0.5">sentiment_dissatisfied</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Alerta de Inactividad de Socio (+14 días)</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Disparo automático de mensaje motivacional y check de bienestar por el coach</span>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">WhatsApp Bot</span>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+                <!-- Automation 5: Dueño Alert -->
+                <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-low/40 px-3 rounded-lg">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-[22px] mt-0.5">admin_panel_settings</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface">Reporte Operativo de Cierre de Caja Diario al Dueño</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Resumen financiero, facturación del día y accesos a las 23:15 hs vía WhatsApp directo al teléfono del Propietario</span>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 7: SEGURIDAD, AUDITORÍA Y ACCESOS -->
+          <div class="tab-content hidden flex flex-col gap-6" id="tab-seguridad">
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+              <!-- Dueño Credentials (5 cols) -->
+              <div class="xl:col-span-5 bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between">
+                <div class="flex flex-col gap-5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-headline-sm text-headline-sm text-on-surface">Credenciales del Propietario</span>
+                    <span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">2FA Habilitado</span>
+                  </div>
+                  <div class="flex flex-col gap-3">
+                    <div class="flex flex-col gap-1">
+                      <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Contraseña Actual</label>
+                      <input class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none" readonly="" type="password" value="••••••••••••••••" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <label class="font-label-md text-label-md text-on-surface-variant font-semibold">Nueva Contraseña</label>
+                      <input class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" placeholder="Mínimo 12 caracteres y caracteres especiales" type="password" />
+                    </div>
+                    <button class="mt-1 px-4 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md font-bold hover:bg-surface-container-high transition-all self-start" type="button">
+                      Actualizar Contraseña
+                    </button>
+                  </div>
+                  <!-- 2FA Box -->
+                  <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-md text-label-md font-bold text-on-surface">Autenticación TOTP (Google / Authy)</span>
+                      <span class="text-primary font-bold text-xs flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">check_circle</span> Activo
+                      </span>
+                    </div>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Protege transferencias bancarias y modificaciones de roles con un código de 6 dígitos temporales.</span>
+                    <button class="mt-2 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-semibold underline text-left" type="button">
+                      Ver Códigos de Recuperación de Emergencia
+                    </button>
+                  </div>
+                </div>
+                <div class="pt-4 mt-6 bg-surface-container-low/40 -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">cloud_sync</span>
+                    <span class="font-body-sm text-body-sm text-on-surface font-semibold">Copia de Seguridad en la Nube</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Diario a las 03:00 hs (GCS)</span>
+                </div>
+              </div>
+              <!-- Active Sessions & Security Log (7 cols) -->
+              <div class="xl:col-span-7 bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col justify-between">
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <span class="font-headline-sm text-headline-sm text-on-surface">Sesiones Activas en Tiempo Real</span>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">Dispositivos con token de acceso vigente en la plataforma</p>
+                    </div>
+                    <button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-label-md text-label-md font-bold hover:bg-error hover:text-on-error transition-all" type="button">
+                      Cerrar todas las otras sesiones
+                    </button>
+                  </div>
+                  <!-- Sessions List -->
+                  <div class="flex flex-col gap-3">
+                    <!-- Session 1: Current -->
+                    <div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                          <span class="material-symbols-outlined text-[24px]">laptop_windows</span>
+                        </div>
+                        <div class="flex flex-col">
+                          <div class="flex items-center gap-2">
+                            <span class="font-label-md text-label-md font-bold text-on-surface">PC Gerencia - Windows 11</span>
+                            <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Sesión Actual</span>
+                          </div>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">Google Chrome • IP 181.44.120.15 (San Justo, Buenos Aires)</span>
+                        </div>
+                      </div>
+                      <span class="font-label-sm text-label-sm text-primary font-bold">En línea ahora</span>
+                    </div>
+                    <!-- Session 2: iMac Recepción -->
+                    <div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
+                          <span class="material-symbols-outlined text-[24px]">desktop_mac</span>
+                        </div>
+                        <div class="flex flex-col">
+                          <span class="font-label-md text-label-md font-bold text-on-surface">iMac Recepción Mostrador - macOS</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">Safari • IP 181.44.120.18 (Red Local Gimnasio)</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant">Turno Tarde</span>
+                        <button class="p-1 text-error hover:bg-error-container rounded transition-all" title="Desconectar" type="button">
+                          <span class="material-symbols-outlined text-[18px]">logout</span>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Session 3: Mobile Dueño -->
+                    <div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary shadow-sm">
+                          <span class="material-symbols-outlined text-[24px]">smartphone</span>
+                        </div>
+                        <div class="flex flex-col">
+                          <span class="font-label-md text-label-md font-bold text-on-surface">iPhone 15 Pro de Juan Carlos</span>
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">App Oeste Club iOS • Red Celular 5G</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant">Hace 12 min</span>
+                        <button class="p-1 text-error hover:bg-error-container rounded transition-all" title="Desconectar" type="button">
+                          <span class="material-symbols-outlined text-[18px]">logout</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Audit Trail Snippet -->
+                  <div class="mt-2 flex flex-col gap-2">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Últimos Eventos de Auditoría</span>
+                    <div class="text-body-sm text-on-surface-variant space-y-1">
+                      <p>• <span class="font-semibold text-on-surface">Hoy 15:40 hs:</span> Modificación de aforo Sala 1 por <em>juan.rossi@oesteclub.com</em></p>
+                      <p>• <span class="font-semibold text-on-surface">Hoy 14:02 hs:</span> Cierre de caja Turno Mañana ($184.200) conciliado por <em>mgomez@oesteclub.com</em></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/oeste_club_configuracion.js' %}"></script>
+<script>
+    // SCRIPT PARA ILUMINAR LA PESTAÑA "CONFIGURACIÓN" EN EL MENÚ LATERAL
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeMenu = document.querySelector('aside nav a[data-menu="configuracion"]');
+        if (activeMenu) {
+            activeMenu.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            activeMenu.classList.add('bg-emerald-50', 'text-emerald-700', 'font-bold');
+            
+            const iconContainer = activeMenu.querySelector('svg') || activeMenu.querySelector('.material-symbols-outlined');
+            if(iconContainer) {
+                iconContainer.classList.remove('text-slate-700');
+                iconContainer.classList.add('text-emerald-600');
+            }
+        }
+    });
+</script>
+{% endblock %}

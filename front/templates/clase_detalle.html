@@ -1,0 +1,239 @@
+{% extends 'base_front.html' %}
+{% load static %}
+
+{% block title %}Oeste Fitness Club — {{ clase.nombre }}{% endblock %}
+
+{% block meta_tags %}
+    <meta name="description" content="{{ clase.descripcion_hero|truncatechars:150 }}">
+    <meta property="og:site_name" content="Oeste Club">
+    <meta property="og:title" content="Oeste Fitness Club — {{ clase.nombre }}">
+    <meta property="og:description" content="{{ clase.descripcion_hero|truncatechars:150 }}">
+    <meta property="og:image" content="{% if clase.imagen_hero %}{{ clase.imagen_hero.url }}{% else %}{% static 'img/common/logo.png' %}{% endif %}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
+{% block extra_libs %}
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clases/common_front.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- ─── 1. HERO DINÁMICO ─── -->
+    <section class="hero" id="inicio" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0) 100%), url('{% if clase.imagen_hero %}{{ clase.imagen_hero.url }}{% endif %}'); background-size: cover; background-position: center;">
+        <div class="hero-container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="800">
+                <span class="label-green">Oeste Fitness Club · Clases grupales</span>
+                <h1 class="hero-title">{{ clase.nombre|upper }}</h1>
+                <div class="hero-line"></div>
+                <p class="hero-desc">{{ clase.descripcion_hero }}</p>
+                <div class="hero-buttons">
+                    <a href="#description" class="btn-outline">Cómo entrenamos</a>
+                </div>
+            </div>
+
+            <div class="hero-stats-vertical" data-aos="fade-left" data-aos-duration="800">
+                <div class="hero-stat-item">
+                    <span class="stat-number"><span class="highlight-green">{{ clase.stat_1_titulo }}</span></span>
+                    <span class="stat-text">{{ clase.stat_1_sub }}</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-number">{{ clase.stat_2_titulo }}</span>
+                    <span class="stat-text">{{ clase.stat_2_sub }}</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-number"><span class="highlight-green"></span>{{ clase.stat_3_titulo }}</span>
+                    <span class="stat-text">{{ clase.stat_3_sub }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── 2. DESCRIPCIÓN Y BENEFICIOS ─── -->
+    <section class="desc-section" id="description">
+        <div class="container">
+            <div class="desc-grid-v2">
+                <div class="desc-text-col" data-aos="fade-right">
+                    <span class="label-green">{{ clase.sec2_tag }}</span>
+                    <h2 class="section-title">{{ clase.sec2_titulo }}</h2>
+
+                    {% if clase.sec2_parrafo_1 %}
+                        <p class="desc-paragraph">{{ clase.sec2_parrafo_1 }}</p>
+                    {% endif %}
+                    {% if clase.sec2_parrafo_2 %}
+                        <p class="desc-paragraph">{{ clase.sec2_parrafo_2 }}</p>
+                    {% endif %}
+
+                    <ul class="features-list">
+                        {% if clase.sec2_check_1 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec2_check_1 }}</strong></li>{% endif %}
+                        {% if clase.sec2_check_2 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec2_check_2 }}</strong></li>{% endif %}
+                        {% if clase.sec2_check_3 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec2_check_3 }}</strong></li>{% endif %}
+                        {% if clase.sec2_check_4 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec2_check_4 }}</strong></li>{% endif %}
+                        {% if clase.sec2_check_5 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec2_check_5 }}</strong></li>{% endif %}
+                    </ul>
+                </div>
+
+                <div class="desc-carousel-col" data-aos="fade-left">
+                    <div class="swiper descSwiper">
+                        <div class="swiper-wrapper">
+                            {% for slide in clase.carrusel.all %}
+                            <div class="swiper-slide">
+                                <div class="card-slide-premium">
+                                    <span class="slide-number">0{{ forloop.counter }}</span>
+                                    <img src="{{ slide.imagen.url }}" alt="{{ slide.descripcion }}" class="kenburns-img">
+                                    <div class="slide-overlay-premium">
+                                        <h3>{{ slide.titulo }}</h3>
+                                        <p>{{ slide.descripcion }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                                <p style="color: white;">No hay imágenes cargadas para esta clase aún.</p>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── 3. SECCIÓN VIDEO Y HORARIOS ─── -->
+    <section class="video-info-section section-yoga" id="horarios">
+        <div class="container">
+            <div class="video-info-grid">
+                <div class="video-col" data-aos="fade-right">
+                    <div class="video-card-container video-yoga" id="videoContainer">
+                        <div class="video-poster" id="videoPoster">
+                            {% if clase.video_poster %}
+                                <img src="{{ clase.video_poster.url }}" alt="Clase de {{ clase.nombre }}" class="video-cover">
+                            {% endif %}
+                            <button class="play-btn-ripple" id="playBtn" aria-label="Reproducir video">
+                                <i class='bx bx-play'></i>
+                            </button>
+                        </div>
+                        <video id="mainVideo" controls preload="none" muted>
+                            {% if clase.video_archivo %}
+                                <source src="{{ clase.video_archivo.url }}" type="video/mp4">
+                            {% endif %}
+                            Tu navegador no soporta videos HTML5.
+                        </video>
+                    </div>
+                </div>
+
+                <div class="info-col" data-aos="fade-left">
+                    <span class="label-green">{{ clase.sec3_tag }}</span>
+                    <h2 class="info-title">{{ clase.sec3_titulo }}</h2>
+                    <p class="info-desc">{{ clase.sec3_bajada }}</p>
+
+                    <ul class="info-checks">
+                        {% if clase.sec3_check_1 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec3_check_1 }}</strong></li>{% endif %}
+                        {% if clase.sec3_check_2 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec3_check_2 }}</strong></li>{% endif %}
+                        {% if clase.sec3_check_3 %}<li><i class='bx bx-check-circle'></i> <strong>{{ clase.sec3_check_3 }}</strong></li>{% endif %}
+                    </ul>
+
+                    <div class="glass-card compact-card schedule-table-card">
+                        <div class="schedule-header">
+                            <span>Días</span>
+                            <span>Turnos</span>
+                            <span>Duración</span>
+                        </div>
+                        <div class="schedule-body">
+                            <div class="schedule-left-rows">
+                                {% for horario in clase.horarios.all %}
+                                <div class="schedule-row">
+                                    <span class="days">{{ horario.dias }}</span>
+                                    <span class="hours">{{ horario.turnos }}</span>
+                                </div>
+                                {% empty %}
+                                    <div class="schedule-row"><span class="days">Consultar</span><span class="hours">horarios en recepción</span></div>
+                                {% endfor %}
+                            </div>
+                            <div class="schedule-duration-col">
+                                <span>{% if clase.horarios.first %}{{ clase.horarios.first.duracion }}{% else %}50-60 min{% endif %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="schedule-note">Los horarios pueden variar. Consultanos para confirmar.</p><br>
+
+                    <div class="class-slide-actions" style="display: flex; justify-content: center; gap: 35px;">
+                        <a href="{% url 'index_front' %}#precios" class="btn-primary btn-lift">PLANES Y PRECIOS</a>
+                        <a href="{% url 'index_front' %}#trainers" class="btn-outline">NUESTROS PROFES</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block modal_consulta %}
+    <!-- ─── MODAL ESPECÍFICO DE LA CLASE (Sobrescribe el de base_front) ─── -->
+    <div class="modal-overlay" id="consultaModal" aria-hidden="true">
+        <div class="modal-glass-card modal-consulta-card" role="dialog" aria-modal="true">
+            <button class="modal-close-btn" id="consultaModalCloseBtn" aria-label="Cerrar modal">
+                <i class='bx bx-x'></i>
+            </button>
+            <div class="socio-modal-header">
+                <div class="modal-title-wrap">
+                    <i class='bx bxl-whatsapp socio-wa-icon-title'></i>
+                    <h2 class="modal-title">CONSULTA DIRECTA</h2>
+                </div>
+                <p class="modal-description">Completá este breve formulario para chatear directamente por WhatsApp.</p>
+            </div>
+            <form id="consultaWaForm" class="socio-form-grid">
+                <div class="form-group">
+                    <label for="ws_nombre_c">Nombre y Apellido <span class="req">*</span></label>
+                    <input type="text" id="ws_nombre_c" required placeholder="Ej: Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="ws_interes">¿Qué te interesa? <span class="req">*</span></label>
+                    <select id="ws_interes" required>
+                        <option value="">Seleccioná una opción</option>
+                        <option value="{{ clase.nombre }}" selected>{{ clase.nombre }}</option>
+                        <option value="Quiero conocer precios">Quiero conocer precios</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ws_mensaje_c">Mensaje <span class="opt">(opcional)</span></label>
+                    <textarea id="ws_mensaje_c" placeholder="Ej: Quisiera saber horarios..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-wa btn-socio-submit">
+                    <i class='bx bxl-whatsapp'></i> ENVIAR
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js_libs %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/clases/common_front.js' %}"></script>
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const videoPoster = document.getElementById('videoPoster');
+        const mainVideo = document.getElementById('mainVideo');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoGrid = document.querySelector('.video-info-grid');
+
+        if (playBtn && mainVideo) {
+            playBtn.addEventListener('click', () => {
+                videoPoster.classList.add('hidden');
+                if (videoContainer) {
+                    videoContainer.classList.add('is-playing');
+                    if ((videoContainer.classList.contains('video-ringside') || videoContainer.classList.contains('video-yoga')) && videoGrid) {
+                        videoGrid.classList.add('grid-expanded');
+                    }
+                }
+                mainVideo.play();
+            });
+        }
+    </script>
+{% endblock %}

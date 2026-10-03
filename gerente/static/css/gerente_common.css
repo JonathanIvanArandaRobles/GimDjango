@@ -1,0 +1,80 @@
+/* =========================================
+   1. RESET Y COMPORTAMIENTO BASE
+   ========================================= */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overscroll-behavior: none; /* Evita el "rebote" en Mac/Móviles al scrollear */
+}
+
+main > :first-child {
+    margin-top: 0 !important;
+}
+
+main > :last-child {
+    margin-bottom: 0 !important;
+}
+
+/* =========================================
+   2. CUSTOM SCROLLBAR UNIFICADA
+   ========================================= */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9; /* slate-100 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* slate-300 */
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* slate-400 */
+}
+
+/* =========================================
+   3. MATERIAL SYMBOLS (CONFIGURACIÓN)
+   ========================================= */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   4. ANIMACIONES COMPARTIDAS (GRÁFICOS)
+   ========================================= */
+.donut-slice {
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke-width 0.2s ease;
+    cursor: pointer;
+}
+
+.donut-slice:hover {
+    stroke-width: 22;
+}
+
+.chart-bar {
+    transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.2s ease;
+}
+
+.chart-bar:hover {
+    filter: brightness(1.1);
+    transform: scaleY(1.04);
+}

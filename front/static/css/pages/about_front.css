@@ -1,0 +1,995 @@
+ /* ═══════════════════════════════════════════════════════ */
+ /* ABOUT.HTML - CSS COMPLETO Y AUTÓNOMO                   */
+ /* ═══════════════════════════════════════════════════════ */
+
+
+
+
+
+
+ /* ─────────── HERO 100VH CON LUZ DETRÁS DEL TEXTO ─────────── */
+
+ .hero-clean.hero-layout-bottom-cards {
+     height: 100vh;
+     min-height: 650px;
+     max-height: 100vh;
+     background-color: #06080B;
+
+     /* Luces de fondo: Textos (Izquierda) + Contraluz del Modelo (Derecha) */
+     background-image:
+         /* Resplandor Azul Neón amplio detrás del modelo */
+         radial-gradient(circle 520px at 75% 45%, rgba(0, 210, 255, 0.16) 0%, transparent 65%),
+         /* Luz Verde de contraste detrás del modelo */
+         radial-gradient(circle 440px at 72% 52%, rgba(139, 195, 74, 0.14) 0%, transparent 60%),
+         /* Resplandor Azul detrás del título y textos */
+         radial-gradient(circle 480px at 22% 38%, rgba(0, 210, 255, 0.14) 0%, transparent 70%),
+         /* Resplandor Verde detrás de los botones */
+         radial-gradient(ellipse 550px 400px at 15% 65%, rgba(139, 195, 74, 0.12) 0%, transparent 65%);
+
+     position: relative;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     padding-top: 80px;
+     padding-bottom: 20px;
+ }
+
+ .hero-main-container {
+     width: 100%;
+     max-width: 1380px;
+     height: 100%;
+     margin: 0 auto;
+     padding: 0 32px;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     position: relative;
+     z-index: 2;
+ }
+
+ /* ─── FILA SUPERIOR (TEXTO + ATLETA) ─── */
+ .hero-top-row {
+     display: grid;
+     grid-template-columns: 1.15fr 0.85fr;
+     align-items: center;
+     gap: 20px;
+     flex: 1;
+ }
+
+ .hero-text-block {
+     max-width: 580px;
+     margin-top: -0px;
+     position: relative;
+     z-index: 3;
+ }
+
+ .hero-tag {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-weight: 700;
+     font-size: 15px;
+     letter-spacing: 0.16em;
+     text-transform: uppercase;
+     color: var(--green-primary, #8bc34a);
+     display: block;
+     margin-bottom: 15px;
+ }
+
+ .hero-heading {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: clamp(3.2rem, 5vw, 5.2rem);
+     line-height: 0.88;
+     letter-spacing: 1.5px;
+     color: #FFFFFF;
+     text-transform: uppercase;
+     margin-bottom: 12px;
+ }
+
+ .hero-heading .green-accent {
+     color: var(--green-primary, #8bc34a);
+ }
+
+ .hero-divider {
+     width: 50px;
+     height: 3px;
+     background: var(--green-primary, #8bc34a);
+     border-radius: 4px;
+     margin-bottom: 24px;
+ }
+
+ .hero-paragraph {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 20px;
+     font-weight: 400;
+     color: rgba(255, 255, 255, 0.75);
+     line-height: 1.5;
+     margin-bottom: 26px;
+     text-align: left;
+ }
+
+ .hero-actions {
+     display: flex;
+     align-items: center;
+     gap: 36px;
+     flex-wrap: nowrap;
+ }
+
+ .hero-actions .btn-primary,
+ .hero-actions .btn-outline {
+     white-space: nowrap;
+     padding: 14px 32px;
+     font-size: 20px;
+ }
+
+ /* ─── ZONA DEL ATLETA CON BACKLIGHT DIFUSO ─── */
+ .hero-visual-block {
+     position: relative;
+     display: flex;
+     justify-content: flex-start;
+     align-items: center;
+     height: 100%;
+     margin-right: 100px;
+     margin-top: -35px;
+     margin-bottom: -10px;
+ }
+
+ .hero-model-glow {
+     display: block;
+     position: absolute;
+     width: 620px;
+     height: 680px;
+     left: calc(50% - 60px);
+     top: calc(50% + 10px);
+     transform: translate(-50%, -50%);
+     background: radial-gradient(circle at 50% 45%, rgba(0, 210, 255, 0.28) 0%, rgba(139, 195, 74, 0.22) 45%, transparent 75%);
+     filter: blur(70px);
+     opacity: 0.85;
+     border-radius: 50%;
+     z-index: 1;
+     pointer-events: none;
+     transition: opacity 0.4s ease, transform 0.4s ease;
+ }
+
+ .hero-athlete-portrait {
+     position: relative;
+     z-index: 2;
+     height: clamp(420px, 55vh, 500px);
+     width: auto;
+     max-width: none;
+     left: -30px;
+     top: 10px;
+     object-fit: contain;
+     display: block;
+     filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
+     -webkit-mask-image:
+         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+         linear-gradient(to bottom, black 80%, transparent 100%);
+     mask-image:
+         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+         linear-gradient(to bottom, black 80%, transparent 100%);
+     -webkit-mask-composite: source-in;
+     mask-composite: intersect;
+     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .hero-visual-block:hover .hero-model-glow {
+     opacity: 1;
+     transform: translate(-50%, -50%) scale(1.05);
+ }
+
+
+ .hero-visual-block:hover .hero-athlete-portrait {
+     transform: scale(1.015);
+ }
+
+ /* ─────────── FILA INFERIOR: BANDA CONCEPTUAL INTERACTIVA ─────────── */
+ .hero-vlexora-row {
+     display: grid;
+     grid-template-columns: repeat(3, auto);
+     justify-content: space-between;
+     gap: 80px;
+     width: 100%;
+     border-top: none;
+     align-items: flex-start;
+     padding-top: 10px;
+     padding-bottom: 12px;
+ }
+
+ .vlexora-item {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     text-align: left;
+     cursor: default;
+     position: relative;
+ }
+
+ .vlexora-title {
+     font-family: 'Anton', sans-serif;
+     font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+     color: #FFFFFF;
+     line-height: 1;
+     letter-spacing: 0.03em;
+     text-transform: uppercase;
+     text-shadow: 2px 2px 0px var(--green-primary, #8bc34a);
+     margin-bottom: 6px;
+     text-align: left;
+     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+     will-change: transform;
+ }
+
+ /* Línea base estática */
+ .vlexora-accent-line {
+     width: 100%;
+     height: 1.5px;
+     background: rgba(255, 255, 255, 0.08);
+     position: relative;
+     margin-bottom: 8px;
+     overflow: hidden;
+ }
+
+ /* Línea verde que se proyecta al pasar el mouse */
+ .vlexora-accent-line::after {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     height: 100%;
+     width: 50%;
+     background: var(--green-primary, #8bc34a);
+     box-shadow: 0 0 10px rgba(139, 195, 74, 0.5);
+     transform: scaleX(0);
+     transform-origin: left;
+     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .vlexora-desc {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-size: 13px;
+     font-weight: 500;
+     color: rgba(255, 255, 255, 0.82);
+     line-height: 1.35;
+     text-align: left;
+     transition: color 0.3s ease;
+ }
+
+ /* Hover: Desplazamiento 3px + Aparición de la línea verde */
+ .vlexora-item:hover .vlexora-title {
+     transform: translateX(3px);
+ }
+
+ .vlexora-item:hover .vlexora-accent-line::after {
+     transform: scaleX(1);
+ }
+
+ .vlexora-item:hover .vlexora-desc {
+     color: #FFFFFF;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* para el titulo grande de la section de "Nuestra historia" */
+
+ .section-header {
+     text-align: center;
+     margin-bottom: 28px;
+ }
+
+ .section-header .label-green {
+     display: block;
+     margin-bottom: 8px;
+ }
+
+ .section-header .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(3.5rem, 6vw, 4.5rem);
+     color: #FFFFFF;
+     line-height: 1.1;
+     margin-bottom: -20px;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── CARRUSEL SWIPER EN SECCIÓN HISTORIA ─────────── */
+ .history-carousel-col {
+     display: flex;
+     flex-direction: column;
+     min-height: 0;
+     height: 100%;
+     width: 100%;
+ }
+
+ .historySwiper {
+     width: 100%;
+     flex: 1;
+     min-height: 420px;
+     max-height: 600px;
+     border-radius: 20px;
+     overflow: hidden;
+     position: relative;
+     border: 2px solid var(--cyan-primary);
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+     background: #0D1117;
+     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+         border-color 0.8s ease,
+         box-shadow 0.8s ease;
+ }
+
+ .historySwiper:hover {
+     transform: scale(1.02);
+     border-color: var(--cyan-glow);
+     /* Sombras más amplias para un efecto neón fuerte */
+     box-shadow: 0 0 35px var(--cyan-glow), 0 15px 40px rgba(0, 0, 0, 0.8);
+ }
+
+ .historySwiper .swiper-wrapper {
+     height: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+ }
+
+ .historySwiper .swiper-slide {
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+     position: relative;
+ }
+
+ .card-slide-premium {
+     position: relative;
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+     background: #0D1117;
+ }
+
+ .card-slide-premium .kenburns-img {
+     width: 100% !important;
+     height: 100% !important;
+     object-fit: cover !important;
+     display: block;
+     transform: scale(1);
+     transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+     will-change: transform;
+ }
+
+ .historySwiper .swiper-slide-active .kenburns-img {
+     transform: scale(1.04);
+ }
+
+ /* ─────────── 3. ¡EL EFECTO HOVER INTERIOR! ─────────── */
+ /* Al poner el mouse, la imagen acelera su crecimiento (0.6s en lugar de 8s) */
+ .historySwiper:hover .swiper-slide-active .kenburns-img {
+     transform: scale(1.03) !important;
+     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+ }
+
+ /* Slide 3: Ancla la imagen arriba para salvar el logo */
+ .historySwiper .swiper-slide:nth-child(3) .kenburns-img {
+     object-position: center top !important;
+ }
+
+
+
+ /* Pill con el número de slide */
+ .slide-number {
+     position: absolute;
+     top: 18px;
+     left: 18px;
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: 14px;
+     letter-spacing: 0.04em;
+     color: rgba(255, 255, 255, 0.95);
+     background: rgba(0, 0, 0, 0.65);
+     backdrop-filter: blur(8px);
+     -webkit-backdrop-filter: blur(8px);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     padding: 4px 14px;
+     border-radius: 20px;
+     z-index: 10;
+ }
+
+ /* Degradado inferior con título y texto */
+ .slide-overlay-premium {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     padding: 20px 24px 28px;
+     background: linear-gradient(0deg, rgba(13, 17, 23, 0.95) 0%, rgba(13, 17, 23, 0.6) 60%, transparent 100%);
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-end;
+     z-index: 5;
+     pointer-events: none;
+ }
+
+ .slide-overlay-premium h3 {
+     font-family: 'Bebas Neue', 'Anton', sans-serif;
+     font-size: 24px;
+     color: #FFFFFF;
+     margin-bottom: 2px;
+     letter-spacing: 0.04em;
+ }
+
+ .slide-overlay-premium p {
+     font-size: 13.5px;
+     color: rgba(255, 255, 255, 0.75);
+     line-height: 1.4;
+     margin: 0;
+     text-align: left;
+ }
+
+ /* Paginación de cápsulas inferiores */
+ .historySwiper .swiper-pagination {
+     bottom: 12px !important;
+     z-index: 10;
+     display: flex;
+     justify-content: center;
+     gap: 8px;
+ }
+
+ .historySwiper .swiper-pagination-bullet {
+     width: 8px;
+     height: 8px;
+     background: rgba(255, 255, 255, 0.3);
+     opacity: 1;
+     border-radius: 20px;
+     transition: all 0.3s ease;
+     cursor: pointer;
+ }
+
+ .historySwiper .swiper-pagination-bullet-active {
+     background: var(--green-primary, #8bc34a);
+     width: 28px;
+ }
+
+ @media (max-width: 991px) {
+     .historySwiper {
+         height: 320px;
+     }
+ }
+
+
+
+
+
+
+
+ /* ─────────── SECCIÓN HISTORIA ─────────── */
+ .history-section {
+     background: #0D1117;
+     padding-top: 30px;
+     /* 👈 Reduce el espacio de arriba contra el header */
+     padding-bottom: 70px;
+     /* 👈 Le da aire cómodo contra el piso de la pantalla */
+ }
+
+ .history-grid {
+     display: grid;
+     grid-template-columns: 1.1fr .9fr;
+     gap: 50px;
+     align-items: center;
+ }
+
+ .history-text p {
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.85);
+     line-height: 1.7;
+     margin-bottom: 16px;
+     text-align: justify;
+ }
+
+ .history-text p:last-child {
+     margin-bottom: 0;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+ /* ─────────── SECCIÓN UNIFICADA: INSTALACIONES & VIDEO REEL ─────────── */
+ .facilities-showcase-section {
+     background: #0D1117;
+     padding: 40px 0px;
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+ }
+
+ .facilities-showcase-section[id] {
+     scroll-margin-top: 80px;
+ }
+
+ .facilities-showcase-grid {
+     display: grid;
+     grid-template-columns: 1.35fr 0.65fr;
+     gap: 52px;
+     align-items: start;
+ }
+
+ /* Encabezados y textos */
+ .facilities-header-group {
+     margin-bottom: 20px;
+ }
+
+ .facilities-header-group .label-green {
+     margin-bottom: 10px;
+     display: block;
+     font-size: 13px;
+     letter-spacing: 0.15em;
+ }
+
+ .facilities-info-col .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     /* Fila agregada para cambiar la fuente */
+     font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+     line-height: 0.95;
+     letter-spacing: 0.02em;
+     margin: -10;
+ }
+
+ .facilities-lead-intro {
+     font-size: 17px;
+     font-weight: 500;
+     color: rgba(255, 255, 255, 0.87);
+     line-height: 1.5;
+     margin-bottom: 0px;
+     /* espacio entre el subtítulo y el texto */
+ }
+
+ .facilities-lead-text {
+     font-size: 15px;
+     /* Sube de 14.5px a 15px */
+     color: rgba(255, 255, 255, 0.85);
+     /* Más opacidad, deja de verse apagado (antes 0.72) */
+     line-height: 1.75;
+     /* Da más respiro entre las líneas */
+     margin-bottom: 20px;
+     text-align: justify;
+ }
+
+
+ /* 3 Cards con distribución vertical y respiro */
+ .mini-training-grid {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 16px;
+     margin-bottom: 24px;
+ }
+
+ .mini-card {
+     /* Se aplica el brillo de forma estática */
+     border: 1px solid var(--cyan-glow);
+     background: rgba(255, 255, 255, 0.025);
+     border-radius: 16px;
+     padding: 26px 16px 22px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+     transition: transform 0.3s ease;
+ }
+
+ .mini-card:hover {
+     transform: translateY(-9px);
+     box-shadow: 0 0 20px rgba(0, 210, 255, 0.25);
+ }
+
+ .mini-card-icon {
+     width: 52px;
+     height: 52px;
+     border-radius: 12px;
+     background: rgba(139, 195, 74, 0.08);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin-bottom: 14px;
+ }
+
+ .mini-card-icon i {
+     font-size: 28px;
+     color: var(--green-primary);
+ }
+
+ .mini-card h3 {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: 22px;
+     color: #FFFFFF;
+     letter-spacing: 0.04em;
+     margin-bottom: 8px;
+ }
+
+ .mini-card p {
+     font-size: 12.5px;
+     color: rgba(255, 255, 255, 0.6);
+     line-height: 1.45;
+     margin: 0;
+     text-align: center;
+ }
+
+ .facilities-cta-wrap {
+     margin-top: 4px;
+ }
+
+ .facilities-cta-wrap .btn-primary:hover {
+     transform: translateY(-12px);
+     /* Reemplaza el escalado por elevación vertical */
+     box-shadow: 0 10px 25px rgba(156, 204, 101, 0.6);
+     /* Mantiene el brillo verde */
+ }
+
+ /* Columna Derecha: Video Reel 9/13.1 */
+ .facilities-video-col {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .reel-video-wrapper {
+     width: 100%;
+     max-width: 360px;
+     aspect-ratio: 9 / 13.1;
+     border-radius: 20px;
+     overflow: hidden;
+     position: relative;
+     border: 2px solid var(--cyan-primary);
+     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+     background: #000;
+     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+ }
+
+ .reel-video-wrapper:hover {
+     transform: scale(1.02);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 0 30px var(--cyan-glow), 0 15px 40px rgba(0, 0, 0, 0.8);
+ }
+
+ .reel-video-wrapper video {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     display: block;
+ }
+
+ /* Responsive */
+ @media (max-width: 1100px) {
+     .mini-training-grid {
+         grid-template-columns: 1fr;
+     }
+
+     .mini-card {
+         flex-direction: row;
+         text-align: left;
+         padding: 16px 20px;
+         gap: 16px;
+     }
+
+     .mini-card-icon {
+         margin-bottom: 0;
+         flex-shrink: 0;
+     }
+
+     .mini-card p {
+         text-align: left;
+     }
+ }
+
+ @media (max-width: 991px) {
+     .facilities-showcase-grid {
+         grid-template-columns: 1fr;
+         gap: 40px;
+     }
+
+     .facilities-header-group,
+     .facilities-lead-intro,
+     .facilities-lead-text,
+     .facilities-cta-wrap {
+         text-align: center;
+     }
+
+     .reel-video-wrapper {
+         max-width: 320px;
+         margin: 0 auto;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── SECCIÓN COMUNIDAD: 100VH EXACTOS (SIN MOSTRAR EL FOOTER) ─────────── */
+ .community-showcase-section {
+     background: #0A0A0A;
+     min-height: calc(100vh - 80px);
+     /* 👈 Ocupa exactamente la ventana descontando el header */
+     height: auto;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 50px 0px;
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+     overflow: hidden;
+ }
+
+ .community-showcase-section[id] {
+     scroll-margin-top: 80px;
+ }
+
+ .community-showcase-section .container {
+     width: 100%;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     /* 👈 Distribuye armónicamente los 3 bloques */
+     padding-inline: 24px;
+ }
+
+ /* 1. Encabezado */
+ .community-header-wide {
+     text-align: center;
+     margin-bottom: 18px;
+     margin-top: -10px;
+     /* Añade este margen negativo para subir todo el contenido */
+ }
+
+ .community-header-wide .label-green {
+     margin-bottom: 4px;
+     display: inline-block;
+     font-size: 15px;
+     letter-spacing: 0.15em;
+ }
+
+ .community-header-wide .section-title {
+     font-size: clamp(2.3rem, 3.6vw, 3.6rem);
+     line-height: 0.95;
+     margin-bottom: 8px;
+ }
+
+ .section-subtitle-wide {
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.75);
+     max-width: 980px;
+     margin: 0 auto;
+     text-align: center;
+     line-height: 1.45;
+ }
+
+ /* 2. Tarjetas de Pilares */
+ .community-cards-grid {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 18px;
+     margin-bottom: 22px;
+ }
+
+ .community-card {
+     background: rgba(255, 255, 255, 0.025);
+     /* Borde iluminado constante y sombra cyan sutil */
+     border: 1.5px solid var(--cyan-glow);
+     border-radius: 14px;
+     padding: 16px 20px;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     text-align: left;
+     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .community-card:hover {
+     transform: translateY(-4px);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4);
+ }
+
+ .community-card-header {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     margin-bottom: 6px;
+     width: 100%;
+ }
+
+ .community-card-icon {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     background: rgba(139, 195, 74, 0.1);
+     border: 1px solid rgba(139, 195, 74, 0.25);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-shrink: 0;
+ }
+
+ .community-card-icon i {
+     font-size: 21px;
+     color: var(--green-primary);
+ }
+
+ .community-card h3 {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: 22px;
+     color: #FFFFFF;
+     letter-spacing: 0.03em;
+     margin: 0;
+     line-height: 1.1;
+ }
+
+ .community-card p {
+     font-size: 13px;
+     color: rgba(255, 255, 255, 0.65);
+     line-height: 1.45;
+     margin: 0;
+     text-align: left;
+ }
+
+ /* 3. Carrusel con mayor presencia visual */
+ .vlexora-carousel-wrap {
+     width: 100%;
+     overflow: hidden;
+     mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+     padding: 4px 0;
+     /* Añade esta línea para separar el carrusel de las tarjetas de abajo */
+     margin-bottom: 20px;
+ }
+
+ .vlexora-carousel-track {
+     display: flex;
+     width: max-content;
+     animation: vlexoraScroll 60s linear infinite;
+ }
+
+ .vlexora-carousel-track:hover {
+     animation-play-state: paused;
+ }
+
+ @keyframes vlexoraScroll {
+     0% {
+         transform: translateX(0);
+     }
+
+     100% {
+         transform: translateX(-50%);
+     }
+ }
+
+ .vlexora-card {
+     width: 310px;
+     /* 👈 Imagen más ancha y proporcionada */
+     height: 280px;
+     /* 👈 Altura que llena el espacio sin desbordar */
+     border: 2px solid var(--cyan-primary);
+     border-radius: 14px;
+     overflow: hidden;
+     margin-inline: 10px;
+     flex-shrink: 0;
+     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .vlexora-card:hover {
+     transform: scale(1.03);
+     border-color: var(--cyan-glow);
+     box-shadow: 0 0 25px var(--cyan-glow);
+ }
+
+ .vlexora-img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     display: block;
+ }
+
+ /* Responsive */
+ @media (max-width: 991px) {
+     .community-showcase-section {
+         height: auto;
+         min-height: auto;
+         padding: 40px 0;
+     }
+
+     .community-cards-grid {
+         grid-template-columns: 1fr;
+         gap: 14px;
+     }
+
+     .vlexora-card {
+         width: 260px;
+         height: 180px;
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ─────────── RESPONSIVE ─────────── */
+ @media (max-width: 991px) {
+
+     .history-grid {
+         grid-template-columns: 1fr;
+         gap: 40px;
+     }
+
+ }

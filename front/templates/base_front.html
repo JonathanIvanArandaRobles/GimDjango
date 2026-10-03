@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título dinámico por página -->
+    <title>{% block title %}Oeste Fitness Club{% endblock %}</title>
+
+    <!-- FAVICON (Común a todas las páginas) -->
+    <link rel="icon" type="image/png" href="{% static 'img/common/favicon.png' %}">
+
+    <!-- METADATOS Y SEO (Variables por página) -->
+    {% block meta_tags %}{% endblock %}
+
+    <!-- LIBRERÍAS DE TERCEROS (CDNs comunes) -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bloque para librerías extra (Ej: Swiper JS, Typed.js, Cloudflare) -->
+    {% block extra_libs %}{% endblock %}
+
+    <!-- ESTILOS MODULARES -->
+    <!-- Base de estilos común -->
+    <link rel="stylesheet" href="{% static 'css/base_front.css' %}">
+    
+    <!-- Bloque para los CSS específicos de cada página/sección -->
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- ─── OVERLAY ─── -->
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+    <!-- ─── HEADER COMÚN A TODAS LAS PÁGINAS ─── -->
+    <header id="main-header">
+        <nav id="navbar" aria-label="Navegación principal">
+
+            <!-- Logo -->
+            <!-- NOTA: {% url 'index_front' %} asume que nombraste a tu URL 'index_front' en urls.py -->
+            <a href="{% url 'index_front' %}" aria-label="Volver al inicio" class="nav-logo">
+                <img src="{% static 'img/common/logo.png' %}" alt="Oeste Club">
+            </a>
+
+            <!-- Menú de navegación -->
+            <div class="nav-menu" id="navMenu">
+                <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">
+                    <i class='bx bx-x'></i>
+                </button>
+
+                <ul class="nav-links">
+                    <!-- 1. INICIO -->
+                    <li>
+                        <a href="{% url 'index_front' %}#inicio" class="{% if request.resolver_match.url_name == 'index_front' %}nav-active{% endif %}">INICIO</a>
+                    </li>
+
+                    <!-- 2. NOSOTROS -->
+                    <li class="nav-item-dropdown">
+                        <div class="dropdown-trigger-row">
+                            <a href="{% url 'about_front' %}" class="nav-link-main {% if request.resolver_match.url_name == 'about_front' %}nav-active{% endif %}">NOSOTROS</a>
+                            <button type="button" class="dropdown-caret-btn" aria-label="Desplegar menú Nosotros">
+                                <i class='bx bx-chevron-down'></i>
+                            </button>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'about_front' %}#historia">Nuestra historia</a></li>
+                            <li><a href="{% url 'about_front' %}#instalaciones">Instalaciones</a></li>
+                            <li><a href="{% url 'about_front' %}#comunidad">Comunidad</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 3. SERVICIOS (Ancla a la página de inicio) -->
+                    <li><a href="{% url 'index_front' %}#servicios">SERVICIOS</a></li>
+
+                    <!-- 4. CLASES (Dinámico con la BD) -->
+                    <li class="nav-item-dropdown">
+                        <div class="dropdown-trigger-row">
+                            <!-- Si estamos viendo una clase, se marca "CLASES" en verde -->
+                            <a href="{% url 'index_front' %}#clases-grupales" class="nav-link-main {% if request.resolver_match.url_name == 'clase_detalle' %}nav-active{% endif %}">CLASES</a>
+                            <button type="button" class="dropdown-caret-btn" aria-label="Desplegar menú Clases">
+                                <i class='bx bx-chevron-down'></i>
+                            </button>
+                        </div>
+
+                        <ul class="dropdown-menu dropdown-clases-grid">
+                            <!-- Dejo rutas estáticas por ahora, luego lo harás dinámico -->
+
+                            <!-- <li><a href="/clases/spinning/">Spinning</a></li>
+                            <li><a href="/clases/funcional/">Funcional</a></li>
+                            <li><a href="/clases/pilates/">Pilates</a></li>
+                            <li><a href="/clases/body_pump/">Body Pump</a></li>
+                            <li><a href="/clases/body_combat/">Body Combat</a></li>
+                            <li><a href="/clases/localizada/">Localizada</a></li>
+                            <li><a href="/clases/ringside/">Ringside</a></li>
+                            <li><a href="/clases/yoga/">Yoga</a></li>
+                            <li><a href="/clases/stretching/">Stretching</a></li>
+                            <li><a href="/clases/zumba/">Zumba</a></li>
+                            <li><a href="/clases/latin_style/">Latin Style</a></li> -->
+
+                            {% for c in clases %}
+                                <li><a href="{% url 'clase_detalle' c.slug %}">{{ c.nombre }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- 5. PROFES (Ancla a la página de inicio) -->
+                    <li><a href="{% url 'index_front' %}#trainers">PROFES</a></li>
+                    
+                    <!-- 6. PRECIOS (Ancla a la página de inicio) -->
+                    <li><a href="{% url 'index_front' %}#precios">PRECIOS</a></li>
+
+                    <!-- 7. CONTACTO -->
+                    <li class="nav-item-dropdown">
+                        <div class="dropdown-trigger-row">
+                            <a href="{% url 'contacto_front' %}" class="nav-link-main {% if request.resolver_match.url_name == 'contacto_front' %}nav-active{% endif %}">CONTACTO</a>
+                            <button type="button" class="dropdown-caret-btn" aria-label="Desplegar menú Contacto">
+                                <i class='bx bx-chevron-down'></i>
+                            </button>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'contacto_front' %}#ubicacion"><i class='bx bx-map-pin'></i> Dónde encontrarnos</a></li>
+                            <li><a href="{% url 'contacto_front' %}#faq"><i class='bx bx-help-circle'></i> Preguntas frecuentes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <button type="button" class="nav-cta-wa mobile-cta btn-abrir-consulta">
+                    CONSULTA DIRECTA
+                </button>
+            </div>
+
+            <button type="button" class="nav-cta-wa btn-abrir-consulta">
+                CONSULTA DIRECTA
+            </button>
+
+            <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación">
+                <i class='bx bx-menu'></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ─── CONTENIDO PRINCIPAL DINÁMICO ─── -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ─── MODAL CONSULTA DIRECTA (Común en la mayoría de las páginas) ─── -->
+    {% block modal_consulta %}
+    <!-- Si alguna página necesita un modal distinto, puede sobrescribir este bloque -->
+    <div class="modal-overlay" id="consultaModal" aria-hidden="true">
+        <div class="modal-glass-card modal-consulta-card" role="dialog" aria-modal="true">
+            <button class="modal-close-btn" id="consultaModalCloseBtn" aria-label="Cerrar modal">
+                <i class='bx bx-x'></i>
+            </button>
+            <div class="socio-modal-header">
+                <div class="modal-title-wrap">
+                    <i class='bx bxl-whatsapp socio-wa-icon-title'></i>
+                    <h2 class="modal-title">CONSULTA DIRECTA</h2>
+                </div>
+                <p class="modal-description">Completá este breve formulario para chatear directamente por WhatsApp.</p>
+            </div>
+            <form id="consultaWaForm" class="socio-form-grid">
+                <div class="form-group">
+                    <label for="ws_nombre_c">Nombre y Apellido <span class="req">*</span></label>
+                    <input type="text" id="ws_nombre_c" required placeholder="Ej: Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="ws_interes">¿Qué te interesa? <span class="req">*</span></label>
+                    <select id="ws_interes" required>
+                        <option value="">Seleccioná una opción</option>
+                        <option value="Musculación">Musculación</option>
+                        <option value="Funcional">Funcional</option>
+                        <option value="Quiero conocer precios">Quiero conocer precios</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ws_mensaje_c">Mensaje <span class="opt">(opcional)</span></label>
+                    <textarea id="ws_mensaje_c" placeholder="Ej: Quisiera saber horarios..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-wa btn-socio-submit">
+                    <i class='bx bxl-whatsapp'></i> ENVIAR
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
+    
+    <!-- ─── FOOTER COMÚN ─── -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <a href="{% url 'index_front' %}" class="footer-logo">
+                        <img src="{% static 'img/common/logo.png' %}" alt="Oeste Club">
+                    </a>
+                    <p class="footer-slogan">
+                        Más salud, más energía y más comunidad en San Justo. Un gimnasio para todos.
+                    </p>
+                    <div class="footer-social-icons">
+                        <a href="{{ info_contacto.instagram|default:'https://instagram.com/oestefitnessclub' }}" target="_blank" aria-label="Instagram"><i class='bx bxl-instagram'></i></a>
+                        <a href="{{ info_contacto.facebook|default:'https://facebook.com/oestefitnessclub' }}" target="_blank" aria-label="Facebook"><i class='bx bxl-facebook'></i></a>
+                        <a href="{{ info_contacto.tiktok|default:'https://tiktok.com/@oestefitnessclub' }}" target="_blank" aria-label="TikTok"><i class='bx bxl-tiktok'></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">NAVEGACIÓN</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="{% url 'index_front' %}">Inicio</a></li>
+                        <li><a href="{% url 'about_front' %}">Sobre Nosotros</a></li>
+                        <li><a href="{% url 'contacto_front' %}">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">INFORMACIÓN</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="{% url 'contacto_front' %}#ubicacion">Dónde Encontrarnos</a></li>
+                        <li><a href="{% url 'contacto_front' %}#faq">Preguntas Frecuentes (FAQ)</a></li>
+                        <li><a href="/terminos/">Términos y Condiciones</a></li>
+                        <li><a href="/privacidad/">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">VISÍTANOS</h4>
+                    <ul class="footer-info-list">
+                        <li class="schedule-item">Lun a Vie: {{ info_contacto.horario_semana|default:"06:30 - 22:00 hs" }}</li>
+                        <li class="schedule-item">Sábados: {{ info_contacto.horario_sabados|default:"09:00 - 17:00 hs" }}</li>
+                        <li class="schedule-item">Feriados: {{ info_contacto.horario_feriados|default:"09:00 - 15:00 hs" }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Oeste Fitness Club.</p>
+                <div class="footer-legal-links">
+                    <p>Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ─── SCRIPTS GLOBALES ─── -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <!-- Bloque para JS de terceros (Swiper, Turnstile, Typed) -->
+    {% block extra_js_libs %}{% endblock %}
+
+    <script src="{% static 'js/main_front.js' %}"></script>
+
+    <!-- Bloque para JS propios de cada página/sección -->
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

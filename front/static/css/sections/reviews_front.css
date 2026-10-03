@@ -1,0 +1,302 @@
+ /* ─── SECCIÓN REVIEWS ─── */
+ .reviews-section {
+     background: #06080B;
+     min-height: calc(100vh - 80px);
+     display: flex;
+     align-items: center;
+     padding: 30px 0;
+     position: relative;
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+     scroll-margin-top: 80px;
+     box-sizing: border-box;
+     overflow: visible !important;
+ }
+
+ .reviews-section .container {
+     width: 100%;
+     max-width: 1260px;
+     margin: 0 auto;
+     padding: 0 20px;
+     overflow: visible !important;
+ }
+
+ .reviews-header {
+     text-align: center;
+     margin-bottom: 5px;
+ }
+
+ .reviews-header .label-green {
+     display: block;
+     font-size: 15px;
+     letter-spacing: 0.16em;
+     margin-bottom: 6px;
+ }
+
+ .reviews-header .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2.3rem, 3.6vw, 3.1rem);
+     color: #FFFFFF;
+     line-height: 1;
+     margin-bottom: 6px;
+ }
+
+ /* Insignia Oficial Google */
+ .google-badge-pill {
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     background: rgba(13, 17, 23, 0.95);
+     border: 1px solid rgba(255, 255, 255, 0.12);
+     padding: 7px 20px;
+     border-radius: 30px;
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+ }
+
+ .google-icon-pill {
+     font-size: 22px;
+     color: #4285F4;
+ }
+
+ .google-score-num {
+     font-family: 'Anton', sans-serif;
+     font-size: 20px;
+     color: #FFFFFF;
+     letter-spacing: 0.02em;
+ }
+
+ .stars-gold-row {
+     display: flex;
+     gap: 2px;
+ }
+
+ .stars-gold-row i {
+     color: #FFB800;
+     font-size: 16px;
+ }
+
+ .google-total-reviews {
+     font-size: 12.5px;
+     color: rgba(255, 255, 255, 0.7);
+     border-left: 1px solid rgba(255, 255, 255, 0.15);
+     padding-left: 10px;
+ }
+
+ .google-total-reviews strong {
+     color: var(--green-hover);
+ }
+
+ /* Carrusel Viewport & Track */
+ .reviews-carousel-wrapper {
+     position: relative;
+     width: 100%;
+     padding: 8px 0;
+     margin-bottom: 5px;
+ }
+
+ .reviews-carousel-viewport {
+     overflow: hidden;
+     width: 100%;
+     padding: 16px 6px;
+     margin: -10px 0;
+ }
+
+ .reviews-track {
+     display: flex;
+     gap: 24px;
+     transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+     will-change: transform;
+ }
+
+ /* Flechas Laterales */
+ .btn-review-arrow {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 44px;
+     height: 44px;
+     border-radius: 50%;
+     background: rgba(13, 17, 23, 0.9);
+     border: 1.5px solid var(--cyan-primary);
+     color: var(--cyan-glow);
+     font-size: 26px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     backdrop-filter: blur(8px);
+     transition: all 0.3s ease;
+     z-index: 10;
+ }
+
+ .btn-review-arrow.btn-review-prev {
+     left: -25px;
+ }
+
+ .btn-review-arrow.btn-review-next {
+     right: -25px;
+ }
+
+ .btn-review-arrow:hover {
+     background: var(--green-hover);
+     border-color: var(--green-hover);
+     color: #0A0A0A;
+     box-shadow: 0 0 20px rgba(160, 240, 60, 0.7);
+     transform: translateY(-50%) scale(1.1);
+ }
+
+
+
+
+
+ /* Card Review */
+ .review-card {
+     /* 3 cards simultáneas en pantalla */
+     flex: 0 0 calc((100% - 48px) / 3);
+     background: #0D1117;
+     /* Se cambia el blanco transparente por un azul/cian sutil (30% de opacidad) */
+     border: 1.5px solid rgba(0, 210, 255, 0.3);
+     border-radius: 18px;
+     padding: 22px 20px 20px;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     position: relative;
+     box-sizing: border-box;
+     will-change: transform;
+     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+         border-color 0.3s ease,
+         box-shadow 0.3s ease !important;
+ }
+
+ /* Hover: Se eleva y resplandece en Cyan activo */
+ .review-card:hover {
+     transform: translateY(-6px) scale(1.03) !important;
+     border-width: 2px !important;
+     border-color: var(--cyan-glow) !important;
+     box-shadow: 0 14px 35px rgba(0, 210, 255, 0.35) !important;
+     z-index: 10;
+ }
+
+ /* Encabezado del Usuario */
+ .review-card-head {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     margin-bottom: 12px;
+ }
+
+ .review-user-avatar {
+     width: 46px;
+     height: 46px;
+     border-radius: 50%;
+     object-fit: cover;
+     border: 2px solid var(--green-primary);
+     flex-shrink: 0;
+ }
+
+ .review-user-meta {
+     display: flex;
+     flex-direction: column;
+     text-align: left;
+ }
+
+ .review-user-name {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-weight: 700;
+     font-size: 15px;
+     color: #FFFFFF;
+     line-height: 1.2;
+ }
+
+ .review-verified-badge {
+     font-size: 11px;
+     font-weight: 600;
+     color: var(--green-hover);
+     display: inline-flex;
+     align-items: center;
+     gap: 4px;
+     margin-top: 2px;
+ }
+
+ .review-verified-badge i {
+     font-size: 13px;
+ }
+
+ /* Estrellas */
+ .review-stars-row {
+     display: flex;
+     gap: 2px;
+     margin-bottom: 12px;
+ }
+
+ .review-stars-row i.bxs-star {
+     color: #FFB800;
+     font-size: 15px;
+ }
+
+ .review-stars-row i.bx-star {
+     color: rgba(255, 255, 255, 0.2);
+     font-size: 15px;
+ }
+
+ /* Comentario */
+ .review-text-body {
+     font-size: 13.5px;
+     color: rgba(255, 255, 255, 0.85);
+     line-height: 1.6;
+     text-align: left;
+     margin-bottom: 18px;
+     flex-grow: 1;
+ }
+
+ /* Footer de la Card */
+ .review-card-footer {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     border-top: 1px solid rgba(255, 255, 255, 0.06);
+     padding-top: 12px;
+     font-size: 11.5px;
+ }
+
+ .review-time {
+     color: rgba(255, 255, 255, 0.45);
+ }
+
+ .review-direct-link {
+     color: var(--cyan-glow);
+     font-weight: 600;
+     display: inline-flex;
+     align-items: center;
+     gap: 4px;
+     transition: opacity 0.25s ease;
+ }
+
+ .review-direct-link:hover {
+     opacity: 0.8;
+     text-decoration: underline;
+ }
+
+ /* Fila de Botones Inferiores */
+ .reviews-actions-row {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 20px;
+     flex-wrap: wrap;
+ }
+
+ /* Efecto hover exclusivo para el botón de la sección reviews */
+ .reviews-actions-row .btn-primary:hover {
+     transform: translateY(-4px) scale(1) !important;
+     /* -4px lo eleva sutilmente sin agrandarlo */
+     box-shadow: 0 0 20px rgba(160, 240, 60, 0.6) !important;
+ }
+
+
+
+
+
+
+
+

@@ -1,0 +1,286 @@
+{% extends 'base_front.html' %}
+{% load static %}
+
+<!-- ======================= -->
+<!-- TÍTULO Y METADATOS      -->
+<!-- ======================= -->
+{% block title %}Oeste Fitness Club — Sobre Nosotros{% endblock %}
+
+{% block meta_tags %}
+<meta name="description"
+    content="Conocé la historia, las instalaciones y la comunidad de OESTE FITNESS CLUB. Mucho más que un gimnasio en San Justo.">
+<meta property="og:site_name" content="Oeste Club">
+<meta property="og:title" content="Oeste Fitness Club — Sobre Nosotros">
+<meta property="og:description"
+    content="Una comunidad que entrena, evoluciona y crece junta. Descubrí OESTE FITNESS CLUB.">
+<meta property="og:image" content="{% static 'img/common/logo.jpg' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- LIBRERÍAS EXTRA (HEAD)  -->
+<!-- ======================= -->
+{% block extra_libs %}
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CSS ESPECÍFICO          -->
+<!-- ======================= -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/about_front.css' %}">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CONTENIDO PRINCIPAL     -->
+<!-- ======================= -->
+{% block content %}
+
+<!-- ─── SECCIÓN 1: HERO ─── -->
+<section class="hero-clean hero-layout-bottom-cards" id="inicio">
+    <div class="hero-main-container">
+
+        <div class="hero-top-row">
+            <div class="hero-text-block" data-aos="fade-right" data-aos-duration="700">
+                <span class="hero-tag">OESTE FITNESS CLUB · NOSOTROS</span>
+                <h1 class="hero-heading">
+                    MUCHO MÁS <br>
+                    <span class="green-accent">QUE UN GIMNASIO.</span>
+                </h1>
+                <div class="hero-divider"></div>
+                <p class="hero-paragraph">
+                    Una comunidad que entrena, evoluciona y crece junta. <br>
+                    Un lugar donde el esfuerzo se comparte y cada progreso cuenta.
+                </p>
+                <div class="hero-actions">
+                    <a href="#historia" class="btn-primary">NUESTRA HISTORIA</a>
+                    <a href="#instalaciones" class="btn-outline">VER INSTALACIONES</a>
+                </div>
+            </div>
+
+            <div class="hero-visual-block" data-aos="fade-left" data-aos-duration="800">
+                <div class="hero-model-glow" aria-hidden="true"></div>
+                <img src="{% static 'img/about/hero.png' %}" alt="Atleta Oeste Club" class="hero-athlete-portrait">
+            </div>
+        </div>
+
+        <div class="hero-vlexora-row" data-aos="fade-up" data-aos-duration="900">
+            <div class="vlexora-item">
+                <span class="vlexora-title">COMPROMISO</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Clases y planes pensados para cada nivel</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">COMUNIDAD</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Un espacio humano que te impulsa a avanzar</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">RESULTADOS</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Constancia, evolución y objetivos alcanzables</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ─── SECCIÓN 2: NUESTRA HISTORIA ─── -->
+<section class="history-section" id="historia">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="label-green">Nuestra Historia</span>
+            <h2 class="section-title">SE CONSTRUYE TODOS LOS DÍAS</h2>
+        </div>
+        <div class="history-grid">
+
+            <div class="history-carousel-col" data-aos="fade-right">
+                <div class="swiper historySwiper">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide">
+                            <div class="card-slide-premium">
+                                <img src="{% static 'img/about/cuadros/history-1.jfif' %}"
+                                    alt="Historia Oeste Club - Inicio" class="kenburns-img">
+                                <div class="slide-overlay-premium">
+                                    <h3>TRAYECTORIA Y PASIÓN</h3>
+                                    <p>Décadas forjando una verdadera comunidad fitness en San Justo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide">
+                            <div class="card-slide-premium">
+                                <img src="{% static 'img/about/cuadros/history-2.png' %}"
+                                    alt="Instalaciones y Comunidad" class="kenburns-img">
+                                <div class="slide-overlay-premium">
+                                    <h3>UN SEGUNDO HOGAR</h3>
+                                    <p>Calidad humana y acompañamiento real en cada paso de tu evolución.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide">
+                            <div class="card-slide-premium">
+                                <img src="{% static 'img/about/cuadros/history-3.png' %}" alt="Espacio y Equipamiento"
+                                    class="kenburns-img">
+                                <div class="slide-overlay-premium">
+                                    <h3>ESPACIO EN EXPANSIÓN</h3>
+                                    <p>Más de 1000 m² diseñados con tecnología y equipamiento de vanguardia.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class="history-text" data-aos="fade-left">
+                <p>
+                    <strong>Oeste Fitness Club</strong> nació hace varias décadas como el sueño de nuestro fundador:
+                    crear un punto de encuentro donde el esfuerzo, la constancia y el bienestar transformaran la vida de
+                    los vecinos de San Justo.
+                </p>
+                <p>
+                    Somos, ante todo, un <strong>legado familiar que atraviesa tres generaciones</strong>. El proyecto
+                    fue continuado por su hija y hoy late con la energía de sus nietas en la gestión diaria. Esa
+                    herencia se siente en cada rincón:
+                    mantenemos intactos los valores de cercanía, calidez humana y atención personalizada, haciendo que
+                    cada socio sienta este espacio como su <strong>segundo hogar</strong>.
+                </p>
+                <p>
+                    Evolucionamos sin perder nuestras raíces. Hoy contamos con más de <strong>1000 m²</strong>
+                    completamente renovados, equipamiento de vanguardia, amplios sectores de musculación y clases
+                    dirigidas.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── SECCIÓN INSTALACIONES ─── -->
+<section class="facilities-showcase-section" id="instalaciones">
+    <div class="container">
+        <div class="facilities-showcase-grid">
+
+            <div class="facilities-info-col" data-aos="fade-right">
+                <div class="facilities-header-group">
+                    <span class="label-green">EXPERIMENTA OESTE FITNESS CLUB</span>
+                    <h2 class="section-title">UN ESPACIO ALINEADO CON TUS OBJETIVOS</h2>
+                </div>
+                <p class="facilities-lead-intro">Conocé <strong>Oeste Fitness Club</strong> desde adentro y descubrí una
+                    forma diferente de superarte.</p>
+                <p class="facilities-lead-text">
+                    Renovamos cada metro cuadrado para potenciar tu rendimiento: equipamiento biomecánico de primer
+                    nivel en <strong>musculación y pesos libres</strong>, un sector dinámico de <strong>cardio de alta
+                        exigencia</strong> y espacios amplios diseñados para <strong>clases guiadas en grupo</strong>.
+                </p>
+
+                <div class="mini-training-grid">
+                    <div class="mini-card">
+                        <div class="mini-card-icon"><i class='bx bx-dumbbell'></i></div>
+                        <h3>MUSCULACIÓN</h3>
+                        <p>Fuerza y sobrecarga con biomecánica de vanguardia.</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="mini-card-icon"><i class='bx bx-group'></i></div>
+                        <h3>CLASES GRUPALES</h3>
+                        <p>Sesiones donde la energía del grupo te empuja a dar más.</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="mini-card-icon"><i class='bx bx-heart'></i></div>
+                        <h3>CARDIO</h3>
+                        <p>Sector aeróbico completo para elevar tu resistencia.</p>
+                    </div>
+                </div>
+
+                <div class="facilities-cta-wrap">
+                    <a href="{% url 'index_front' %}#clases-grupales" class="btn-primary">CONOCÉ NUESTRAS CLASES</a>
+                </div>
+            </div>
+
+            <div class="facilities-video-col" data-aos="fade-left">
+                <div class="reel-video-wrapper">
+                    <video controls poster="{% static 'img/about/preview.png' %}" preload="none" playsinline loop>
+                        <source src="{% static 'video/about-video.mp4' %}" type="video/mp4">
+                        Tu navegador no soporta videos HTML5.
+                    </video>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── SECCIÓN UNIFICADA: COMUNIDAD OESTE ─── -->
+<section class="community-showcase-section" id="comunidad">
+    <div class="container">
+
+        <div class="section-header community-header-wide" data-aos="fade-up">
+            <span class="label-green">Nuestra Comunidad</span>
+            <h2 class="section-title">MÁS QUE UN GIMNASIO, UN SEGUNDO HOGAR</h2>
+            <p class="section-subtitle-wide">
+                En Oeste Fitness Club construimos un espacio cercano y motivador donde cada socio forma parte de una
+                comunidad.
+            </p>
+        </div>
+
+        <div class="vlexora-carousel-wrap" data-aos="fade-up" data-aos-delay="200">
+            <div class="vlexora-carousel-track">
+                {% for item in fotos_comunidad %}
+                <article class="vlexora-card">
+                    <img src="{{ item.imagen.url }}" alt="Comunidad Oeste Fitness Club" class="vlexora-img" loading="lazy">
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="community-cards-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="community-card">
+                <div class="community-card-header">
+                    <div class="community-card-icon"><i class='bx bx-door-open'></i></div>
+                    <h3>PUERTAS ABIERTAS</h3>
+                </div>
+                <p>Brindamos acceso sin restricciones a toda persona, <br>sin importar su edad, nivel físico o
+                    antecedentes deportivos.</p>
+            </div>
+            <div class="community-card">
+                <div class="community-card-header">
+                    <div class="community-card-icon"><i class='bx bx-shield-quarter'></i></div>
+                    <h3>SEGURIDAD TOTAL</h3>
+                </div>
+                <p>Instalaciones monitoreadas por camaras y con acceso a casilleros de acceso individual con tu candado
+                    personal.</p>
+            </div>
+            <div class="community-card">
+                <div class="community-card-header">
+                    <div class="community-card-icon"><i class='bx bx-user-voice'></i></div>
+                    <h3>ENTRENADOR PERSONAL</h3>
+                </div>
+                <p>Planes adaptados a tus objetivos con seguimiento cercano <br>para aprovechar al máximo tu experiencia
+                    en el club.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+<!-- ======================= -->
+<!-- LIBRERÍAS JS EXTRA      -->
+<!-- ======================= -->
+{% block extra_js_libs %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+{% endblock %}
+
+<!-- ======================= -->
+<!-- JS ESPECÍFICO           -->
+<!-- ======================= -->
+{% block extra_js %}
+<script src="{% static 'js/pages/about_front.js' %}"></script>
+{% endblock %}

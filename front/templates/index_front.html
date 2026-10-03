@@ -1,0 +1,816 @@
+{% extends 'base_front.html' %}
+{% load static %}
+
+<!-- ======================= -->
+<!-- TÍTULO Y METADATOS      -->
+<!-- ======================= -->
+{% block title %}Oeste Fitness Club — Inicio{% endblock %}
+
+{% block meta_tags %}
+<meta name="description"
+    content="Oeste Fitness Club en San Justo. Entrená en un espacio con comunidad, clases y entrenadores. Conocé nuestras instalaciones.">
+<meta property="og:title" content="Oeste Fitness Club — Inicio">
+<meta property="og:description"
+    content="Mucho más que un gimnasio. Una comunidad que entrena y crece junta.">
+<meta property="og:image" content="{% static 'img/common/logo.png' %}">
+<meta property="og:type" content="website">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- LIBRERÍAS EXTRA (HEAD)  -->
+<!-- ======================= -->
+{% block extra_libs %}
+<!-- Swiper CSS -->
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- Typed JS -->
+<script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CSS ESPECÍFICO          -->
+<!-- ======================= -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/index_front.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/reviews_front.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/trainers_front.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/prices_front.css' %}">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CONTENIDO PRINCIPAL     -->
+<!-- ======================= -->
+{% block content %}
+
+<!-- ─── HERO ─── -->
+<section class="hero-home" id="inicio">
+    <div class="hero-main-container">
+        <div class="hero-top-row">
+            <div class="hero-text-block" data-aos="fade-right"
+                data-aos-duration="700">
+                <span class="hero-tag">OESTE FITNESS CLUB</span>
+                <h1 class="hero-heading">
+                    SÉ MÁS FUERTE<br>
+                    <span class="green-accent">QUE TUS EXCUSAS.</span>
+                </h1>
+                <div class="hero-divider"></div>
+                <p class="hero-paragraph">
+                    Sé tu mejor versión recordando que <br>
+                    el único entrenamiento malo es el que no hiciste.
+                </p>
+                <div class="hero-actions">
+                    <a href="#about" class="btn-primary">CONOCÉ OESTE</a>
+                    <a href="#clases-grupales" class="btn-outline">VER
+                        CLASES</a>
+                </div>
+            </div>
+
+            <div class="hero-visual-block" data-aos="fade-left"
+                data-aos-duration="800">
+                <div class="hero-model-glow" aria-hidden="true"></div>
+                <img src="{% static 'img/index/hero.png' %}"
+                    alt="Atletas Oeste Club" class="hero-athlete-portrait">
+            </div>
+        </div>
+
+        <div class="hero-vlexora-row" data-aos="fade-up"
+            data-aos-duration="900">
+            <div class="vlexora-item">
+                <span class="vlexora-title">ACOMPAÑAMIENTO</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Profesores expertos a tu
+                    disposicion</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">RESULTADOS</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Constancia, evolución y objetivos
+                    alcanzables</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">FLEXIBILIDAD</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Entrená según tu ritmo</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ABOUT / NUESTRA MISIÓN ─── -->
+<section class="about-home" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-video-wrapper">
+                <video id="aboutVideo" class="about-video" playsinline loop
+                    preload="metadata">
+                    <source src="{% static 'video/clases-video.mp4' %}"
+                        type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+                <button type="button" class="btn-video-play" id="btnVideoPlay"
+                    aria-label="Reproducir video">
+                    <i class='bx bx-play'></i>
+                </button>
+                <button type="button" class="btn-video-mute" id="btnVideoMute"
+                    aria-label="Silenciar o activar sonido">
+                    <i class='bx bx-volume-full'></i>
+                </button>
+            </div>
+
+            <div class="about-text-block" data-aos="fade-left">
+                <div class="about-text-header">
+                    <span class="label-green">Actividades</span>
+                    <h2 class="section-title">DESCUBRÍ TU DISCIPLINA</h2>
+                </div>
+                <p>Descubrí una amplia gama de emocionantes clases en nuestro
+                    gimnasio diseñadas para atender todos los
+                    niveles e intereses de fitness...</p>
+                <p>Liberá tu potencial y emprendé el viaje hacia una vida más
+                    fuerte, en forma y con más confianza.</p>
+
+                <div class="typed-clases-line">
+                    <span class="typed-label">ENTRENÁ:</span>
+                    <span class="typed-clases"
+                        data-clases="{% for clase in clases %}{{ clase.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}"></span>
+                </div>
+
+                <div class="about-cta">
+                    <a href="{% url 'about_front' %}"
+                        class="btn-primary btn-lift">CONOCÉ MÁS SOBRE OESTE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SECCIÓN: SERVICIOS ─── -->
+<section class="classes-slider-section" id="servicios">
+    <div class="container">
+        <div class="classes-slider-wrapper" data-aos="fade-up">
+            <button type="button" class="btn-arrow-side btn-prev"
+                id="btnPrevServicios" aria-label="Servicio anterior">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+
+            <div class="classes-slider-track">
+                <!-- Slide 1: Musculación -->
+                <div class="class-slide active">
+                    <div class="class-slide-text">
+                        <div class="class-card-header">
+                            <span class="label-green">NUESTROS SERVICIOS</span>
+                            <h2 class="section-title">MUSCULACIÓN</h2>
+                        </div>
+                        <p class="class-slide-desc">Entrenamiento con sobrecarga
+                            progresiva en una sala equipada con
+                            maquinaria preparada para ti y un sector de peso
+                            libre.</p>
+
+                        <div class="mini-gallery-container">
+                            <div class="mini-gallery-track">
+                                {% for foto in fotos_musculacion %}
+                                    <div class="mini-gallery-item"><img src="{{ foto.imagen.url }}" alt="Instalaciones Musculación"></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="checks-action-row">
+                            <ul class="class-features-list">
+                                <li><i class='bx bx-check-circle'></i> Rutinas
+                                    personalizadas con tu objetivo</li>
+                                <li><i class='bx bx-check-circle'></i>
+                                    Equipamiento de primer nivel</li>
+                                <li><i class='bx bx-check-circle'></i>
+                                    Seguimiento constante</li>
+                            </ul>
+                            <div class="class-slide-actions">
+                                <a href="#precios"
+                                    class="btn-primary btn-lift">PLANES Y
+                                    PRECIOS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="class-slide-image-wrapper">
+                        <img src="{% static 'img/clases/musculacion.png' %}"
+                            alt="Musculación" class="class-slide-img">
+                    </div>
+                </div>
+
+                <!-- Slide 2: Cardio -->
+                <div class="class-slide">
+                    <div class="class-slide-text">
+                        <div class="class-card-header">
+                            <span class="label-green">NUESTROS SERVICIOS</span>
+                            <h2 class="section-title">ENTRENAMIENTO
+                                CARDIOVASCULAR</h2>
+                        </div>
+                        <p class="class-slide-desc">Sesiones enfocadas en
+                            mejorar tu resistencia aeróbica, salud
+                            cardíaca y quema calórica.</p>
+
+                        <div class="mini-gallery-container">
+                            <div class="mini-gallery-track">
+                                {% for foto in fotos_cardio %}
+                                    <div class="mini-gallery-item"><img src="{{ foto.imagen.url }}" alt="Instalaciones Cardio"></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="checks-action-row">
+                            <ul class="class-features-list">
+                                <li><i class='bx bx-check-circle'></i>
+                                    Optimización aeróbica</li>
+                                <li><i class='bx bx-check-circle'></i> Control
+                                    de intensidad</li>
+                                <li><i class='bx bx-check-circle'></i> Pérdida
+                                    de calorias</li>
+                            </ul>
+                            <div class="class-slide-actions">
+                                <a href="#precios"
+                                    class="btn-primary btn-lift">PLANES Y
+                                    PRECIOS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="class-slide-image-wrapper">
+                        <img src="{% static 'img/clases/cardio.png' %}"
+                            alt="Cardio" class="class-slide-img">
+                    </div>
+                </div>
+
+                <!-- Slide 3: Entrenamiento Deportivo -->
+                <div class="class-slide">
+                    <div class="class-slide-image-wrapper">
+                        <img src="{% static 'img/servicios/fisica.png' %}"
+                            alt="Entrenamiento Deportivo"
+                            class="class-slide-img">
+                    </div>
+                    <div class="class-slide-text">
+                        <div class="class-card-header">
+                            <span class="label-green">NUESTROS SERVICIOS</span>
+                            <h3 class="section-title">ENTRENAMIENTO
+                                DEPORTIVO</h3>
+                        </div>
+                        <p class="class-slide-desc">Instrucción deportiva y
+                            preparación físico-técnica de fútbol con más
+                            de 20 años de experiencia internacional.</p>
+                        <ul class="class-features-list">
+                            <li><i class='bx bx-check-circle'></i> Categorías
+                                profesional, juvenil e infantil (AFA +11).
+                            </li>
+                            <li><i class='bx bx-check-circle'></i>
+                                Acondicionamiento físico, técnica y
+                                velocidad.</li>
+                        </ul>
+                        <div class="class-slide-actions">
+                            <button type="button"
+                                class="btn-primary btn-lift btn-abrir-consulta">CONSULTAR</button>
+                            <a href="https://www.instagram.com/futgoltraining"
+                                target="_blank" rel="noopener noreferrer"
+                                class="btn-outline-inline">
+                                <i class='bx bxl-instagram'
+                                    style="font-size: 20px; vertical-align: middle; margin-right: 6px;"></i>
+                                VER MÁS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Nutrición Aplicada -->
+                <div class="class-slide">
+                    <div class="class-slide-image-wrapper">
+                        <img src="{% static 'img/servicios/nutricion.png' %}"
+                            alt="Nutrición Aplicada"
+                            class="class-slide-img">
+                    </div>
+                    <div class="class-slide-text">
+                        <div class="class-card-header">
+                            <span class="label-green">NUESTROS SERVICIOS</span>
+                            <h3 class="section-title">NUTRICIÓN APLICADA</h3>
+                        </div>
+                        <p class="class-slide-desc">Servicio integral de
+                            nutrición clínica y deportiva enfocado en la
+                            reeducación alimentaria.</p>
+                        <ul class="class-features-list">
+                            <li><i class='bx bx-check-circle'></i> Consulta
+                                nutricional y cambio de hábitos.</li>
+                            <li><i class='bx bx-check-circle'></i>
+                                Antropometrías y análisis de composición
+                                corporal.
+                            </li>
+                        </ul>
+                        <div class="class-slide-actions">
+                            <button type="button"
+                                class="btn-primary btn-lift btn-abrir-consulta">PEDIR
+                                TURNO</button>
+                            <a
+                                href="https://www.instagram.com/nutricionaplicada__"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-outline-inline">
+                                <i class='bx bxl-instagram'
+                                    style="font-size: 20px; vertical-align: middle; margin-right: 6px;"></i>
+                                VER MÁS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Masajes Terapéuticos -->
+                <div class="class-slide">
+                    <div class="class-slide-image-wrapper">
+                        <img src="{% static 'img/servicios/masajes.png' %}"
+                            alt="Viking Massage"
+                            class="class-slide-img">
+                    </div>
+                    <div class="class-slide-text">
+                        <div class="class-card-header">
+                            <span class="label-green">NUESTROS SERVICIOS</span>
+                            <h3 class="section-title">MASAJES TERAPÉUTICOS</h3>
+                        </div>
+                        <p class="class-slide-desc">Espacio de recuperación
+                            muscular, descontracturación y relajación
+                            mental.</p>
+                        <ul class="class-features-list">
+                            <li><i class='bx bx-check-circle'></i> Masajes
+                                descontracturantes, relajantes, faciales y
+                                linfáticos.</li>
+                            <li><i class='bx bx-check-circle'></i> Bienestar
+                                físico, alivio de sobrecargas y mejor
+                                descanso.</li>
+                        </ul>
+                        <div class="class-slide-actions">
+                            <button type="button"
+                                class="btn-primary btn-lift btn-abrir-consulta">RESERVAR
+                                TURNO</button>
+                            <a href="https://www.instagram.com/viking.massage"
+                                target="_blank" rel="noopener noreferrer"
+                                class="btn-outline-inline">
+                                <i class='bx bxl-instagram'
+                                    style="font-size: 20px; vertical-align: middle; margin-right: 6px;"></i>
+                                VER MÁS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-arrow-side btn-next"
+                id="btnNextServicios" aria-label="Siguiente servicio">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ─── SECCIÓN: CLASES GRUPALES ─── -->
+<section class="clases-multi-section" id="clases-grupales">
+    <div class="container">
+        <div class="clases-multi-header" data-aos="fade-up">
+            <span class="label-green">NUESTRAS DISCIPLINAS</span>
+            <h2 class="section-title">ELEGÍ TU CLASE</h2>
+        </div>
+
+        <div class="clases-multi-carousel-wrapper" data-aos="fade-up"
+            data-aos-delay="100">
+            <button type="button" class="btn-clase-arrow btn-clase-prev"
+                id="btnPrevClaseMulti">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+
+            <div class="clases-multi-viewport">
+                <div class="clases-multi-track" id="clasesMultiTrack">
+
+                    <!-- Bucle dinámico de Django -->
+                    {% for clase in clases %}
+                    <div class="clase-card">
+                        <div class="clase-card-inner">
+
+                            <!-- Link a la vista dinámica usando el slug -->
+                            <a href="{% url 'clase_detalle' clase.slug %}"
+                                class="clase-img-link">
+                                {% if clase.video_poster %}
+                                <img src="{{ clase.video_poster.url }}"
+                                    alt="{{ clase.nombre }}"
+                                    class="clase-card-img">
+                                {% else %}
+                                <img src="{% static 'img/common/logo.png' %}"
+                                    alt="{{ clase.nombre }}"
+                                    class="clase-card-img"
+                                    style="object-fit: contain; background: #111;">
+                                {% endif %}
+                            </a>
+
+                            <div class="clase-card-action">
+                                <!-- Botón que también lleva a la vista dinámica -->
+                                <a href="{% url 'clase_detalle' clase.slug %}"
+                                    class="btn-primary btn-lift">MÁS
+                                    DETALLES</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p
+                        style="color: white; text-align: center; width: 100%; padding: 20px;">No
+                        hay clases disponibles
+                        en este momento.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <button type="button" class="btn-clase-arrow btn-clase-next"
+                id="btnNextClaseMulti">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ─── REVIEWS / OPINIONES GOOGLE ─── -->
+<section class="reviews-section" id="comunidad">
+    <div class="container">
+        <div class="reviews-header" data-aos="fade-up">
+            <span class="label-green">TESTIMONIOS REALES</span>
+            <h2 class="section-title">LO QUE DICEN NUESTROS SOCIOS</h2>
+            <div class="google-badge-pill">
+                <i class='bx bxl-google google-icon-pill'></i>
+                <span class="google-score-num">4.6</span>
+                <div class="stars-gold-row">
+                    <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i
+                        class='bx bxs-star'></i><i
+                        class='bx bxs-star'></i><i class='bx bxs-star-half'></i>
+                </div>
+                <span class="google-total-reviews"><strong>+579
+                        opiniones</strong> en Google</span>
+            </div>
+        </div>
+
+        <div class="reviews-carousel-wrapper" data-aos="fade-up"
+            data-aos-delay="100">
+            <button type="button" class="btn-review-arrow btn-review-prev"
+                id="btnPrevReview"
+                aria-label="Opinión anterior">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+
+            <div class="reviews-carousel-viewport">
+                <div class="reviews-track" id="reviewsTrack">
+                    {% for review in resenas %}
+                    <div class="review-card">
+                        <div class="review-card-head">
+                            <img src="{{ review.avatar }}"
+                                alt="{{ review.nombre }}"
+                                class="review-user-avatar" loading="lazy">
+                            <div class="review-user-meta">
+                                <h4 class="review-user-name">{{ review.nombre }}</h4>
+                                <span class="review-verified-badge">
+                                    <i class='bx bxs-check-circle'></i> Reseña
+                                    verificada · Google
+                                </span>
+                            </div>
+                        </div>
+                        <div class="review-stars-row">
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                        </div>
+                        <p class="review-text-body">
+                            "{{ review.texto }}"
+                        </p>
+                        <div class="review-card-footer">
+                            <span class="review-time">{{ review.tiempo }}</span>
+                            {% if review.link_google %}
+                            <a href="{{ review.link_google }}" target="_blank"
+                                rel="noopener noreferrer"
+                                class="review-direct-link">
+                                Ver reseña en Google <i
+                                    class='bx bx-link-external'></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p
+                        style="color: white; text-align: center; width: 100%; padding: 20px;">No
+                        hay testimonios disponibles en este momento.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="button" class="btn-review-arrow btn-review-next"
+                id="btnNextReview"
+                aria-label="Siguiente opinión">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ─── TRAINERS ─── -->
+<section class="trainers-section" id="trainers">
+    <div class="container">
+        <div class="trainers-header" data-aos="fade-up">
+            <span class="label-green">NUESTROS PROFES</span>
+            <h2 class="section-title">EL EQUIPO QUE TE ACOMPAÑA</h2>
+        </div>
+
+        <div class="trainers-carousel-wrapper" data-aos="fade-up"
+            data-aos-delay="100">
+            <button type="button" class="btn-trainer-arrow btn-trainer-prev"
+                id="btnPrevTrainer">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+
+            <div class="trainers-carousel-viewport">
+                <div class="trainers-track" id="trainersTrack">
+                    {% for profe in profesores %}
+                    <div class="trainer-card">
+                        <div class="trainer-card-image-box">
+                            <div
+                                class="trainer-glow-halo {% cycle 'halo-green' 'halo-cyan' %}"></div>
+                            {% if profe.foto %}
+                            <img src="{{ profe.foto.url }}"
+                                alt="{{ profe.nombre }}" class="trainer-img">
+                            {% else %}
+                            <img src="{% static 'img/common/logo.png' %}"
+                                alt="{{ profe.nombre }}" class="trainer-img"
+                                style="object-fit: contain;">
+                            {% endif %}
+                        </div>
+                        <div class="trainer-card-info">
+                            <h3 class="trainer-name">{{ profe.nombre|upper }}</h3> 
+                            <!-- cuidado con los saltos de linea porque no pueden el html no logra capturar los datos -->
+                            <span class="trainer-discipline">{{profe.disciplinas}}</span>
+                            <div class="trainer-socials">
+                                {% if profe.instagram %}
+                                <a href="{{ profe.instagram }}" target="_blank"
+                                    aria-label="Instagram"><i
+                                        class='bx bxl-instagram'></i></a>
+                                {% endif %}
+                                {% if profe.facebook %}
+                                <a href="{{ profe.facebook }}" target="_blank"
+                                    aria-label="Facebook"><i
+                                        class='bx bxl-facebook'></i></a>
+                                {% endif %}
+                                {% if profe.tiktok %}
+                                <a href="{{ profe.tiktok }}" target="_blank"
+                                    aria-label="TikTok"><i
+                                        class='bx bxl-tiktok'></i></a>
+                                {% endif %}
+                                {% if profe.youtube %}
+                                <a href="{{ profe.youtube }}" target="_blank"
+                                    aria-label="YouTube"><i
+                                        class='bx bxl-youtube'></i></a>
+                                {% endif %}
+                                {% if profe.linkedin %}
+                                <a href="{{ profe.linkedin }}" target="_blank"
+                                    aria-label="LinkedIn"><i
+                                        class='bx bxl-linkedin'></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p
+                        style="color: white; text-align: center; width: 100%; padding: 20px;">No
+                        hay profesores cargados por el momento.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="button" class="btn-trainer-arrow btn-trainer-next"
+                id="btnNextTrainer">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+        <p class="trainers-disclaimer">Profesionales que entienden tu proceso y
+            te impulsan a tu mejor versión.</p>
+    </div>
+</section>
+
+
+
+<!-- ─── SECCIÓN PRECIOS / PLANES ─── -->
+<section class="pricing-section" id="precios">
+    <div class="container">
+        <div class="pricing-header" data-aos="fade-up">
+            <span class="label-green">MEMBRESÍAS</span>
+            <h2 class="section-title">ELEGÍ TU PLAN</h2>
+        </div>
+
+        <div class="pricing-grid">
+            {% for plan in planes %}
+            <div
+                class="pricing-card{% if plan.destacado %} featured-plan{% endif %}"
+                data-aos="fade-up" data-aos-delay="100">
+
+                {% if plan.destacado %}
+                <div class="plan-badge">RECOMENDADO</div>
+                {% endif %}
+
+                <div class="pricing-card-top">
+                    <h3 class="plan-name">{{ plan.nombre }}</h3>
+                    <div class="plan-dual-prices">
+                        <div class="price-row-primary">
+                            <span class="modality-title">{{ plan.modalidad_1_titulo }}</span>
+                            <div class="modality-price">
+                                <span class="currency">$</span>{{ plan.modalidad_1_precio }}<span
+                                    class="period">/mes</span>
+                            </div>
+                        </div>
+
+                        {% if plan.modalidad_2_precio %}
+                        <div class="price-divider"><span>o</span></div>
+                        <div class="price-row-secondary">
+                            <span class="modality-title-sub">{{ plan.modalidad_2_titulo }}</span>
+                            <span class="modality-price-sub">${{ plan.modalidad_2_precio }}<small>/mes</small></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <ul class="plan-features">
+                    {% for beneficio in plan.beneficios.all %}
+                    <li><i class='bx bx-check'></i> {{ beneficio.descripcion }}</li>
+                    {% empty %}
+                    <li><i class='bx bx-check'></i> Consultar beneficios en recepción</li>
+                    {% endfor %}
+                </ul>
+
+                <button type="button"
+                    class="btn-plan-select{% if plan.destacado %} btn-plan-featured{% else %} btn-plan-outline{% endif %}"
+                    data-plan="{{ plan.nombre }} ({{ plan.modalidad_1_titulo }} ${{ plan.modalidad_1_precio }}{% if plan.modalidad_2_precio %} / {{ plan.modalidad_2_titulo }} ${{ plan.modalidad_2_precio }}{% endif %})">
+                    SELECCIONAR PLAN
+                </button>
+            </div>
+            {% empty %}
+            <p
+                style="color: white; text-align: center; width: 100%; padding: 20px;">No
+                hay planes disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+
+        <p class="pricing-disclaimer">Precios sujetos a actualización. Consultá
+            las promociones y condiciones vigentes.</p>
+    </div>
+</section>
+
+<!-- ─── MODAL ALTA DE PLAN (Específico del Index) ─── -->
+<div class="modal-overlay" id="planModal" aria-hidden="true">
+    <div class="modal-glass-card plan-modal-container" role="dialog"
+        aria-modal="true">
+        <button class="modal-close-btn" id="planModalCloseBtn"
+            aria-label="Cerrar modal"><i
+                class='bx bx-x'></i></button>
+
+        <div class="socio-modal-header-centered">
+            <div class="modal-title-wrap">
+                <i class='bx bxl-whatsapp socio-wa-icon-title'></i>
+                <h2 class="modal-title">ALTA DE PLAN</h2>
+            </div>
+            <p class="modal-description">Completá tus datos para registrarte por
+                WhatsApp.</p>
+        </div>
+
+        <form id="formPlanWa" class="plan-form-grid">
+            <div class="form-group-full">
+                <label id="labelPlanNombre">PLAN: SELECCIONAR</label>
+                <div class="modality-selector-row"
+                    id="modalitySelectorContainer"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg_nombre">Nombre <span
+                            class="req">*</span></label>
+                    <input type="text" id="reg_nombre" required
+                        placeholder="Ej: Juan">
+                </div>
+                <div class="form-group">
+                    <label for="reg_apellido">Apellido <span
+                            class="req">*</span></label>
+                    <input type="text" id="reg_apellido" required
+                        placeholder="Ej: Pérez">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg_dni">DNI <span class="req">*</span></label>
+                    <input type="number" id="reg_dni" required
+                        placeholder="Ej: 40123456">
+                </div>
+                <div class="form-group">
+                    <label for="reg_nacimiento">Nacimiento <span
+                            class="req">*</span></label>
+                    <input type="date" id="reg_nacimiento" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg_domicilio">Domicilio <span
+                            class="req">*</span></label>
+                    <input type="text" id="reg_domicilio" required
+                        placeholder="Calle y N°">
+                </div>
+                <div class="form-group">
+                    <label for="reg_localidad">Localidad <span
+                            class="req">*</span></label>
+                    <select id="reg_localidad" required>
+                        <option value>Seleccionar</option>
+                        <option value="San Justo">San Justo</option>
+                        <option value="Ramos Mejía">Ramos Mejía</option>
+                        <option value="Villa Luzuriaga">Villa Luzuriaga</option>
+                        <option value="Otra">Otra localidad</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg_celular">Celular <span
+                            class="req">*</span></label>
+                    <input type="tel" id="reg_celular" required
+                        placeholder="Ej: 11 2345-6789">
+                </div>
+                <div class="form-group">
+                    <label for="reg_mail">Email <span
+                            class="req">*</span></label>
+                    <input type="email" id="reg_mail" required
+                        placeholder="Ej: tuemail@gmail.com">
+                </div>
+            </div>
+            <button type="submit" class="btn-socio-submit">
+                <i class='bx bxl-whatsapp'></i> ENVIAR POR WHATSAPP
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- ======================= -->
+<!-- LIBRERÍAS JS EXTRA      -->
+<!-- ======================= -->
+{% block extra_js_libs %}
+<!-- Swiper JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+{% endblock %}
+
+<!-- ======================= -->
+<!-- JS ESPECÍFICO           -->
+<!-- ======================= -->
+{% block extra_js %}
+<script src="{% static 'js/pages/index_front.js' %}"></script>
+<script src="{% static 'js/sections/reviews_front.js' %}"></script>
+<script src="{% static 'js/sections/trainers_front.js' %}"></script>
+<script src="{% static 'js/sections/prices_front.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,370 @@
+{% extends 'base_front.html' %}
+{% load static %}
+
+<!-- ======================= -->
+<!-- TÍTULO Y METADATOS      -->
+<!-- ======================= -->
+{% block title %}Oeste Fitness Club — Contacto{% endblock %}
+
+{% block meta_tags %}
+<meta name="description"
+    content="Contactanos para resolver tus dudas sobre planes, clases y horarios en Oeste Fitness Club.">
+<meta property="og:site_name" content="Oeste Club">
+<meta property="og:title" content="Oeste Fitness Club — Contacto">
+<meta property="og:description"
+    content="Estamos para ayudarte. Completá el formulario y te responderemos a la brevedad.">
+<meta property="og:image" content="{% static 'img/common/logo.png' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- LIBRERÍAS EXTRA (HEAD)  -->
+<!-- ======================= -->
+{% block extra_libs %}
+<!-- Script de Cloudflare Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CSS ESPECÍFICO          -->
+<!-- ======================= -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/contacto_front.css' %}">
+{% endblock %}
+
+<!-- ======================= -->
+<!-- CONTENIDO PRINCIPAL     -->
+<!-- ======================= -->
+{% block content %}
+
+<!-- ─── 1. HERO ─── -->
+<section class="hero-clean hero-layout-bottom-cards" id="inicio">
+    <div class="hero-main-container">
+
+        <div class="hero-top-row">
+            <div class="hero-text-block" data-aos="fade-right" data-aos-duration="700">
+                <span class="hero-tag">OESTE FITNESS CLUB · CONTACTO</span>
+                <h1 class="hero-heading">
+                    ESTAMOS PARA <br>
+                    <span class="green-accent">AYUDARTE.</span>
+                </h1>
+                <div class="hero-divider"></div>
+                <p class="hero-paragraph">
+                    Si tenés dudas sobre nuestras clases, planes o promociones, <br>
+                    completá el formulario y te responderemos a la brevedad.
+                </p>
+                <div class="hero-actions">
+                    <a href="#faq" class="btn-primary">PREGUNTAS FRECUENTES</a>
+                    <a href="#ubicacion" class="btn-outline">VER UBICACIÓN</a>
+                </div>
+            </div>
+
+            <div class="hero-visual-block" data-aos="fade-left" data-aos-duration="800">
+                <div class="hero-model-glow" aria-hidden="true"></div>
+                <img src="{% static 'img/contacto/hero.png' %}" alt="Contacto Oeste Club" class="hero-athlete-portrait">
+            </div>
+        </div>
+
+        <div class="hero-vlexora-row" data-aos="fade-up" data-aos-duration="900">
+            <div class="vlexora-item">
+                <span class="vlexora-title">ATENCIÓN RÁPIDA</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Te respondemos lo antes posible.</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">CLARIDAD</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Información que resuelve tus dudas.</span>
+            </div>
+            <div class="vlexora-item">
+                <span class="vlexora-title">+10 ACTIVIDADES</span>
+                <div class="vlexora-accent-line"></div>
+                <span class="vlexora-desc">Para entrenar.</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ─── ABOUT / NUESTRA MISIÓN ─── -->
+<section class="about-home" id="about">
+    <div class="container">
+        <div class="about-grid">
+
+            <div class="about-gallery-wrapper">
+                <img src="{% static 'img/index/mision/1.png' %}" alt="Instalaciones Oeste Club" id="aboutDynamicImg"
+                    class="about-slider-img">
+                <div class="about-slider-dots" id="aboutSliderDots">
+                    <span class="about-dot active" data-index="0"></span>
+                    <span class="about-dot" data-index="1"></span>
+                    <span class="about-dot" data-index="2"></span>
+                    <span class="about-dot" data-index="3"></span>
+                </div>
+            </div>
+
+            <div class="about-text-block" data-aos="fade-left">
+                <div class="about-text-header">
+                    <span class="label-green">NUESTRA MISIÓN</span>
+                    <h2 class="section-title">CONSTRUIR TU MEJOR VERSIÓN</h2>
+                </div>
+                <p>
+                    Desde 1999 brindamos el espacio, la tecnología biomecánica y la guía profesional necesaria
+                    para que superes tus propios límites con resultados reales y sostenibles.
+                </p>
+                <p>
+                    Casi tres décadas formando deportistas y respaldando metas individuales nos respaldan
+                    como referentes para tu entrenamiento.
+                    Nuestros profesores planifican y corrigen cada movimiento de tu rutina, asegurando una
+                    evolución progresiva y constante sin importar tu punto de partida.
+                </p>
+                <p>
+                    Más que un gimnasio, somos una <strong>comunidad real</strong> diseñada en un ambiente
+                    cercano y motivador combinando entrenamiento de primer
+                    nivel con la energía de un espacio humano que te impulsa en cada paso de tu camino.
+                </p>
+
+                <div class="about-cta">
+                    <a href="{% url 'about_front' %}" class="btn-primary btn-lift">CONOCÉ MÁS SOBRE OESTE</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── SECCIÓN DÓNDE ESTAMOS / MAPA ─── -->
+<section class="find-us-section" id="ubicacion">
+    <div class="container">
+        <div class="find-us-grid">
+
+            <div class="find-us-map-wrapper" data-aos="fade-left">
+                <div class="map-frame">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3280.9713756218353!2d-58.5584485!3d-34.6806719!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcc62713b6a0ab%3A0x173b481faa38f3e3!2sOESTE%20FITNESS%20Club!5e0!3m2!1ses!2sar!4v1788120073138!5m2!1ses!2sar"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+            <div class="find-us-info" data-aos="fade-right">
+                <span class="label-green">Encontranos</span>
+                <h2 class="find-us-title">ESTAMOS AQUI</h2>
+                <ul class="location-details">
+                    <li>
+                        <div class="loc-icon"><i class='bx bx-map-pin'></i></div>
+                        <div>
+                            <strong>OESTE CLUB — San Justo</strong>
+                            <p>
+                                <a href="https://maps.app.goo.gl/t6H9D98zE2t9c1jX9" target="_blank">Almafuerte 3460, B1754 ASJ, Prov. de Buenos Aires</a>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="loc-icon"><i class='bx bxl-whatsapp'></i></div>
+                        <div>
+                            <strong>WhatsApp</strong>
+                            <p><a href="https://wa.me/{{ info_contacto.whatsapp|default:'5411539396546' }}" target="_blank">+{{ info_contacto.whatsapp|default:'54 11 5393-96546' }}</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="loc-icon"><i class='bx bx-envelope'></i></div>
+                        <div>
+                            <strong>Correo Electrónico</strong>
+                            <p><a href="mailto:{{ info_contacto.email|default:'oestefitnessclub@gmail.com' }}" class="location-link-block">{{ info_contacto.email|default:'oestefitnessclub@gmail.com' }}</a></p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="hours-card">
+                    <span class="hours-label">HORARIO DE APERTURA Y DE CIERRE</span>
+                    <div class="hours-row">
+                        <span>Lunes a Viernes</span>
+                        <strong>{{ info_contacto.horario_semana|default:"06:30 — 22:00 HS" }}</strong>
+                    </div>
+                    <div class="hours-row">
+                        <span>Sábados</span>
+                        <strong>{{ info_contacto.horario_sabados|default:"09:00 — 17:00 HS" }}</strong>
+                    </div>
+                    <div class="hours-row">
+                        <span>Feriados</span>
+                        <strong>{{ info_contacto.horario_feriados|default:"09:00 — 15:00 HS" }}</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── PREGUNTAS FRECUENTES ─── -->
+<section class="faq-section" id="faq">
+    <div class="container">
+        <span class="label-green center-label">RESOLVÉ TUS DUDAS</span>
+        <h2 class="section-title" data-aos="fade-up">Preguntas Frecuentes</h2>
+
+        <div class="faq-accordion-grid" data-aos="fade-up" data-aos-delay="100">
+            <!-- COLUMNA 1 -->
+            <div class="faq-column">
+                {% for faq in faqs_col1 %}
+                <div class="faq-item">
+                    <button class="faq-trigger" type="button">
+                        <span>{{ forloop.counter }}. {{ faq.pregunta }}</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </button>
+                    <div class="faq-content">
+                        <p>{{ faq.respuesta|linebreaksbr }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p style="color: #a0aec0; padding: 15px;">No hay preguntas en esta columna.</p>
+                {% endfor %}
+            </div>
+
+            <!-- COLUMNA 2 -->
+            <div class="faq-column">
+                {% for faq in faqs_col2 %}
+                <div class="faq-item">
+                    <button class="faq-trigger" type="button">
+                        <span>{{ faqs_col1|length|add:forloop.counter }}. {{ faq.pregunta }}</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </button>
+                    <div class="faq-content">
+                        <p>{{ faq.respuesta|linebreaksbr }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p style="color: #a0aec0; padding: 15px;">No hay preguntas en esta columna.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FORMULARIO OPTIMIZADO FORMSPREE ─── -->
+<section class="contact-section" id="form">
+    <div class="container">
+        <div class="contact-split-card" data-aos="fade-up">
+
+            <!-- Textos de Marca -->
+            <div class="contact-info-col">
+                <span class="label-green">OESTE FITNESS CLUB</span>
+                <h2 class="contact-main-title">CONSULTANOS SIN COMPROMISO</h2>
+                <h3 class="contact-subtitle-transform">RESPONDEMOS TUS DUDAS</h3>
+                <p class="contact-desc-text">
+                    Si tenés dudas sobre nuestras clases, planes o promociones.<br>
+                    Completá el formulario y responderemos a la brevedad.
+                </p>
+                <ul class="contact-benefits-list">
+                    <li><i class='bx bx-check-circle'></i> <span>Respondemos dentro de las <strong>24
+                                hs</strong>.</span></li>
+                    <li><i class='bx bx-check-circle'></i> <span>Te asesoramos según <strong>tus
+                                intereses</strong>.</span></li>
+                    <li><i class='bx bx-check-circle'></i> <span>Clase de prueba, <strong>sin
+                                compromiso</strong>.</span></li>
+                    <li><i class='bx bx-check-circle'></i> <span>Atención <strong>personalizada y
+                                cercana</strong>.</span></li>
+                </ul>
+            </div>
+
+            <!-- Formulario Unificado -->
+            <div class="contact-form-col">
+                <form id="formspreeForm" action="https://formspree.io/f/maqrakpg" method="POST"
+                    class="form-split-layout">
+                    <input type="hidden" name="_subject"
+                        value="Consulta de un potencial cliente para Oeste Fitness Club">
+
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label for="fs_nombre">Nombre <span class="req">*</span></label>
+                            <input type="text" id="fs_nombre" name="Nombre" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fs_apellido">Apellido <span class="req">*</span></label>
+                            <input type="text" id="fs_apellido" name="Apellido" placeholder="Tu apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fs_telefono">Celular <span class="opt">(opcional)</span></label>
+                            <input type="tel" id="fs_telefono" name="Celular" placeholder="Ej: 11 1234-5678"
+                                pattern="[\+]?[0-9\s\-]{10,15}" title="Ingresá un celular válido de al menos 10 dígitos"
+                                inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="fs_email">Email <span class="req">*</span></label>
+                            <input type="email" id="fs_email" name="Email" placeholder="tu@email.com"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                title="Ingresá un correo válido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fs_consulta">¿Sobre qué querés consultar? <span class="req">*</span></label>
+                            <select id="fs_consulta" name="Consulta" required>
+                                <option value="">Seleccioná una opción</option>
+                                <option value="Funcional">Funcional</option>
+                                <option value="Musculación">Musculación</option>
+                                <option value="Planes / Membresías">Planes / Membresías</option>
+                                <option value="Pase Diario">Pase Diario</option>
+                                <option value="Personal Trainer">Personal Trainer</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="fs_mensaje">Mensaje <span class="req">*</span></label>
+                        <textarea id="fs_mensaje" name="Mensaje" placeholder="¿En qué podemos ayudarte?"
+                            required></textarea>
+                    </div>
+
+                    <div class="captcha-privacy-row">
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="privacidad_fs" required>
+                            <label for="privacidad_fs">
+                                <!-- Enlace dinámico a la página de privacidad -->
+                                Acepto la <a href="/privacidad/" target="_blank">Política de privacidad</a>
+                            </label>
+                        </div>
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAAD_QCIMF4ITxUdln" data-theme="dark"></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-mail" id="btnSubmitFS">
+                        <i class='bx bx-envelope'></i> QUIERO MÁS INFORMACIÓN
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── MODAL GLASSMORPHISM DE CONFIRMACIÓN ─── -->
+<div class="modal-overlay" id="successModal" aria-hidden="true">
+    <div class="modal-glass-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal"><i class='bx bx-x'></i></button>
+        <div class="modal-icon-wrapper"><i class='bx bx-check-circle'></i></div>
+        <h2 class="modal-title" id="modalTitle">CONSULTA ENVIADA</h2>
+        <p class="modal-description">Recibimos correctamente tu consulta. Nuestro equipo la revisará y se pondrá en
+            contacto con vos lo antes posible.</p>
+        <p class="modal-subnote">Te responderemos normalmente dentro de las próximas <strong>24 horas hábiles</strong>.
+        </p>
+        <div class="modal-actions">
+            <a href="{% url 'index_front' %}" class="btn-modal-primary">VOLVER AL INICIO</a>
+            <div class="modal-divider"><span>¿Necesitás una respuesta inmediata?</span></div>
+            <a href="https://wa.me/1539396546?text=Hola..." target="_blank" class="btn-modal-wa">
+                <i class='bx bxl-whatsapp'></i> HABLAR POR WHATSAPP
+            </a>
+        </div>
+        <p class="modal-brand-footer">Gracias por confiar en <strong>Oeste Fitness Club</strong>.</p>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- ======================= -->
+<!-- JS ESPECÍFICO           -->
+<!-- ======================= -->
+{% block extra_js %}
+<script src="{% static 'js/pages/contact_front.js' %}"></script>
+{% endblock %}

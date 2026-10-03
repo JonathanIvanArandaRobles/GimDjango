@@ -1,0 +1,1042 @@
+{% extends 'base_gerente.html' %}
+{% load static %}
+
+{% block title %}Oeste Club - Clases y Actividades{% endblock %}
+
+{% block content %}
+<!-- Contenedor principal de la vista -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-background w-full">
+
+    <main class="w-full flex-1 overflow-y-auto bg-background px-gutter-desktop py-space-lg min-h-screen">
+      <div class="flex flex-col w-full gap-6">
+
+        <!-- 1. ENCABEZADO Y ACCIONES PRINCIPALES (CON BOTÓN HAMBURGUESA FIJO) -->
+        <div class="flex flex-col gap-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+
+            <!-- Título e insignia -->
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2">
+                <span
+                  class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm uppercase font-bold tracking-wider">MÓDULO
+                  OPERATIVO</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Sede San Justo</span>
+              </div>
+              <h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Gestión de
+                Clases &amp; Actividades</h1>
+              <p class="font-body-md text-body-md text-on-surface-variant">Control semanal de horarios, profesores,
+                ocupación de salas y lista de alumnos.</p>
+            </div>
+
+            <!-- Controles de grilla y botón hamburguesa -->
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- Selector de Vista: Semana / Día -->
+              <div class="flex items-center bg-surface-container-low p-1 rounded-lg">
+                <button
+                  class="px-3.5 py-1.5 rounded-md bg-surface-container-lowest text-primary font-label-md text-label-md shadow-sm font-bold transition-all"
+                  type="button">Semana</button>
+                <button
+                  class="px-3.5 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all"
+                  type="button">Día</button>
+              </div>
+
+              <!-- Selector de Rango de Fechas -->
+              <div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg">
+                <button
+                  class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container text-on-surface-variant transition-colors"
+                  title="Semana Anterior" type="button">
+                  <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                </button>
+                <span class="font-label-md text-label-md text-on-surface px-1 font-semibold select-none">Semana 22 • 26
+                  May - 01 Jun 2025</span>
+                <button
+                  class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container text-on-surface-variant transition-colors"
+                  title="Semana Siguiente" type="button">
+                  <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                </button>
+                <button
+                  class="ml-1 px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm font-bold shadow-sm transition-all"
+                  type="button">Hoy</button>
+              </div>
+
+              <!-- Editar Grilla -->
+              <button
+                class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all font-semibold"
+                type="button">
+                <span class="material-symbols-outlined text-[18px] text-primary">edit_calendar</span>
+                <span>Editar Grilla</span>
+              </button>
+
+              <!-- BOTÓN HAMBURGUESA FIJO (NUNCA CAMBIA A CRUZ) -->
+              <button id="hamburger-btn"
+                class="flex items-center justify-center w-10 h-10 bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 rounded-xl text-on-surface hover:text-primary shadow-sm transition active:scale-95 cursor-pointer shrink-0"
+                type="button" title="Abrir menú lateral">
+                <svg id="hamburger-icon" class="w-5 h-5 transition-transform duration-200" fill="none"
+                  stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botón + Nueva Clase -->
+          <div class="pt-1">
+            <button
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm transition-all active:scale-95"
+              type="button">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>+ Nueva Clase</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. TARJETAS DE MÉTRICAS OPERATIVAS (KPIs) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <!-- Card 1 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Clases del
+                Período</span>
+              <div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="font-display-lg text-display-lg text-on-surface font-bold">148</span>
+              <span
+                class="font-label-sm text-label-sm text-primary font-bold bg-surface-container-high px-2 py-0.5 rounded-full">+6
+                vs semana ant.</span>
+            </div>
+            <span class="mt-1 font-body-sm text-body-sm text-on-surface-variant">Distribuidas en 4 salas activas y
+              piscina</span>
+          </div>
+          <!-- Card 2 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Alumnos
+                Inscriptos</span>
+              <div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[20px]">groups</span>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="font-display-lg text-display-lg text-on-surface font-bold">3.420</span>
+              <span
+                class="font-label-sm text-label-sm text-secondary font-bold bg-surface-container-high px-2 py-0.5 rounded-full">Reservas
+                activas</span>
+            </div>
+            <span class="mt-1 font-body-sm text-body-sm text-on-surface-variant">Promedio: 23 socios por turno
+              grupal</span>
+          </div>
+          <!-- Card 3 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ocupación
+                Promedio</span>
+              <div
+                class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+                <span class="material-symbols-outlined text-[20px]">donut_large</span>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="font-display-lg text-display-lg text-on-surface font-bold">84.5%</span>
+              <span
+                class="font-label-sm text-label-sm text-on-primary font-bold bg-primary-container px-2 py-0.5 rounded-full">Alta
+                Demanda</span>
+            </div>
+            <div class="mt-2 w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+              <div class="bg-primary-container h-full rounded-full" style="width: 84.5%;"></div>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mayor
+                Convocatoria</span>
+              <div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-error">
+                <span class="material-symbols-outlined text-[20px]">local_fire_department</span>
+              </div>
+            </div>
+            <div class="mt-3">
+              <span class="font-headline-sm text-headline-sm text-on-surface font-bold block truncate">Spinning &amp;
+                CrossFit</span>
+              <span class="font-label-sm text-label-sm text-error font-bold mt-0.5 block">100% cupo agotado
+                habitual</span>
+            </div>
+            <span class="mt-1 font-body-sm text-body-sm text-on-surface-variant">Lista de espera: 42 socios
+              acumulados</span>
+          </div>
+        </div>
+
+        <!-- 3. BARRA DE FILTROS INTERACTIVOS Y BÚSQUEDA -->
+        <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col gap-3">
+          <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+            <!-- Buscador -->
+            <div class="relative flex items-center flex-1 max-w-md">
+              <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+              <input
+                class="w-full pl-10 pr-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-on-surface-variant/70 transition-all"
+                placeholder="Buscar clase (ej: HIIT, Spinning), profesor o socio..." type="text" />
+            </div>
+            <!-- Selectores Rápidos -->
+            <div class="flex flex-wrap items-center gap-2">
+              <select
+                class="px-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+                <option value="todos">Todos los Profesores</option>
+                <option value="lucas">Prof. Lucas Benítez (Spinning / Fuerza)</option>
+                <option value="valeria">Prof. Valeria Rossi (Yoga / Pilates)</option>
+                <option value="matias">Prof. Matías Gauna (CrossFit / HIIT)</option>
+                <option value="camila">Prof. Camila Torres (Natación)</option>
+                <option value="diego">Prof. Diego Sosa (Boxeo)</option>
+              </select>
+              <select
+                class="px-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+                <option value="todos">Todas las Salas</option>
+                <option value="sala1">Sala 1 - Cardio / Ciclo</option>
+                <option value="sala2">Sala 2 - Box Funcional</option>
+                <option value="sala3">Sala 3 - Tatami / Yoga</option>
+                <option value="box">Box Exterior CrossFit</option>
+                <option value="pileta">Piscina Climatizada</option>
+              </select>
+              <select
+                class="px-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+                <option value="todos">Todos los Turnos</option>
+                <option value="manana">Mañana (07:00 - 12:00)</option>
+                <option value="tarde">Tarde (14:00 - 18:00)</option>
+                <option value="noche">Noche (18:00 - 22:30)</option>
+              </select>
+              <button
+                class="p-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                title="Restablecer Filtros" type="button">
+                <span class="material-symbols-outlined text-[20px]">filter_alt_off</span>
+              </button>
+            </div>
+          </div>
+          <!-- Filtro de Categorías / Disciplinas mediante Chips -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none">
+            <span
+              class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider shrink-0">Disciplina:</span>
+            <button
+              class="px-3 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm whitespace-nowrap"
+              type="button">Todas (148)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">Spinning / Indoor Cycle (32)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">CrossFit &amp; WOD (28)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">Funcional HIIT (34)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">Yoga &amp; Pilates (18)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">Natación &amp; Aqua (20)</button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-semibold whitespace-nowrap transition-colors"
+              type="button">Boxeo &amp; Contacto (16)</button>
+          </div>
+        </div>
+
+        <!-- 4. CONTENEDOR PRINCIPAL: CALENDARIO SEMANAL + DRAWER LATERAL DE DETALLE -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          <!-- CALENDARIO DE GRILLA SEMANAL (8 columnas en xl) -->
+          <div
+            class="xl:col-span-8 flex flex-col gap-4 bg-surface-container-lowest p-5 rounded-xl shadow-sm overflow-hidden">
+            <!-- Encabezado de Días -->
+            <div class="grid grid-cols-7 gap-2 pb-3 border-b border-surface-container">
+              <!-- Lun -->
+              <div class="flex flex-col items-center p-2 rounded-lg bg-primary-fixed/30 text-on-primary-fixed">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-primary">LUN</span>
+                <span class="font-headline-sm text-headline-sm font-bold">26</span>
+                <span class="font-label-sm text-label-sm text-primary font-semibold">24 clases</span>
+              </div>
+              <!-- Mar -->
+              <div class="flex flex-col items-center p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">MAR</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">27</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">22 clases</span>
+              </div>
+              <!-- Mie -->
+              <div class="flex flex-col items-center p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">MIÉ</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">28</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">25 clases</span>
+              </div>
+              <!-- Jue -->
+              <div class="flex flex-col items-center p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">JUE</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">29</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">22 clases</span>
+              </div>
+              <!-- Vie -->
+              <div class="flex flex-col items-center p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">VIE</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">30</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">26 clases</span>
+              </div>
+              <!-- Sab -->
+              <div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-low">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">SÁB</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">31</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">18 clases</span>
+              </div>
+              <!-- Dom -->
+              <div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-low/60">
+                <span class="font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">DOM</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-bold">01</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">11 clases</span>
+              </div>
+            </div>
+            <!-- Timeline & Clases de la Grilla -->
+            <div class="space-y-4">
+              <!-- Bloque Horario 07:00 hs -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-label-sm text-label-sm text-primary font-bold bg-surface-container px-2 py-0.5 rounded">07:00
+                    hs</span>
+                  <div class="h-px bg-surface-container flex-1"></div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Turno Mañana Temprano</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Card Clase 1 -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                          <span class="font-headline-sm text-body-lg font-bold text-on-surface">Funcional
+                            Despertar</span>
+                          <span
+                            class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-container/20 text-on-primary-container">FUNCIONAL</span>
+                        </div>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">07:00 - 08:00 • Sala 2 -
+                          Box Central</span>
+                      </div>
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold">18
+                        / 22</span>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <div
+                          class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary font-label-sm text-label-sm font-bold">
+                          VR</div>
+                        <span class="font-label-sm text-label-sm text-on-surface">Valeria Rossi</span>
+                      </div>
+                      <div class="w-24 bg-surface-container h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-primary h-full rounded-full" style="width: 81%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Clase 2 -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                          <span class="font-headline-sm text-body-lg font-bold text-on-surface">Natación Master
+                            Pro</span>
+                          <span
+                            class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-fixed text-on-secondary-fixed">ACUÁTICA</span>
+                        </div>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">07:00 - 08:00 • Piscina
+                          Climatizada</span>
+                      </div>
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">15
+                        / 15 Agotado</span>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <div
+                          class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-on-secondary font-label-sm text-label-sm font-bold">
+                          CT</div>
+                        <span class="font-label-sm text-label-sm text-on-surface">Camila Torres</span>
+                      </div>
+                      <div class="w-24 bg-surface-container h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-error h-full rounded-full" style="width: 100%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bloque Horario 18:30 hs -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-label-sm text-label-sm text-error font-bold bg-error-container/50 px-2 py-0.5 rounded flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+                    18:30 hs • Horario Pico Tarde/Noche
+                  </span>
+                  <div class="h-px bg-surface-container flex-1"></div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Lunes 26 Mayo</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- CLASE DESTACADA / SELECCIONADA -->
+                  <div
+                    class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden ring-2 ring-primary">
+                    <div
+                      class="absolute top-0 right-0 px-3 py-1 bg-primary text-on-primary font-label-sm text-label-sm font-bold rounded-bl-lg flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[14px]">visibility</span>
+                      <span>Inspeccionando</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary text-on-secondary uppercase">Spinning
+                          Cycle</span>
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold">Casi
+                          Lleno (93%)</span>
+                      </div>
+                      <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1.5">Spinning Power
+                        Intermedio</h3>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">18:30 - 19:30 hs • Sala 1 (Piso 2 -
+                        Cardio)</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-surface-container">
+                      <div class="flex items-center justify-between mb-1.5">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Capacidad: <strong
+                            class="text-on-surface">28 / 30 alumnos</strong></span>
+                        <span class="font-label-sm text-label-sm text-primary font-bold">2 vacantes</span>
+                      </div>
+                      <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                        <div class="bg-primary h-full rounded-full" style="width: 93%;"></div>
+                      </div>
+                      <div class="mt-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                          <div
+                            class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-primary font-label-sm text-label-sm">
+                            LB</div>
+                          <div class="flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface font-bold">Prof. Lucas
+                              Benítez</span>
+                            <span class="font-label-sm text-[10px] text-on-surface-variant">3 años en el club</span>
+                          </div>
+                        </div>
+                        <span class="material-symbols-outlined text-primary text-[20px]">arrow_forward</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card CrossFit WOD -->
+                  <div
+                    class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-error text-on-error uppercase">CrossFit</span>
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">100%
+                          Agotado (+5 en espera)</span>
+                      </div>
+                      <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1.5">CrossFit WOD Fuerza
+                        &amp; Gimnásticos</h3>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">18:30 - 19:30 hs • Box Principal
+                        Exterior</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-surface-container">
+                      <div class="flex items-center justify-between mb-1.5">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Capacidad: <strong
+                            class="text-on-surface">24 / 24 alumnos</strong></span>
+                        <span class="font-label-sm text-label-sm text-error font-bold">Completo</span>
+                      </div>
+                      <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                        <div class="bg-error h-full rounded-full" style="width: 100%;"></div>
+                      </div>
+                      <div class="mt-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                          <div
+                            class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-error font-label-sm text-label-sm">
+                            MG</div>
+                          <div class="flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface font-bold">Prof. Matías
+                              Gauna</span>
+                            <span class="font-label-sm text-[10px] text-on-surface-variant">Certificado Level 2</span>
+                          </div>
+                        </div>
+                        <button
+                          class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container transition-colors"
+                          type="button">Ver lista</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bloque Horario 19:30 hs -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-label-sm text-label-sm text-primary font-bold bg-surface-container px-2 py-0.5 rounded">19:30
+                    hs</span>
+                  <div class="h-px bg-surface-container flex-1"></div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Turno Noche Activo</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <!-- Card Clase Yoga -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">Mind
+                          &amp; Body</span>
+                        <span class="font-label-sm text-label-sm text-primary font-semibold">14 / 20</span>
+                      </div>
+                      <h4 class="font-headline-sm text-body-lg font-bold text-on-surface mt-1">Yoga Vinyasa Flow</h4>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">19:30 - 20:30 • Sala 3 (Tatami)</p>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between">
+                      <span class="font-label-sm text-label-sm text-on-surface font-medium">Prof. Valeria Rossi</span>
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold">70%
+                        ocup.</span>
+                    </div>
+                  </div>
+                  <!-- Card Boxeo Recreativo -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container uppercase">Combate</span>
+                        <span class="font-label-sm text-label-sm text-primary font-semibold">18 / 18</span>
+                      </div>
+                      <h4 class="font-headline-sm text-body-lg font-bold text-on-surface mt-1">Boxeo Training &amp;
+                        Sparring</h4>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">19:30 - 20:30 • Ring &amp; Bolsas</p>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between">
+                      <span class="font-label-sm text-label-sm text-on-surface font-medium">Prof. Diego Sosa</span>
+                      <span
+                        class="px-2 py-0.5 rounded bg-error text-on-error font-label-sm text-[11px] font-bold">Lleno</span>
+                    </div>
+                  </div>
+                  <!-- Card GAP -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase">Tonificación</span>
+                        <span class="font-label-sm text-label-sm text-primary font-semibold">22 / 25</span>
+                      </div>
+                      <h4 class="font-headline-sm text-body-lg font-bold text-on-surface mt-1">GAP &amp; Glúteos Intense
+                      </h4>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">19:30 - 20:30 • Sala 2 Funcional</p>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between">
+                      <span class="font-label-sm text-label-sm text-on-surface font-medium">Prof. Laura Gómez</span>
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold">88%
+                        ocup.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bloque Horario 20:30 hs -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-label-sm text-label-sm text-primary font-bold bg-surface-container px-2 py-0.5 rounded">20:30
+                    hs</span>
+                  <div class="h-px bg-surface-container flex-1"></div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">Último Turno del Día</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Card Spinning Nocturno -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary text-on-secondary uppercase">Spinning</span>
+                        <h4 class="font-headline-sm text-body-lg font-bold text-on-surface mt-1">Spinning Night Beats
+                        </h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">20:30 - 21:30 • Sala 1 Ciclismo</p>
+                      </div>
+                      <span
+                        class="font-label-sm text-label-sm text-primary font-bold bg-surface-container px-2 py-0.5 rounded">26
+                        / 30</span>
+                    </div>
+                    <div class="mt-2 flex items-center justify-between">
+                      <span class="font-label-sm text-label-sm text-on-surface">Prof. Lucas Benítez</span>
+                      <span class="font-label-sm text-label-sm text-primary">Cupos disponibles</span>
+                    </div>
+                  </div>
+                  <!-- Card CrossFit Endurance -->
+                  <div
+                    class="p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer flex flex-col justify-between">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <span
+                          class="px-2 py-0.5 rounded text-[10px] font-bold bg-error text-on-error uppercase">CrossFit</span>
+                        <h4 class="font-headline-sm text-body-lg font-bold text-on-surface mt-1">CrossFit Conditioning
+                        </h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">20:30 - 21:30 • Box Exterior</p>
+                      </div>
+                      <span
+                        class="font-label-sm text-label-sm text-error font-bold bg-error-container px-2 py-0.5 rounded">24
+                        / 24</span>
+                    </div>
+                    <div class="mt-2 flex items-center justify-between">
+                      <span class="font-label-sm text-label-sm text-on-surface">Prof. Matías Gauna</span>
+                      <span class="font-label-sm text-label-sm text-error font-bold">Cupo Completo</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 5. PANEL LATERAL / DRAWER: DETALLE DE CLASE & LISTA DE ALUMNOS (4 columnas en xl) -->
+          <div class="xl:col-span-4 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+            <!-- Header del Panel -->
+            <div class="p-5 bg-surface-container-low flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <span
+                  class="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">Detalle
+                  de Sesión</span>
+                <div class="flex items-center gap-1">
+                  <button
+                    class="w-8 h-8 rounded-md hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors"
+                    title="Exportar Lista de Asistencia" type="button">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                  </button>
+                  <button
+                    class="w-8 h-8 rounded-md hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors"
+                    title="Opciones" type="button">
+                    <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                  </button>
+                </div>
+              </div>
+              <h2 class="font-headline-md text-headline-md text-on-surface font-bold leading-tight">Spinning Power
+                Intermedio</h2>
+              <div class="flex items-center gap-2 mt-1">
+                <span
+                  class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px] text-primary">schedule</span>
+                  Lun 26 Mayo • 18:30 a 19:30 hs
+                </span>
+                <span
+                  class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-primary-fixed/40 text-on-primary-fixed font-bold">93%
+                  Ocupado</span>
+              </div>
+              <!-- Info resumida de la clase -->
+              <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-surface-container">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-[11px] text-on-surface-variant uppercase font-bold">Profesor a
+                    Cargo</span>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <div
+                      class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary text-[10px] font-bold">
+                      LB</div>
+                    <span class="font-label-md text-label-md text-on-surface font-semibold">Lucas Benítez</span>
+                  </div>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-[11px] text-on-surface-variant uppercase font-bold">Ubicación</span>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Sala 1 • Cardio
+                    Ciclo</span>
+                </div>
+              </div>
+            </div>
+            <!-- Barra de Ocupación Visual -->
+            <div class="px-5 py-3 bg-surface-container flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">fitness_center</span>
+                <span class="font-label-md text-label-md font-bold text-on-surface">28 inscriptos</span>
+                <span class="text-on-surface-variant font-body-sm text-body-sm">de 30 bicis</span>
+              </div>
+              <span
+                class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-bold shadow-sm">2
+                libres</span>
+            </div>
+            <!-- Pestañas de Gestión -->
+            <div class="flex border-b border-surface-container px-4">
+              <button
+                class="flex-1 py-2.5 text-center font-label-md text-label-md font-bold text-primary border-b-2 border-primary"
+                type="button">
+                Inscriptos (28)
+              </button>
+              <button
+                class="flex-1 py-2.5 text-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface"
+                type="button">
+                Espera (4)
+              </button>
+              <button
+                class="flex-1 py-2.5 text-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface"
+                type="button">
+                Equipamiento
+              </button>
+            </div>
+            <!-- Lista de Alumnos Inscriptos -->
+            <div class="p-4 flex flex-col gap-2 max-h-[380px] overflow-y-auto">
+              <!-- Alumno 1 -->
+              <div
+                class="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-xs flex items-center justify-center shrink-0">
+                    FM</div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-label-md font-bold text-on-surface truncate">Facundo Morales</span>
+                    <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                      <span>#SOC-4820</span>
+                      <span>•</span>
+                      <span class="text-primary font-semibold">Bici #04</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <span
+                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-fixed/40 text-on-primary-fixed">Presente</span>
+                  <button
+                    class="w-7 h-7 rounded hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant"
+                    title="WhatsApp" type="button">
+                    <span class="material-symbols-outlined text-[16px]">chat</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Alumno 2 -->
+              <div
+                class="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-8 h-8 rounded-full bg-secondary/20 text-secondary font-bold text-xs flex items-center justify-center shrink-0">
+                    CR</div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-label-md font-bold text-on-surface truncate">Camila Rodríguez</span>
+                    <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                      <span>#SOC-1192</span>
+                      <span>•</span>
+                      <span class="text-primary font-semibold">Bici #12</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <span
+                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-fixed/40 text-on-primary-fixed">Presente</span>
+                  <button
+                    class="w-7 h-7 rounded hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant"
+                    title="WhatsApp" type="button">
+                    <span class="material-symbols-outlined text-[16px]">chat</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Alumno 3 (Sin Check-in) -->
+              <div
+                class="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-xs flex items-center justify-center shrink-0">
+                    MA</div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-label-md font-bold text-on-surface truncate">Martín Agustín
+                      Rossi</span>
+                    <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                      <span>#SOC-9402</span>
+                      <span>•</span>
+                      <span class="text-primary font-semibold">Bici #18</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button
+                    class="px-2 py-1 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold hover:bg-primary hover:text-on-primary transition-all"
+                    type="button">Check-in</button>
+                  <button
+                    class="w-7 h-7 rounded hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant"
+                    title="WhatsApp" type="button">
+                    <span class="material-symbols-outlined text-[16px]">chat</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Alumno 4 (Alerta de cuota) -->
+              <div
+                class="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-8 h-8 rounded-full bg-error-container text-on-error-container font-bold text-xs flex items-center justify-center shrink-0">
+                    JL</div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-label-md font-bold text-on-surface truncate">Joaquín López</span>
+                    <div class="flex items-center gap-1 text-[11px] text-error font-semibold">
+                      <span class="material-symbols-outlined text-[12px]">warning</span>
+                      <span>Cuota Vence Hoy</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button
+                    class="px-2 py-1 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold hover:bg-primary hover:text-on-primary transition-all"
+                    type="button">Check-in</button>
+                  <button
+                    class="w-7 h-7 rounded hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant"
+                    title="WhatsApp" type="button">
+                    <span class="material-symbols-outlined text-[16px]">chat</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Alumno 5 -->
+              <div
+                class="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-xs flex items-center justify-center shrink-0">
+                    SO</div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-label-md font-bold text-on-surface truncate">Sofía Olivera</span>
+                    <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                      <span>#SOC-3310</span>
+                      <span>•</span>
+                      <span class="text-primary font-semibold">Bici #21</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <span
+                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-fixed/40 text-on-primary-fixed">Presente</span>
+                  <button
+                    class="w-7 h-7 rounded hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant"
+                    title="WhatsApp" type="button">
+                    <span class="material-symbols-outlined text-[16px]">chat</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Botones de Acción al pie del Drawer -->
+            <div class="p-4 bg-surface-container-low border-t border-surface-container flex flex-col gap-2">
+              <button
+                class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm hover:bg-primary-container hover:text-on-primary-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+                <span>Tomar Asistencia Rápida (Recepción)</span>
+              </button>
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  class="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-all"
+                  type="button">
+                  <span class="material-symbols-outlined text-[16px]">edit</span>
+                  <span>Modificar Clase</span>
+                </button>
+                <button
+                  class="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-all"
+                  type="button">
+                  <span class="material-symbols-outlined text-[16px]">campaign</span>
+                  <span>Notificar Alumnos</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. SECCIÓN INFERIOR: RENDIMIENTO DE ACTIVIDADES & ALERTAS OPERATIVAS -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <!-- Top 4 Clases con Mayor Demanda y Métricas de Ausentismo (8 cols) -->
+          <div class="xl:col-span-8 bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Rendimiento y Asistencia por
+                  Disciplina</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Top 4 actividades con mayor convocatoria
+                  semanal y tasa de presentismo.</p>
+              </div>
+              <button class="text-primary hover:underline font-label-sm text-label-sm font-bold flex items-center gap-1"
+                type="button">
+                <span>Ver reporte completo</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Tarjeta Rendimiento 1 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-primary uppercase font-bold">#1 Ranking Demanda</span>
+                    <h4 class="font-headline-sm text-body-lg font-bold text-on-surface">Spinning &amp; Indoor Cycle</h4>
+                  </div>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">98.2%
+                    Lleno</span>
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Ausencias sin aviso (No-Show):</span>
+                    <span class="text-primary font-bold">Solo 2.1% (Excelente)</span>
+                  </div>
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Capacidad Total Ocupada:</span>
+                    <span class="text-on-surface font-semibold">960 / 978 plazas</span>
+                  </div>
+                </div>
+                <div class="pt-2 border-t border-surface-container flex items-center justify-between">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Profesor principal: <strong
+                      class="text-on-surface">Lucas Benítez</strong></span>
+                  <span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+                </div>
+              </div>
+              <!-- Tarjeta Rendimiento 2 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-secondary uppercase font-bold">#2 Ranking
+                      Demanda</span>
+                    <h4 class="font-headline-sm text-body-lg font-bold text-on-surface">CrossFit &amp; WOD Competición
+                    </h4>
+                  </div>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-bold">96.5%
+                    Lleno</span>
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Ausencias sin aviso (No-Show):</span>
+                    <span class="text-on-surface font-bold">3.8%</span>
+                  </div>
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Capacidad Total Ocupada:</span>
+                    <span class="text-on-surface font-semibold">672 / 696 plazas</span>
+                  </div>
+                </div>
+                <div class="pt-2 border-t border-surface-container flex items-center justify-between">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Profesor principal: <strong
+                      class="text-on-surface">Matías Gauna</strong></span>
+                  <span class="material-symbols-outlined text-secondary text-[20px]">trending_up</span>
+                </div>
+              </div>
+              <!-- Tarjeta Rendimiento 3 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">#3 Ranking
+                      Demanda</span>
+                    <h4 class="font-headline-sm text-body-lg font-bold text-on-surface">Funcional HIIT Bootcamp</h4>
+                  </div>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">89.0%
+                    Lleno</span>
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Ausencias sin aviso (No-Show):</span>
+                    <span class="text-error font-bold">7.4% (A mejorar)</span>
+                  </div>
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Capacidad Total Ocupada:</span>
+                    <span class="text-on-surface font-semibold">820 / 920 plazas</span>
+                  </div>
+                </div>
+                <div class="pt-2 border-t border-surface-container flex items-center justify-between">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Rotación de profesores (3
+                    profes)</span>
+                  <span class="material-symbols-outlined text-on-surface-variant text-[20px]">equalizer</span>
+                </div>
+              </div>
+              <!-- Tarjeta Rendimiento 4 -->
+              <div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">#4 Ranking
+                      Demanda</span>
+                    <h4 class="font-headline-sm text-body-lg font-bold text-on-surface">Natación &amp; Estilo Libre</h4>
+                  </div>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">84.0%
+                    Lleno</span>
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Ausencias sin aviso (No-Show):</span>
+                    <span class="text-primary font-bold">4.2%</span>
+                  </div>
+                  <div class="flex justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Capacidad Total Ocupada:</span>
+                    <span class="text-on-surface font-semibold">390 / 464 plazas</span>
+                  </div>
+                </div>
+                <div class="pt-2 border-t border-surface-container flex items-center justify-between">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Profesora principal: <strong
+                      class="text-on-surface">Camila Torres</strong></span>
+                  <span class="material-symbols-outlined text-primary text-[20px]">water_drop</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Alertas Operativas y Sugerencias de Gestión para el Dueño (4 cols) -->
+          <div
+            class="xl:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between gap-4">
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-error text-[22px]">notification_important</span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Alertas Operativas</h3>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Acciones pendientes requeridas para el staff
+                y cronograma.</p>
+            </div>
+            <div class="space-y-3">
+              <!-- Alerta 1 -->
+              <div class="p-3.5 rounded-lg bg-error-container/40 flex items-start gap-3">
+                <span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">person_off</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">2 clases sin profesor
+                    asignado</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Sábado 31/05: GAP 10:00 hs y
+                    Funcional 11:30 hs pendientes por licencia médica.</p>
+                  <button class="mt-2 text-left text-error font-label-sm text-label-sm font-bold hover:underline"
+                    type="button">Asignar reemplazo ahora →</button>
+                </div>
+              </div>
+              <!-- Alerta 2 -->
+              <div class="p-3.5 rounded-lg bg-surface-container-high flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">add_alarm</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Oportunidad: Nuevo turno de
+                    Spinning</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Hay 42 socios en lista de espera
+                    entre las 18:30 y 20:30 hs los martes y jueves.</p>
+                  <button class="mt-2 text-left text-primary font-label-sm text-label-sm font-bold hover:underline"
+                    type="button">Abrir turno extra 17:30 hs →</button>
+                </div>
+              </div>
+              <!-- Alerta 3 -->
+              <div class="p-3.5 rounded-lg bg-surface-container-low flex items-start gap-3">
+                <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">build</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Mantenimiento Preventivo Sala
+                    1</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Ajuste y calibración programada de
+                    30 bicicletas de spinning este domingo de 08:00 a 11:00 hs.</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 rounded-lg bg-surface-container flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant">Próxima sincronización automática</span>
+              <span class="font-label-sm text-label-sm font-bold text-on-surface">En 12 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/oeste_club_clases.js' %}"></script>
+<script>
+    // Script adicional para iluminar la pestaña "clases" en el sidebar si es necesario
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeMenu = document.querySelector('aside nav a[data-menu="clases"]');
+        if (activeMenu) {
+            activeMenu.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            activeMenu.classList.add('bg-emerald-50', 'text-emerald-700', 'font-bold');
+            const iconContainer = activeMenu.querySelector('svg') || activeMenu.querySelector('.material-symbols-outlined');
+            if(iconContainer) iconContainer.classList.replace('text-slate-700', 'text-emerald-600');
+        }
+    });
+</script>
+{% endblock %}

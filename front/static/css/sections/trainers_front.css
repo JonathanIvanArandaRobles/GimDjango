@@ -1,0 +1,264 @@
+ /* ─── TRAINERS ─── */
+ .trainers-section {
+     background: #0A0A0A;
+     min-height: calc(100vh - 80px);
+     display: flex;
+     align-items: center;
+     /* Cambiamos el padding: 30px de arriba, 0 a los lados, y 80px abajo para empujar la siguiente sección */
+     padding: 30px 0 80px;
+     position: relative;
+     border-top: 1px solid rgba(255, 255, 255, 0.05);
+     scroll-margin-top: 70px;
+     box-sizing: border-box;
+     overflow: visible !important;
+     /* Permite que el hover no se corte */
+ }
+
+ .trainers-section .container {
+     width: 100%;
+     max-width: 1260px;
+     margin: 0 auto;
+     padding: 0 20px;
+ }
+
+ /* Encabezado */
+ .trainers-header {
+     text-align: center;
+     margin-bottom: 0px;
+     /* permite bajar/subir las cards dentro de la section */
+ }
+
+ .trainers-header .label-green {
+     display: block;
+     font-size: 15px;
+     letter-spacing: 0.16em;
+     margin-bottom: 6px;
+ }
+
+ .trainers-header .section-title {
+     font-family: 'Bebas Neue', sans-serif;
+     font-size: clamp(2.6rem, 4vw, 3.4rem);
+     color: #FFFFFF;
+     line-height: 1.05;
+     margin-bottom: 6px;
+ }
+
+
+
+
+
+
+ /* Wrapper del Carrusel */
+ .trainers-carousel-wrapper {
+     position: relative;
+     width: 100%;
+     padding: 10px 0;
+ }
+
+ .trainers-carousel-viewport {
+     overflow: hidden;
+     width: 100%;
+     padding: 16px 8px;
+     /* Espacio suficiente arriba y abajo para contener la escala y elevación */
+     margin: -12px 0;
+     /* Compensa visualmente para mantener la alineación */
+ }
+
+ .trainers-track {
+     display: flex;
+     gap: 20px;
+     transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+     will-change: transform;
+ }
+
+ /* Flechas Laterales */
+ .btn-trainer-arrow {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 44px;
+     height: 44px;
+     border-radius: 50%;
+     background: rgba(13, 17, 23, 0.9);
+     border: 1.5px solid var(--cyan-primary);
+     color: var(--cyan-glow);
+     font-size: 26px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     backdrop-filter: blur(8px);
+     transition: all 0.3s ease;
+     z-index: 10;
+ }
+
+ .btn-trainer-arrow.btn-trainer-prev {
+     left: -20px;
+ }
+
+ .btn-trainer-arrow.btn-trainer-next {
+     right: -20px;
+ }
+
+ .btn-trainer-arrow:hover {
+     background: var(--green-hover);
+     border-color: var(--green-hover);
+     color: #0A0A0A;
+     box-shadow: 0 0 20px rgba(160, 240, 60, 0.7);
+     transform: translateY(-50%) scale(1.1);
+ }
+
+ /* Card del Entrenador */
+ .trainer-card {
+     /* Muestra 4 cards exactas por vista restando los 3 gaps de 20px */
+     flex: 0 0 calc((100% - 60px) / 4);
+     background: #0D1117;
+     /* Se cambia el blanco transparente por un azul/cian sutil (30% de opacidad) */
+     border: 1.5px solid rgba(0, 210, 255, 0.3);
+     border-radius: 18px;
+     padding: 16px 14px 18px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+     position: relative;
+     box-sizing: border-box;
+     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+         border-color 0.3s ease,
+         box-shadow 0.3s ease;
+ }
+
+ /* Hover con elevación, escala y resplandor Cyan */
+ .trainer-card:hover {
+     transform: translateY(-6px) scale(1.03);
+     border-width: 2px !important;
+     border-color: var(--cyan-glow);
+     box-shadow: 0 14px 35px rgba(0, 210, 255, 0.35);
+     z-index: 10;
+ }
+
+ /* Caja de Imagen con Halo de Luz */
+ .trainer-card-image-box {
+     position: relative;
+     width: 100%;
+     height: 230px;
+     border-radius: 12px;
+     overflow: hidden;
+     background: #06080B;
+     display: flex;
+     align-items: flex-end;
+     justify-content: center;
+     margin-bottom: 14px;
+ }
+
+ /* Halos de luz de fondo */
+ .trainer-glow-halo {
+     position: absolute;
+     width: 140px;
+     height: 140px;
+     border-radius: 50%;
+     top: 40%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     filter: blur(45px);
+     z-index: 1;
+     pointer-events: none;
+ }
+
+ .halo-cyan {
+     background: radial-gradient(circle, rgba(0, 210, 255, 0.45) 0%, transparent 70%);
+ }
+
+ .halo-green {
+     background: radial-gradient(circle, rgba(160, 240, 60, 0.4) 0%, transparent 70%);
+ }
+
+ .trainer-img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: top center;
+     position: relative;
+     z-index: 2;
+     filter: grayscale(15%);
+     transition: filter 0.3s ease, transform 0.3s ease;
+ }
+
+ .trainer-card:hover .trainer-img {
+     filter: grayscale(0%);
+     transform: scale(1.03);
+ }
+
+ /* Textos */
+ .trainer-card-info {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 4px;
+ }
+
+ .trainer-name {
+     font-family: 'Hanken Grotesk', sans-serif;
+     font-weight: 700;
+     font-size: 15px;
+     letter-spacing: 0.05em;
+     color: #FFFFFF;
+     text-transform: uppercase;
+     line-height: 1.15;
+ }
+
+ .trainer-discipline {
+     font-size: 12px;
+     font-weight: 600;
+     color: var(--green-hover);
+     letter-spacing: 0.02em;
+     margin-bottom: 10px;
+ }
+
+ /* Iconos de Redes Sociales */
+ .trainer-socials {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     flex-wrap: wrap;
+     min-height: 34px;
+ }
+
+ .trainer-socials a {
+     width: 32px;
+     height: 32px;
+     border-radius: 50%;
+     background: rgba(255, 255, 255, 0.04);
+     border: 1px solid rgba(0, 210, 255, 0.3);
+     color: var(--cyan-glow);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 16px;
+     transition: all 0.25s ease;
+ }
+
+ .trainer-socials a:hover {
+     background: var(--cyan-glow);
+     color: #0A0A0A;
+     box-shadow: 0 0 16px var(--cyan-glow);
+     transform: scale(1.15) translateY(-3px);
+ }
+
+ /* Texto inferior idéntico al disclaimer de Precios */
+ .trainers-disclaimer {
+     text-align: center;
+     font-size: 15px;
+     color: rgba(255, 255, 255, 0.45);
+     margin-top: 0px;
+     letter-spacing: 0.02em;
+ }
+
+
+
+
+
+
+

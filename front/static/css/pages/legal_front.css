@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════ */
+/* LEGAL-STYLES.CSS - Estilos para Privacidad y Términos   */
+/* ═══════════════════════════════════════════════════════ */
+
+.legal-main {
+    background: #0A0A0A;
+    min-height: calc(100vh - 100px);
+    padding: 140px 24px 80px;
+}
+
+.legal-container {
+    max-width: 800px; /* Ancho óptimo para lectura de bloques de texto */
+    margin: 0 auto;
+    background: #0D1117;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 50px 60px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.legal-header {
+    margin-bottom: 40px;
+}
+
+.legal-title {
+    font-family: 'Bebas Neue', 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #FFFFFF;
+    line-height: 1.1;
+    margin: 8px 0;
+    letter-spacing: 1px;
+}
+
+.legal-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--green-primary);
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.legal-updated {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+.legal-content h2 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 20px;
+    color: var(--green-primary);
+    margin: 36px 0 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.legal-content p {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15.5px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.legal-content a {
+    color: var(--cyan-glow);
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 210, 255, 0.4);
+    text-underline-offset: 3px;
+    transition: color 0.3s ease;
+}
+
+.legal-content a:hover {
+    color: var(--green-hover);
+    text-decoration-color: var(--green-hover);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .legal-container {
+        padding: 30px 24px;
+    }
+    
+    .legal-main {
+        padding-top: 110px;
+    }
+}
